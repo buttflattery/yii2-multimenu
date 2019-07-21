@@ -24,9 +24,12 @@ $(document).ready(function () {
             //hides other children menus when a list item with children menus is clicked
             var thisMenu = $(this).children("ul");
             var prevState = thisMenu.css('display');
-            $(".menu > ul > li > ul:visible").stop().fadeOut();
-            if (prevState !== 'block') {
-                thisMenu.stop().fadeIn(150);
+             $(".menu > ul > li > ul:visible").fadeOut();
+            
+            if (prevState == 'none') {
+                thisMenu.css('display', 'block');
+            }else{
+                thisMenu.css('display', 'none');
             }
         }
     });

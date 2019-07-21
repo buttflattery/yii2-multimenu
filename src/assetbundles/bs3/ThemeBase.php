@@ -7,21 +7,29 @@ class ThemeBase extends AssetBundle
 {
     /**
      * Source path to look for the assets
-     * 
+     *
      * @var mixed
      */
     public $sourcePath = __DIR__ . '/../../assets/';
 
     /**
      * Base url for the assets
-     * 
+     *
      * @var string
      */
     public $baseUrl = '@web';
 
     /**
-     * Js bundle used 
-     * 
+     * @var array
+     */
+    public $css = [
+        'ionicons.css',
+        'waves.css'
+    ];
+
+    /**
+     * Js bundle used
+     *
      * @var array
      */
     public $js = [
