@@ -11,9 +11,8 @@
     width: 300px;
     overflow: hidden;
     display: inline-block;
-    height: calc(100vh - 70px);
+    height: calc(100vh);
     position: fixed;
-    top: 70px;
     left: 0;
     -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -263,4 +262,6 @@ html.ie11 .multimenu-container .user-info .info-container {
 .overlay-open .multimenu-container {
     margin-left: 0;
     z-index: 99999999;
+    top:70px;
+    height: calc(100vh - 70px);
 }
