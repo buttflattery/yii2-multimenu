@@ -96,7 +96,7 @@ class MultiMenu extends Menu
                     $this->options,
                     [
                         'class' => 'list',
-                        'style' => 'overflow: hidden; width: auto; height: 525px;'
+                        'style' => 'overflow: hidden; width: inherit; height:inherit'
                     ]
                 );
 
@@ -104,13 +104,13 @@ class MultiMenu extends Menu
                 $this->labelTemplate = '<a href="#."><i class="material-icons">donut_large</i><span>{label}</span></a>';
                 $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
                 $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
+
                 echo Html::tag('a', '', ['href' => 'javascript:void(0)','class'=>'bars']);
+                
                 echo Html::beginTag('div', ['class' => 'multimenu-container', 'id' => 'leftsidebar']);
                 echo Html::beginTag('div', ['class' => 'multimenu']);
-                echo Html::beginTag('div', ['class' => 'slimScrollDiv', 'style' => 'position: relative; overflow: hidden; width: auto; height: 525px;']);
                 //call the parent
                 parent::run();
-                echo Html::endTag('div');
                 echo Html::endTag('div');
                 echo Html::endTag('div');
                 echo Html::tag('div', '', ['class' => 'overlay']);
