@@ -35,7 +35,7 @@ $.multimenu.leftSideBar = {
 
         
         //add menu-toggled class to all the parent li
-        $(".multimenu .list li:has(ul.ml-menu)").each(function(index,item){
+        $(".leftnav .list li:has(ul.ml-menu)").each(function(index,item){
             
             $(item).find('a').first().addClass('menu-toggle');
             // $(item).find('a:first-child').addClass('menu-toggle');
@@ -46,7 +46,7 @@ $.multimenu.leftSideBar = {
         });
 
         //When page load
-        $.each($('.multimenu .list li.active'), function (i, val) {
+        $.each($('.leftnav .list li.active'), function (i, val) {
             var $activeAnchors = $(val).find('a:eq(0)');
 
             $activeAnchors.addClass('toggled');
@@ -82,7 +82,7 @@ $.multimenu.leftSideBar = {
         });
 
         //Set Waves
-        Waves.attach('.multimenu .list a', ['waves-block']);
+        Waves.attach('.leftnav .list a', ['waves-block']);
         Waves.init();
     },
     setMenuHeight: function (isFirstTime) {
@@ -109,8 +109,8 @@ $.multimenu.leftSideBar = {
             });
             //Scroll active menu item when page load, if option set = true
             if ($.multimenu.options.leftSideBar.scrollActiveItemWhenPageLoad) {
-                if ($('.multimenu .list li.active')[0]) {
-                    var activeItemOffsetTop = $('.multimenu .list li.active')[0].offsetTop;
+                if ($('.leftnav .list li.active')[0]) {
+                    var activeItemOffsetTop = $('.leftnav .list li.active')[0].offsetTop;
                     if (activeItemOffsetTop > 150){
                         $el.slimscroll({
                             scrollTo: activeItemOffsetTop + 'px'
@@ -126,7 +126,7 @@ $.multimenu.leftSideBar = {
         var width = $body.width();
 
         if (firstTime) {
-            $body.find('.multimenu-container').addClass('no-animate').delay(1000).queue(function () {
+            $body.find('.leftnav-container').addClass('no-animate').delay(1000).queue(function () {
                 $(this).removeClass('no-animate').dequeue();
             });
         }
