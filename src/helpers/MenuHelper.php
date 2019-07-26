@@ -49,8 +49,9 @@ class MenuHelper extends Component
 
         foreach ($items as $index => $parentLink) {
             $isLink = ($parentLink->menu_link !== '' && $parentLink->menu_link !== '#.');
-            $isActive = $isLink && ('/' . \Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id == $parentLink->menu_link);
+            $isActive = $isLink && (\Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id == $parentLink->menu_link);
             $route = $this->_createRoute($parentLink->menu_link);
+
             $item[] = [
                 'label' => $parentLink->menu_name,
                 'url' => $isLink ? $route : '#.',
@@ -60,11 +61,10 @@ class MenuHelper extends Component
             $hasChild = !empty($children);
 
             if ($hasChild) {
-                //add submenu template for the class
-                // $item[$index]['submenuTemplate'] = "\n<ul>\n{items}</ul>\n";
                 $item[$index]['items'] = self::_buildItemsArray($children);
             }
         }
+        
         return $item;
     }
 
@@ -82,9 +82,9 @@ class MenuHelper extends Component
         //regex to match "http://","https://" or "?" in the url
         $re = '/^(http:\/\/|https:\/\/)|(\?)/';
         preg_match($re, $url, $matches);
-        
+
         if (empty($matches)) { //is without query string url
-            return Url::to([$url]);
+            return [Url::to([$url])];
         } elseif ($matches[0] == 'https://' || $matches[0] == 'http://') { // is an external url
 
             return $url;
@@ -106,7 +106,7 @@ class MenuHelper extends Component
                 $paramsPart = explode("=", $var);
                 $params[$paramsPart[0]] = $paramsPart[1];
             }
-            return Url::to($params);
+            return [Url::to($params)];
         }
 
     }
