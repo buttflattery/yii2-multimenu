@@ -36,6 +36,7 @@
 .dropup .dropup-menu ul.sub-menu li a {
     color: #fff;
     padding: 10px;
+    display: block;
 }
 
 /* .dropup .dropup-menu li:hover a:hover{
@@ -127,7 +128,6 @@
     .dropup-mobile {
         display: block !important;
     }
-
 
     .dropup>ul {
         display: none;
