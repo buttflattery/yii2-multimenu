@@ -14,6 +14,7 @@ namespace buttflattery\multimenu;
 
 use buttflattery\multimenu\assetbundles\bs3\MultiMenuAsset as MenuBs3Assets;
 use buttflattery\multimenu\assetbundles\bs4\MultiMenuAsset as MenuBs4Assets;
+use yii\base\InvalidArgumentException as ArgException;
 use yii\bootstrap4\BootstrapAsset as BS4Asset;
 use yii\helpers\Html;
 use yii\widgets\Menu;
@@ -41,19 +42,25 @@ class MultiMenu extends Menu
     private $_bsVersion;
 
     /**
+     * The selected theme
+     *
      * @var mixed
      */
-    public $theme;
+    public $theme = 'bigdrop';
 
     const THEME_BIGDROP = 'bigdrop';
     const THEME_LEFTNAV = 'leftnav';
+    const THEME_DROPUP = 'dropup';
 
     /**
+     * Supported themes
+     *
      * @var array
      */
     protected $themesSupported = [
         self::THEME_BIGDROP => 'BigDrop',
-        self::THEME_LEFTNAV => 'LeftNav'
+        self::THEME_LEFTNAV => 'LeftNav',
+        self::THEME_DROPUP => 'DropUp'
     ];
 
     /**
@@ -83,6 +90,8 @@ class MultiMenu extends Menu
         $themeSpecificOptions = [
             self::THEME_BIGDROP => function () {
                 $this->submenuTemplate = "\n<ul class='menu-dropdown-icon'>\n{items}</ul>\n";
+                $this->activateParents = true;
+                $this->hideEmptyItems=false;
                 //theme big drop
                 echo Html::beginTag('div', ['class' => 'multimenu-container']);
                 echo Html::beginTag('div', ['class' => 'multimenu']);
@@ -105,15 +114,31 @@ class MultiMenu extends Menu
                 $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
                 $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
 
-                echo Html::tag('a', '', ['href' => 'javascript:void(0)','class'=>'bars']);
-                
-                echo Html::beginTag('div', ['class' => 'multimenu-container', 'id' => 'leftsidebar']);
-                echo Html::beginTag('div', ['class' => 'multimenu']);
+                echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
+
+                echo Html::beginTag('div', ['class' => 'leftnav-container', 'id' => 'leftsidebar']);
+                echo Html::beginTag('div', ['class' => 'leftnav']);
                 //call the parent
                 parent::run();
                 echo Html::endTag('div');
                 echo Html::endTag('div');
                 echo Html::tag('div', '', ['class' => 'overlay']);
+            },
+            self::THEME_DROPUP => function () {
+                $this->options = array_merge_recursive(
+                    $this->options,
+                    [
+                        'class' => 'dropup-menu',
+                    ]
+                );
+
+                echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
+
+                
+                echo Html::beginTag('div', ['class' => 'dropup']);
+                //call the parent
+                parent::run();
+                echo Html::endTag('div');
             }
         ];
 
@@ -155,11 +180,13 @@ class MultiMenu extends Menu
             $themeAsset::register($view);
             return;
         }
-        $themeAsset = __NAMESPACE__ . '\\assetbundles\\bs' .
-        $this->_bsVersion . '\\Theme' .
-        $this->themesSupported['bigdrop'] . 'Asset';
-        $themeAsset::register($view);
-        $this->theme = 'bigdrop';
+        throw new ArgException('You must select the correct theme');
         return;
+        // $themeAsset = __NAMESPACE__ . '\\assetbundles\\bs' .
+        // $this->_bsVersion . '\\Theme' .
+        // $this->themesSupported['bigdrop'] . 'Asset';
+        // $themeAsset::register($view);
+        // $this->theme = 'bigdrop';
+        // return;
     }
 }
