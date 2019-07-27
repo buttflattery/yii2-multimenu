@@ -1,7 +1,7 @@
 /* Left Sidebar & Overlay ====================== */
 
 
-.multimenu-container {
+.leftnav-container {
     -moz-transition: all 0.5s;
     -o-transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -23,34 +23,34 @@
 
 
 
-.multimenu-container .multimenu {
+.leftnav-container .leftnav {
     position: relative;
     /* overflow-y: auto;
     height: 90vh; */
 }
 
-.multimenu-container .multimenu .list {
+.leftnav-container .leftnav .list {
     list-style: none;
     padding-left: 0;
 }
 
-.multimenu-container .multimenu .list li.active> :first-child span {
+.leftnav-container .leftnav .list li.active> :first-child span {
     font-weight: bold;
 }
 
-.multimenu-container .multimenu .list .header {
+.leftnav-container .leftnav .list .header {
     background: #eee;
     font-size: 12px;
     font-weight: 600;
     padding: 8px 16px;
 }
 
-.multimenu-container .multimenu .list i.material-icons {
+.leftnav-container .leftnav .list i.material-icons {
     margin-top: 4px;
 }
 
-.multimenu-container .multimenu .list .menu-toggle:after,
-.multimenu-container .multimenu .list .menu-toggle:before {
+.leftnav-container .leftnav .list .menu-toggle:after,
+.leftnav-container .leftnav .list .menu-toggle:before {
     position: absolute;
     top: calc(50% - 14px);
     right: 17px;
@@ -66,7 +66,7 @@
     transition: all 0.3s;
 }
 
-.multimenu-container .multimenu .list .menu-toggle:before {
+.leftnav-container .leftnav .list .menu-toggle:before {
     content: '+';
     -moz-transform: scale(1);
     -ms-transform: scale(1);
@@ -75,7 +75,7 @@
     transform: scale(1);
 }
 
-.multimenu-container .multimenu .list .menu-toggle:after {
+.leftnav-container .leftnav .list .menu-toggle:after {
     content: '\2013';
     -moz-transform: scale(0);
     -ms-transform: scale(0);
@@ -84,7 +84,7 @@
     transform: scale(0);
 }
 
-.multimenu-container .multimenu .list .menu-toggle.toggled:before {
+.leftnav-container .leftnav .list .menu-toggle.toggled:before {
     -moz-transform: scale(0);
     -ms-transform: scale(0);
     -o-transform: scale(0);
@@ -92,7 +92,7 @@
     transform: scale(0);
 }
 
-.multimenu-container .multimenu .list .menu-toggle.toggled:after {
+.leftnav-container .leftnav .list .menu-toggle.toggled:after {
     -moz-transform: scale(1);
     -ms-transform: scale(1);
     -o-transform: scale(1);
@@ -100,7 +100,7 @@
     transform: scale(1);
 }
 
-.multimenu-container .multimenu .list a {
+.leftnav-container .leftnav .list a {
     color: #747474;
     position: relative;
     display: inline-flex;
@@ -109,19 +109,19 @@
     padding: 10px 13px;
 }
 
-.multimenu-container .multimenu .list a:hover,
-.multimenu-container .multimenu .list a:active,
-.multimenu-container .multimenu .list a:focus {
+.leftnav-container .leftnav .list a:hover,
+.leftnav-container .leftnav .list a:active,
+.leftnav-container .leftnav .list a:focus {
     text-decoration: none !important;
 }
 
-.multimenu-container .multimenu .list a small {
+.leftnav-container .leftnav .list a small {
     position: absolute;
     top: calc(50% - 7.5px);
     right: 15px;
 }
 
-.multimenu-container .multimenu .list a span {
+.leftnav-container .leftnav .list a span {
     margin: 7px 0 7px 12px;
     color: #333;
     font-weight: bold;
@@ -129,30 +129,30 @@
     overflow: hidden;
 }
 
-.multimenu-container .multimenu .list .ml-menu {
+.leftnav-container .leftnav .list .ml-menu {
     list-style: none;
     display: none;
     padding-left: 0;
 }
 
-.multimenu-container .multimenu .list .ml-menu span {
+.leftnav-container .leftnav .list .ml-menu span {
     font-weight: normal;
     font-size: 14px;
     margin: 3px 0 1px 6px;
 }
 
-.multimenu-container .multimenu .list .ml-menu li a {
+.leftnav-container .leftnav .list .ml-menu li a {
     padding-left: 55px;
     padding-top: 7px;
     padding-bottom: 7px;
 }
 
-.multimenu-container .multimenu .list .ml-menu li.active a.toggled:not(.menu-toggle) {
+.leftnav-container .leftnav .list .ml-menu li.active a.toggled:not(.menu-toggle) {
     font-weight: 600;
     margin-left: 5px;
 }
 
-.multimenu-container .multimenu .list .ml-menu li.active a.toggled:not(.menu-toggle):before {
+.leftnav-container .leftnav .list .ml-menu li.active a.toggled:not(.menu-toggle):before {
     content: '\E315';
     font-family: 'Material Icons';
     position: relative;
@@ -162,28 +162,28 @@
     right: 0px;
 }
 
-.multimenu-container .multimenu .list .ml-menu li .ml-menu li a {
+.leftnav-container .leftnav .list .ml-menu li .ml-menu li a {
     padding-left: 80px;
 }
 
-.multimenu-container .multimenu .list .ml-menu li .ml-menu .ml-menu li a {
+.leftnav-container .leftnav .list .ml-menu li .ml-menu .ml-menu li a {
     padding-left: 95px;
 }
 
 
 /* For Internet Explorer 11 ===================== */
-html.ie11 .multimenu-container .multimenu .list .ml-menu li.active a:not(.menu-toggle).toggled:before {
+html.ie11 .leftnav-container .leftnav .list .ml-menu li.active a:not(.menu-toggle).toggled:before {
     top: 6px !important;
     line-height: 20px !important;
 }
 
-html.ie11 .multimenu-container .user-info .info-container {
+html.ie11 .leftnav-container .user-info .info-container {
     top: 15px;
 }
 
 
 
-.ls-closed .multimenu-container {
+.ls-closed .leftnav-container {
     margin-left: -300px;
 }
 
@@ -259,7 +259,7 @@ html.ie11 .multimenu-container .user-info .info-container {
     z-index: 10;
 }
 
-.overlay-open .multimenu-container {
+.overlay-open .leftnav-container {
     margin-left: 0;
     z-index: 99999999;
     top:70px;
