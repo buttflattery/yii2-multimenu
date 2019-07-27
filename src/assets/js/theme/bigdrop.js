@@ -39,7 +39,33 @@ $(document).ready(function () {
         $(".multimenu > ul").toggleClass('show-on-mobile');
         e.preventDefault();
     });
-    //when clicked on mobile-menu, normal menu is shown as a list, classic rwd menu story (thanks mwl from stackoverflow)
+
+    //adjust menu left or right according to viewable area
+
+    $(".multimenu li").on('mouseenter mouseleave', function (e) {
+        if ($('ul', this).length) {
+            
+            var elm = $('ul:first', this);
+            var off = elm.offset();
+            var l = off.left;
+            var w = elm.width();
+            var docH = $(".multimenu").height();
+            var docW = $(".multimenu").width();
+
+            var isEntirelyVisible = (l + w <= docW);
+            console.log(l,w,docW,isEntirelyVisible);
+
+            if (!isEntirelyVisible) {
+                $(elm).addClass('edge-right');
+            } else {
+                $(elm).removeClass('edge-right');
+            
+            setTimeout(() => {
+                elm.toggleClass('visible');    
+            }, 100);}
+            
+        }
+    });
 
     //apply waves effect on the menu links
     Waves.attach('.multimenu ul a',['waves-effect','waves-light']);

@@ -62,6 +62,8 @@
     margin: 0;
     list-style: none;
     box-sizing: border-box;
+    opacity: 0;
+    transition-timing-function: linear, step-end;
 }
 
 */ .multimenu>ul>li>ul:after {
@@ -138,9 +140,25 @@
     flex-wrap: wrap;
     justify-content: left;
 }
+
+ul.edge-right{
+    left:auto !important;
+    right:0 !important;
+}
+.visible{
+    opacity: 1 !important;
+    transition: all 0.5s linear;
+}
+
 @media only screen and (min-width: 976px) {
+    
     .multimenu ul li:hover ul {
         display: block;
+    }
+
+
+    .multimenu ul li:hover ul.normal-sub {
+        left: auto !important;
     }
 
     .multimenu ul li:hover ul.multimenu-dropdown-icon li{
