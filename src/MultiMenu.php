@@ -89,7 +89,7 @@ class MultiMenu extends Menu
     {
         $themeSpecificOptions = [
             self::THEME_BIGDROP => function () {
-                $this->submenuTemplate = "\n<ul class='menu-dropdown-icon'>\n{items}</ul>\n";
+                $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
                 $this->activateParents = true;
                 $this->hideEmptyItems=false;
                 //theme big drop
