@@ -17,6 +17,12 @@ class MenuHelper extends Component
      */
     public $model;
 
+    /**
+     * Initis the component
+     *
+     * @throws InvalidArgumentException
+     * @return null
+     */
     public function init()
     {
         if ($this->model === null) {
@@ -48,13 +54,13 @@ class MenuHelper extends Component
     {
 
         foreach ($items as $index => $parentLink) {
-            $isLink = ($parentLink->menu_link !== '' && $parentLink->menu_link !== '#.');
+            $isLink = ($parentLink->menu_link !== '' && $parentLink->menu_link !== '#.' && null !== $parentLink->menu_link);
             $isActive = $isLink && (\Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id == $parentLink->menu_link);
             $route = $this->_createRoute($parentLink->menu_link);
 
             $item[] = [
                 'label' => $parentLink->menu_name,
-                'url' => $isLink ? $route : '#.',
+                'url' => $isLink ? $route : 'javascript:void(0)',
                 'active' => $isActive
             ];
             $children = self::hasChild($parentLink->id);
@@ -64,7 +70,7 @@ class MenuHelper extends Component
                 $item[$index]['items'] = self::_buildItemsArray($children);
             }
         }
-        
+
         return $item;
     }
 
