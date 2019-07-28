@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('.multimenu > ul > li > ul:not(:has(ul))').addClass('normal-sub');
     $('.multimenu > ul > li > ul:has(ul)').addClass('bigdrop-sub');
 
-    $(".bigdrop-sub > li > ul > li > ul").addClass("infinite-sub");
+    $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
     //Checks if drodown menu's li elements have anothere level (ul), if not the dropdown is shown as regular dropdown, not a mega menu (thanks Luka Kladaric)
     $(".multimenu > ul").before("<a href=\"#\" class=\"multimenu-mobile\">Navigation</a>");
 

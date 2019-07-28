@@ -44,18 +44,20 @@
 
 .multimenu ul li.active {
     background: #03A9F4;
+    text-shadow: 0px 1px 0px rgb(86, 86, 86);
 }
 
 .multimenu ul li:hover a {
     color: #ffffff;
     text-shadow: 0px 1px 0px rgb(86, 86, 86);
+    display: block;
 }
 .multimenu>ul>li>ul{
     display: none;
     opacity: 0;
     transition-timing-function: linear, step-end;
     position: absolute;
-    background: #03A9F4;
+    
 }
 .bigdrop-sub {
     width: 100%;
@@ -65,8 +67,12 @@
     margin: 0;
     list-style: none;
     box-sizing: border-box;
+    background: #2196F3;
+    
 }
-
+.bigdrop-sub li{
+    width:18%;
+}
  .multimenu>ul>li>ul:after {
     clear: both;
 }
@@ -75,14 +81,12 @@
     margin: 0;
     padding-bottom: 0;
     list-style: none;
-    width: 18%;
     background: none;
-    /* float: left; */
 }
 
 .multimenu>ul>li>ul>li a {
     color: #777;
-    padding: 12px 2px;
+    padding: 1em 0.3em;
     width: 95%;
     display: block;
     border-bottom: 1px solid #ccc;
@@ -113,40 +117,29 @@
     border: 0;
 }
 
-.infinite-sub{
-    display: none;
-    margin: 0;
-    padding: 0;
-    left: auto;
-    right: auto;
-    position: absolute;
-    background: #2196f3;
-    border-radius: 0.25em;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-}
-.infinite-sub li a{
-    color: #fff !important;
-    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.79) !important;
-
-}
-
 .normal-sub, .infinite-sub {
     width: 300px;
     left: auto;
     padding: 10px 0px;
+    border-bottom-left-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+    background: #2196F3;
+    border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .normal-sub>li, .infinite-sub li {
     width: 100%;
+    
 }
 
 .normal-sub>li a,.infinite-sub li a {
     border: 0 !important;
     padding: 1em !important;
+    display:block;
 }
 
-.bigdrop-sub li:hover {
-    background: #2196F3;
+.bigdrop-sub >li:hover {
+    background: #2196F3 !important;
 }
 
 .bigdrop-sub a.waves-effect:hover {
@@ -168,7 +161,19 @@ ul.edge-right{
     opacity: 1 !important;
     transition: all 0.5s linear;
 }
-
+.infinite-sub{
+    display: none;
+    margin: 0;
+    padding: 0 !important;
+    left: auto;
+    right: auto;
+    position: absolute;
+    background: #2196f3;
+}
+.infinite-sub li a{
+    color: #fff !important;
+    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.79) !important;
+}
 @media only screen and (min-width: 960px) {
     
     .multimenu ul li:hover > ul {
