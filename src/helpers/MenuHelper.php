@@ -60,9 +60,12 @@ class MenuHelper extends Component
 
             $item[] = [
                 'label' => $parentLink->menu_name,
-                'url' => $isLink ? $route : 'javascript:void(0)',
-                'active' => $isActive
+                'url' => $isLink ? $route : 'javascript:void(0)'
             ];
+
+            //mark active item
+            $isActive && $item[$index]['active'] = $isActive;
+
             $children = self::hasChild($parentLink->id);
             $hasChild = !empty($children);
 
