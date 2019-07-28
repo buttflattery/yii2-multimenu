@@ -162,6 +162,21 @@
     right: 0px;
 }
 
+.leftnav .list li:hover >a{
+    background: #8BC34A !important;
+}
+
+.leftnav .list li:hover >a i,
+.leftnav .list li:hover >a span
+{   
+    color:#fff !important;
+}
+.leftnav-container .leftnav .active > a,
+.leftnav-container .leftnav .active > a i,
+.leftnav-container .leftnav .active > a span{
+    background: #8BC34A !important;
+    color:#fff !important;
+}
 .leftnav-container .leftnav .list .ml-menu li .ml-menu li a {
     padding-left: 80px;
 }
