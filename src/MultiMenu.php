@@ -132,9 +132,7 @@ class MultiMenu extends Menu
                     ]
                 );
 
-                echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
-
-                
+                // echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
                 echo Html::beginTag('div', ['class' => 'dropup']);
                 //call the parent
                 parent::run();

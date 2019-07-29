@@ -91,25 +91,33 @@
     left: 100%;
     bottom: 0 !important;
 }
-.dropup .dropup-menu .sub-menu li:last-child{
+
+.dropup .dropup-menu .sub-menu li:last-child {
     border-top-right-radius: 12px;
-    border-top-left-radius: 0px;   
+    border-top-left-radius: 0px;
 }
 
+
+.dropup li.active > a {
+    background: #fff;
+    color: #E91E63 !important;
+    text-shadow: 0px 1px #ffdae7;
+
+}
 
 /* ––––––––––––––––––––––––––––––––––––––––––––––––––
   Mobile style's
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-  .dropup-mobile {
+.dropup-mobile {
     display: none;
-    padding: 20px;
+    padding: 1.5em;
     color: #fff;
 }
 
 .dropup-mobile:after {
     content: "\f394";
-    font-family: "Roboto";
+    font-family: "Ionicons";
     font-size: 2.5rem;
     padding: 0;
     float: right;
@@ -123,40 +131,65 @@
 @media only screen and (max-width: 959px) {
     .dropup {
         width: 100% !important;
+        position: relative;
+        bottom: 0;
+        background: #E91E63;
+        top: auto;
+    }
+
+    .dropup ul{
+        /* transform: rotate(180deg); */
+        background: #E91E63;
+        width: 100% !important;
+        display: none;
     }
 
     .dropup-mobile {
         display: block !important;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        padding: 0.6416em;
+        background: #f8f8f8;
+        width: 100%;
+        top: auto;
+        cursor: pointer;
     }
 
-    .dropup>ul {
+    .dropup-menu {
+        display: none !important;
+    }
+
+    .dropup-menu ul {
         display: none;
+        
     }
 
     .dropup>ul>li {
         width: 100%;
         float: none;
         display: block;
+        /* transform: rotate(-180deg) */
     }
 
     .dropup>ul>li a {
         padding: 1.5em;
         width: 100%;
         display: block;
+        padding:1em 0.55em !important;
     }
 
     .dropup>ul>li>ul {
         position: relative;
+        background: #E91E63;
     }
 
-    .dropup>ul>li>ul.normal-sub {
-        width: 100%;
-    }
-
-    .dropup>ul>li>ul>li {
+    
+    .dropup>ul>li>ul li {
         float: none;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 1.250em;
+        /* transform: rotate(-180deg) */
     }
 
     .dropup>ul>li>ul>li:first-child {
@@ -172,6 +205,41 @@
     }
 
     .dropup .show-on-mobile {
-        display: block;
+        /* display: flex !important; */
+        display: block !important;
+        position: relative;
+        bottom: 0;
+        top: auto;
+        /* transform: rotate(180deg); */
+        /* flex-flow: column-reverse; */
     }
+
+
+    .dropup li:hover>a {
+        background: #fff;
+        color: #E91E63 !important;
+        text-shadow: 0px 1px #ffdae7;
+    }
+
+    .has-children>a:first-child:before {
+        content: "\f10a";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-right: 10px;
+        color:#fff;
+    }
+    .active.has-children>a:first-child:before,
+    .has-children:hover >a:first-child:before{
+        color: #E91E63 !important;
+    }
+
+    /* .active>ul{
+        display: block;
+    } */
+    a,a:focus,a:active,a:visited{
+        color:#000;
+    }
+
 }
