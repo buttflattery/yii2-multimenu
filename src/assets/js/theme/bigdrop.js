@@ -7,11 +7,15 @@ $(document).ready(function () {
     //Checks if li has sub (ul) and adds class for toggle icon - just an UI
 
 
+    //checks if a normal submenu
     $('.multimenu > ul > li > ul:not(:has(ul))').addClass('normal-sub');
+    //checks if needs to be a bigdrop
     $('.multimenu > ul > li > ul:has(ul)').addClass('bigdrop-sub');
+    //checks if its higher than 3rd level
     $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
+    //adds class to li if it has child ul
     $(".bigdrop-sub > li > ul li:has( > ul)").addClass("has-children");
-    //Checks if drodown menu's li elements have anothere level (ul), if not the dropdown is shown as regular dropdown, not a mega menu (thanks Luka Kladaric)
+    //adds the bars icon for the mobile
     $(".multimenu > ul").before("<a href=\"#\" class=\"multimenu-mobile\">Navigation</a>");
 
 
