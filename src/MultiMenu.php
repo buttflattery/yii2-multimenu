@@ -17,6 +17,7 @@ use buttflattery\multimenu\assetbundles\bs4\MultiMenuAsset as MenuBs4Assets;
 use yii\base\InvalidArgumentException as ArgException;
 use yii\bootstrap4\BootstrapAsset as BS4Asset;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\widgets\Menu;
 
 /**
@@ -48,6 +49,11 @@ class MultiMenu extends Menu
      */
     public $theme = 'bigdrop';
 
+    /**
+     * @var mixed
+     */
+    public $mobileView = true;
+
     const THEME_BIGDROP = 'bigdrop';
     const THEME_LEFTNAV = 'leftnav';
     const THEME_DROPUP = 'dropup';
@@ -77,24 +83,58 @@ class MultiMenu extends Menu
         $this->registerAssets();
 
         //set the theme option
-        $this->_setThemeOptions();
+        $this->_createMenu();
+
+        //register runtime scripts
+        $this->registerScript();
     }
 
     /**
-     * Sets the options for the selected theme
+     * Returns the plugin options
+     * 
+     * @return array options
+     */
+    public function getPluginOptions()
+    {
+        return [
+            'mobileView' => $this->mobileView
+        ];
+    }
+
+    /**
+     * Registers runtime scripts
+     * 
+     * @return null
+     */
+    public function registerScript()
+    {
+        $options = Json::encode($this->getPluginOptions());
+        $theme = $this->theme;
+
+        $js = <<<JS
+        
+        {$theme}.options={...{$theme}.options,...{$options}};
+        {$theme}.init();
+JS;
+        $view = $this->getView();
+        $view->registerJs($js, $view::POS_READY);
+    }
+
+    /**
+     * Sets the options for the selected theme and creaes the menu
      *
      * @return null
      */
-    private function _setThemeOptions()
+    private function _createMenu()
     {
         $themeSpecificOptions = [
             self::THEME_BIGDROP => function () {
                 $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
                 $this->activateParents = true;
-                $this->hideEmptyItems=false;
+                $this->hideEmptyItems = false;
                 //theme big drop
-                echo Html::beginTag('div', ['class' => 'multimenu-container']);
-                echo Html::beginTag('div', ['class' => 'multimenu']);
+                echo Html::beginTag('div', ['class' => 'multimenu-bigdrop-container']);
+                echo Html::beginTag('div', ['class' => 'multimenu-bigdrop']);
                 //call the parent
                 parent::run();
                 echo Html::endTag('div');
@@ -114,8 +154,6 @@ class MultiMenu extends Menu
                 $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
                 $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
 
-                echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
-
                 echo Html::beginTag('div', ['class' => 'leftnav-container', 'id' => 'leftsidebar']);
                 echo Html::beginTag('div', ['class' => 'leftnav']);
                 //call the parent
@@ -128,7 +166,7 @@ class MultiMenu extends Menu
                 $this->options = array_merge_recursive(
                     $this->options,
                     [
-                        'class' => 'dropup-menu',
+                        'class' => 'dropup-menu'
                     ]
                 );
 
@@ -179,12 +217,6 @@ class MultiMenu extends Menu
             return;
         }
         throw new ArgException('You must select the correct theme');
-        return;
-        // $themeAsset = __NAMESPACE__ . '\\assetbundles\\bs' .
-        // $this->_bsVersion . '\\Theme' .
-        // $this->themesSupported['bigdrop'] . 'Asset';
-        // $themeAsset::register($view);
-        // $this->theme = 'bigdrop';
-        // return;
+
     }
 }
