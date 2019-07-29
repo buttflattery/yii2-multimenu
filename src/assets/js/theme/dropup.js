@@ -13,7 +13,7 @@ dropup.activateMobileScript = function () {
     this.bindMenuNavigation();
 };
 dropup.bindMenuNavigation = function () {
-    $(".dropup >ul li").on('click', function (e) {
+    $(".multimenu-dropup-container >ul li").on('click', function (e) {
         if ($(window).width() < 943) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
@@ -28,32 +28,31 @@ dropup.bindMenuNavigation = function () {
 };
 
 dropup.enableMobileMenu = function () {
-    console.log('enableMobileMenu');
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
-        if ($(e.target).siblings('.dropup').length === 0)
-            $(".dropup > ul").removeClass('show-on-mobile');
+        if ($(e.target).siblings('.multimenu-dropup-container').length === 0)
+            $(".multimenu-dropup-container > ul").removeClass('show-on-mobile');
     });
 
     $(".dropup-mobile").on('click', function (e) {
-        console.log("click");
-        $(".dropup > ul").toggleClass('show-on-mobile');
+        
+        $(".multimenu-dropup-container > ul").toggleClass('show-on-mobile');
         e.preventDefault();
     });
 };
 dropup.init = function () {
-    console.log('here');
+    
     if (dropup.options.mobileView) {
         //adds the bars icon for the mobile
-        $(".dropup").before("<a href=\"#\" class=\"dropup-mobile\">Navigation</a>");
+        $(".multimenu-dropup-container").before("<a href=\"#\" class=\"dropup-mobile\">Navigation</a>");
     }
 
     //adds class to li if it has child ul
-    $(".dropup  li:has( > ul)").addClass("has-children");
+    $(".multimenu-dropup-container  li:has( > ul)").addClass("has-children");
 
     //for normal menu
     if ($(window).width() > 960) {
-        $('.dropup > ul > li ul').addClass('sub-menu');
+        $('.multimenu-dropup-container > ul > li ul').addClass('sub-menu');
     } else {
         //activate the mobile script
         this.activateMobileScript();
@@ -63,6 +62,6 @@ dropup.init = function () {
     this.enableMobileMenu();
 
     //Set Waves
-    Waves.attach('.dropup-menu a', ['waves-block']);
+    Waves.attach('.multimenu-dropup a', ['waves-block']);
     Waves.init();
 };

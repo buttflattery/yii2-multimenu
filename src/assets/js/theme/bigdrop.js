@@ -22,8 +22,7 @@ bigdrop.activate = function () {
         //adds the bars icon for the mobile
         $(".multimenu-bigdrop > ul").before("<a href=\"#\" class=\"multimenu-mobile\">Navigation</a>");
     }
-
-
+    
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
         if ($(e.target).parents('.multimenu-bigdrop').length === 0)

@@ -166,12 +166,12 @@ JS;
                 $this->options = array_merge_recursive(
                     $this->options,
                     [
-                        'class' => 'dropup-menu'
+                        'class' => 'multimenu-dropup'
                     ]
                 );
 
                 // echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
-                echo Html::beginTag('div', ['class' => 'dropup']);
+                echo Html::beginTag('div', ['class' => 'multimenu-dropup-container']);
                 //call the parent
                 parent::run();
                 echo Html::endTag('div');

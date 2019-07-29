@@ -1,4 +1,4 @@
-.dropup {
+.multimenu-dropup-container {
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -8,7 +8,7 @@
     transition: all 0.5s;
 }
 
-.dropup .dropup-menu {
+.multimenu-dropup-container .multimenu-dropup {
     display: block;
     margin: 0 auto;
     padding: 0;
@@ -16,17 +16,17 @@
 }
 
 
-.dropup .dropup-menu li {
+.multimenu-dropup-container .multimenu-dropup li {
     display: inline-block;
     position: relative;
 }
 
-.dropup .dropup-menu li:hover {
+.multimenu-dropup-container .multimenu-dropup li:hover {
     background: #fff;
     cursor: pointer;
 }
 
-.dropup .dropup-menu a {
+.multimenu-dropup-container .multimenu-dropup a {
     display: inline-block;
     text-decoration: none;
     color: #fff;
@@ -34,22 +34,22 @@
     text-shadow: 1px 1px #000;
 }
 
-.dropup .dropup-menu ul.sub-menu li a {
+.multimenu-dropup-container .multimenu-dropup ul.sub-menu li a {
     color: #fff;
     padding: 10px;
     display: block;
 }
 
-/* .dropup .dropup-menu li:hover a:hover{
+/* .multimenu-dropup-container .multimenu-dropup li:hover a:hover{
     color: #E91E63 !important;
 } */
-.dropup .dropup-menu li:hover>a {
+.multimenu-dropup-container .multimenu-dropup li:hover>a {
     color: #E91E63 !important;
     text-shadow: 0px 1px #ffdae7;
 }
 
 
-.dropup .dropup-menu>li ul.sub-menu {
+.multimenu-dropup-container .multimenu-dropup>li ul.sub-menu {
     position: absolute;
     bottom: 1000px;
     left: auto;
@@ -69,7 +69,7 @@
     transition: visibility 0s linear 0.33s, opacity 0.33s linear;
 }
 
-.dropup .dropup-menu li:hover>ul.sub-menu:first-of-type {
+.multimenu-dropup-container .multimenu-dropup li:hover>ul.sub-menu:first-of-type {
     background: #E91E63;
     bottom: 65px;
     visibility: visible;
@@ -77,30 +77,30 @@
     transition-delay: 0.2s;
 }
 
-.dropup .dropup-menu ul.sub-menu>li {
+.multimenu-dropup-container .multimenu-dropup ul.sub-menu>li {
     -moz-transform: rotate(-180deg);
     -webkit-transform: rotate(-180deg);
     transform: rotate(-180deg);
 }
 
-.dropup .dropup-menu ul.sub-menu li {
+.multimenu-dropup-container .multimenu-dropup ul.sub-menu li {
     display: block;
 
 }
 
-.dropup .dropup-menu li>ul.sub-menu:first-of-type li ul {
+.multimenu-dropup-container .multimenu-dropup li>ul.sub-menu:first-of-type li ul {
     left: 100%;
     bottom: 0 !important;
 }
 
-.dropup .dropup-menu .sub-menu li:last-child {
+.multimenu-dropup-container .multimenu-dropup .sub-menu li:last-child {
     border-top-right-radius: 12px;
     border-top-left-radius: 0px;
 }
 
 
-.dropup li.active>a,
-.dropup li.active {
+.multimenu-dropup-container li.active>a,
+.multimenu-dropup-container li.active {
     background: #fff;
     color: #E91E63 !important;
     text-shadow: 0px 1px #ffdae7;
@@ -130,7 +130,7 @@
 }
 
 @media only screen and (max-width: 959px) {
-    .dropup {
+    .multimenu-dropup-container {
         width: 100% !important;
         position: absolute;
         bottom: auto;
@@ -139,7 +139,7 @@
         
     }
 
-    .dropup ul {
+    .multimenu-dropup-container ul {
         /* transform: rotate(180deg); */
         background: #E91E63;
         width: 100% !important;
@@ -160,11 +160,11 @@
         color: #000;
     }
 
-    .dropup-menu {
+    .multimenu-dropup {
         display: none !important;
     }
 
-    .dropup-menu ul {
+    .multimenu-dropup ul {
         display: none;
 
     }
@@ -208,7 +208,7 @@
         float: none;
     }
 
-    .dropup .show-on-mobile {
+    .multimenu-dropup-container .show-on-mobile {
         /* display: flex !important; */
         display: block !important;
         position: relative;
@@ -219,7 +219,7 @@
     }
 
 
-    .dropup li:hover>a {
+    .multimenu-dropup-container li:hover>a {
         background: #fff;
         color: #E91E63 !important;
         text-shadow: 0px 1px #ffdae7;
