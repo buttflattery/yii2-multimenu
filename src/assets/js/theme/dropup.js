@@ -13,7 +13,7 @@ dropup.activateMobileScript = function () {
     this.bindMenuNavigation();
 };
 dropup.bindMenuNavigation = function () {
-    $(".multimenu-dropup-container >ul li").on('click', function (e) {
+    $(".multimenu-dropup-container nav >ul li").on('click', function (e) {
         if ($(window).width() < 943) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
@@ -30,21 +30,20 @@ dropup.bindMenuNavigation = function () {
 dropup.enableMobileMenu = function () {
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
-        if ($(e.target).siblings('.multimenu-dropup-container').length === 0)
-            $(".multimenu-dropup-container > ul").removeClass('show-on-mobile');
+        if ($(e.target).closest('.multimenu-dropup-container').length === 0)
+            $(".multimenu-dropup-container nav").removeClass('in');
     });
 
-    $(".dropup-mobile").on('click', function (e) {
-        
-        $(".multimenu-dropup-container > ul").toggleClass('show-on-mobile');
-        e.preventDefault();
-    });
+    // $(".dropup-mobile").on('click', function (e) {
+    //     $(".multimenu-dropup-container nav").toggleClass('show-on-mobile');
+    //     e.preventDefault();
+    // });
 };
 dropup.init = function () {
-    
+
     if (dropup.options.mobileView) {
         //adds the bars icon for the mobile
-        $(".multimenu-dropup-container").before("<a href=\"#\" class=\"dropup-mobile\">Navigation</a>");
+        $(".multimenu-dropup-container nav").before("<a href=\"#\" class=\"dropup-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\" aria-expanded=\"false\">Navigation</a>");
     }
 
     //adds class to li if it has child ul
@@ -52,7 +51,7 @@ dropup.init = function () {
 
     //for normal menu
     if ($(window).width() > 960) {
-        $('.multimenu-dropup-container > ul > li ul').addClass('sub-menu');
+        $('.multimenu-dropup-container nav > ul > li ul').addClass('sub-menu');
     } else {
         //activate the mobile script
         this.activateMobileScript();

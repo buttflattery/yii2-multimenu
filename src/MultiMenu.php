@@ -12,8 +12,6 @@
 
 namespace buttflattery\multimenu;
 
-use buttflattery\multimenu\assetbundles\bs3\MultiMenuAsset as MenuBs3Assets;
-use buttflattery\multimenu\assetbundles\bs4\MultiMenuAsset as MenuBs4Assets;
 use yii\base\InvalidArgumentException as ArgException;
 use yii\bootstrap4\BootstrapAsset as BS4Asset;
 use yii\helpers\Html;
@@ -50,6 +48,8 @@ class MultiMenu extends Menu
     public $theme = 'bigdrop';
 
     /**
+     * Enable Mobile view for the menu
+     *
      * @var mixed
      */
     public $mobileView = true;
@@ -91,7 +91,7 @@ class MultiMenu extends Menu
 
     /**
      * Returns the plugin options
-     * 
+     *
      * @return array options
      */
     public function getPluginOptions()
@@ -103,7 +103,7 @@ class MultiMenu extends Menu
 
     /**
      * Registers runtime scripts
-     * 
+     *
      * @return null
      */
     public function registerScript()
@@ -112,7 +112,7 @@ class MultiMenu extends Menu
         $theme = $this->theme;
 
         $js = <<<JS
-        
+
         {$theme}.options={...{$theme}.options,...{$options}};
         {$theme}.init();
 JS;
@@ -170,10 +170,11 @@ JS;
                     ]
                 );
 
-                // echo Html::tag('a', '', ['href' => 'javascript:void(0)', 'class' => 'bars']);
                 echo Html::beginTag('div', ['class' => 'multimenu-dropup-container']);
+                echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse','id'=>'navbar-collapse']);
                 //call the parent
                 parent::run();
+                echo Html::endTag('nav');
                 echo Html::endTag('div');
             }
         ];
