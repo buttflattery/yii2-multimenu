@@ -7,7 +7,9 @@ if (typeof jQuery === "undefined") {
 let bigdrop = $.bigdrop = {};
 
 bigdrop.options = {
-    mobileView: true
+    mobileView: true,
+    transitionEffet: 'flipInX',
+    transitionSpeed:'faster'
 };
 bigdrop.activate = function () {
     //checks if a normal submenu
@@ -17,32 +19,28 @@ bigdrop.activate = function () {
     //checks if its higher than 3rd level
     $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
     //adds class to li if it has child ul
-    $(".bigdrop-sub > li > ul li:has( > ul)").addClass("has-children");
+    $(".multimenu-bigdrop li:has( > ul)").addClass("has-children");
+
+
     if (this.options.mobileView) {
         //adds the bars icon for the mobile
-        $(".multimenu-bigdrop > ul").before("<a href=\"#\" class=\"multimenu-mobile\">Navigation</a>");
+        $(".multimenu-bigdrop").before("<a href=\"#\" class=\"bigdrop-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bigdrop-navbar-collapse\" aria-expanded=\"false\"></a>");
     }
-    
+
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
         if ($(e.target).parents('.multimenu-bigdrop').length === 0)
-            $(".multimenu-bigdrop > ul").removeClass('show-on-mobile');
+            $(".multimenu-bigdrop > ul").removeClass('in');
     });
-    $(".multimenu-mobile").on('click', function (e) {
-        $(".multimenu-bigdrop > ul").toggleClass('show-on-mobile');
-        e.preventDefault();
-    });
+
 };
 bigdrop.activateMobile = function () {
-    //If width is less or equal to 943px dropdowns are displayed on click (thanks Aman Jain from stackoverflow)
     $(".multimenu-bigdrop>ul li").on('click', function (e) {
-        if ($(window).width() < 943) {
+        if ($(window).width() < 1200) {
             e.stopPropagation();
-            //no more overlapping menus
-            //hides other children menus when a list item with children menus is clicked
+
             var thisMenu = $(this).children("ul");
             var prevState = thisMenu.css('display');
-            // $(".multimenu > ul > li > ul:visible").fadeOut();
 
             if (prevState == 'none') {
                 thisMenu.css('display', 'block');
@@ -54,14 +52,16 @@ bigdrop.activateMobile = function () {
     });
 };
 bigdrop.fixMenuPosition = function () {
+    let t = 0;
     //adjust menu left or right according to viewable area
     $(".multimenu-bigdrop li").on('mouseenter mouseleave', function (e) {
-
+        e.preventDefault();
+        e.stopPropagation();
         if ($('ul', this).length) {
 
             var elm = $('ul:first', this);
 
-            if ($(window).width() > 943) {
+            if ($(window).width() > 1200) {
                 var off = elm.offset();
                 var l = off.left;
                 var w = elm.width();
@@ -69,19 +69,48 @@ bigdrop.fixMenuPosition = function () {
                 var docW = $(".multimenu-bigdrop").width();
 
                 var isEntirelyVisible = (l + w <= docW);
-                if (!isEntirelyVisible) {
-                    $(elm).addClass('edge-right');
-                } else {
-                    $(elm).removeClass('edge-right');
+                
+                if (e.type == 'mouseenter') {
+                    if (!isEntirelyVisible) {
+                        $(elm).removeClass('animated visible '+bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                        $(elm).addClass('edge-right');
 
-                    setTimeout(() => {
-                        elm.toggleClass('visible');
-                    }, 100);
+                        //if not first time then clearTimeout
+                        if (t > 0) {
+                            clearTimeout(t);
+                        }
+                        
+                        return setTimeout(function () {
+                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                        }, 1);
+
+                    } else {
+                        $(elm).removeClass('edge-right visible');
+
+                        //if third level dont animate
+                        if ($(elm).parents('.bigdrop-sub').length) {
+                            return;
+                        }
+                        //if not first time then clearTimeout
+                        if (t > 0) {
+                            clearTimeout(t);
+                        }
+                        t = setTimeout(function () {
+                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                        }, 10);
+                    }
+                } else {
+                    elm.removeClass('animated visible edge-right ' + bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
                 }
+
             } else {
-                setTimeout(() => {
-                    elm.toggleClass('visible');
-                }, 100);
+                //if not first time then clearTimeout
+                if (t > 0) {
+                    clearTimeout(t);
+                }
+                setTimeout(function () {
+                    elm.toggleClass('animated fadeIn '+bigdrop.options.transitionSpeed);
+                }, 10);
             }
         }
         e.preventDefault();
@@ -89,7 +118,7 @@ bigdrop.fixMenuPosition = function () {
 };
 bigdrop.addWavesEffect = function () {
     //apply waves effect on the menu links
-    Waves.attach('.multimenu-bigdrop ul a', ['waves-effect', 'waves-light']);
+    Waves.attach('.multimenu-bigdrop ul a', ['waves-effect', 'waves-cyan']);
     Waves.init();
 };
 

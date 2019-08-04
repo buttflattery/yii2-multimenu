@@ -24,7 +24,8 @@ class ThemeBase extends AssetBundle
      */
     public $css = [
         'ionicons.css',
-        'waves.css'
+        'waves.css',
+        'animate.css'
     ];
 
     /**

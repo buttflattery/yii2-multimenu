@@ -11,9 +11,7 @@
     width: 300px;
     overflow: hidden;
     display: inline-block;
-    height: calc(100vh);
-    position: fixed;
-    left: 0;
+    position: relative;
     -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     -ms-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -25,8 +23,6 @@
 
 .leftnav-container .leftnav {
     position: relative;
-    /* overflow-y: auto;
-    height: 90vh; */
 }
 
 .leftnav-container .leftnav .list {

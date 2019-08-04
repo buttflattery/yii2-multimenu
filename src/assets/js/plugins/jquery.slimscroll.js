@@ -34,7 +34,7 @@
                 start: 'top',
 
                 // sets scrollbar opacity
-                opacity: .4,
+                opacity: 0.4,
 
                 // enables always-on mode for the scrollbar
                 alwaysVisible: false,
@@ -49,7 +49,7 @@
                 railColor: '#333',
 
                 // sets rail opacity
-                railOpacity: .2,
+                railOpacity: 0.2,
 
                 // whether  we should use jQuery UI Draggable to enable bar dragging
                 railDraggable: true,

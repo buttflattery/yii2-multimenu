@@ -134,10 +134,10 @@ JS;
                 $this->hideEmptyItems = false;
                 //theme big drop
                 echo Html::beginTag('div', ['class' => 'multimenu-bigdrop-container']);
-                echo Html::beginTag('div', ['class' => 'multimenu-bigdrop']);
+                echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse multimenu-bigdrop', 'id' => 'bigdrop-navbar-collapse']);
                 //call the parent
                 parent::run();
-                echo Html::endTag('div');
+                echo Html::endTag('nav');
                 echo Html::endTag('div');
             },
             self::THEME_LEFTNAV => function () {
@@ -171,7 +171,7 @@ JS;
                 );
 
                 echo Html::beginTag('div', ['class' => 'multimenu-dropup-container']);
-                echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse','id'=>'navbar-collapse']);
+                echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse', 'id' => 'navbar-collapse']);
                 //call the parent
                 parent::run();
                 echo Html::endTag('nav');

@@ -164,7 +164,7 @@ leftnav.leftSideBar = {
         if (typeof $.fn.slimScroll != 'undefined') {
 
             var configs = leftnav.options.leftSideBar;
-            var height = $(window).height();
+            var height = $(window).height()/2;
             var $el = $('.list');
 
             if (!isFirstTime) {
@@ -249,7 +249,7 @@ leftnav.navbar = {
 };
 
 leftnav.init = function () {
-    leftnav.leftSideBar.activate();
+    this.leftSideBar.activate();
     leftnav.navbar.activate();
     leftnav.browser.activate();
 }

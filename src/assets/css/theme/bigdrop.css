@@ -1,7 +1,22 @@
 .multimenu-bigdrop-container {
     width: 100%;
     margin: 0 auto;
-    background: #2196F3;
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    -ms-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.multimenu-dropup-container nav {
+    position: relative;
+    min-height: 3.571em;
+    margin-bottom: 0;
+    border: 1px solid transparent;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    padding: 0;
 }
 
 .multimenu-bigdrop>ul {
@@ -12,39 +27,60 @@
     position: relative;
     /* IF .multimenu-bigdrop position=relative -> ul = container width, ELSE ul = 100% width */
     box-sizing: border-box;
+    text-align: center;
 }
 
-.multimenu-bigdrop>ul:before,
-.multimenu-bigdrop>ul:after {
+.multimenu-bigdrop>ul::before,
+.multimenu-bigdrop>ul::after {
     content: "";
     display: table;
 }
 
-.multimenu-bigdrop>ul:after {
+.multimenu-bigdrop>ul::after {
     clear: both;
 }
 
 .multimenu-bigdrop>ul>li {
-    float: left;
-    background: #2196F3;
+    /* background: #2196F3; */
     padding: 0;
     margin: 0;
+    display: inline-block;
+    vertical-align: bottom;
 }
 
 .multimenu-bigdrop ul li a {
     text-decoration: none;
     padding: 1.5em 3em;
     display: block;
-    color: #fff;
 }
 
-.multimenu-bigdrop ul li:hover {
-    background: #03A9F4;
+.multimenu-bigdrop ul li:hover,
+.multimenu-bigdrop ul li.active {
+    background: #e60101;
+}
+.multimenu-bigdrop-container,
+.multimenu-bigdrop-container nav,
+.multimenu-bigdrop .bigdrop-sub,
+.multimenu-bigdrop .normal-sub,
+.multimenu-bigdrop .infinite-sub,
+.bigdrop-sub>li:hover,
+.bigdrop-mobile {
+    background: #b31313 !important;
+    /* background: #b31313 */
+}
+.multimenu-bigdrop ul li a
+{
+color:#fff;
+}
+
+.multimenu-bigdrop>ul>li:hover {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .multimenu-bigdrop ul li.active {
-    background: #03A9F4;
+
     text-shadow: 0px 1px 0px rgb(86, 86, 86);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .multimenu-bigdrop ul li:hover a {
@@ -56,28 +92,29 @@
 .multimenu-bigdrop>ul>li>ul {
     display: none;
     opacity: 0;
-    transition-timing-function: linear, step-end;
+    /* transition-timing-function: linear, step-end; */
     position: absolute;
-
+    text-align: left;
 }
 
 .bigdrop-sub {
-    width: 100%;
+    width: 96%;
     padding: 20px;
     z-index: 99;
-    left: 0;
-    margin: 0;
+    left: 3%;
+    margin: 0 auto;
     list-style: none;
     box-sizing: border-box;
-    background: #2196F3;
-
+    /* background: #2196F3; */
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .bigdrop-sub li {
     width: 18%;
 }
 
-.multimenu-bigdrop>ul>li>ul:after {
+.multimenu-bigdrop>ul>li>ul::after {
     clear: both;
 }
 
@@ -106,7 +143,7 @@
 }
 
 
-.multimenu-bigdrop>ul>li>ul>li>ul:after {
+.multimenu-bigdrop>ul>li>ul>li>ul::after {
     clear: both;
 }
 
@@ -128,8 +165,9 @@
     padding: 0.625em 0px;
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
-    background: #2196F3;
+    /* background: #2196F3; */
     border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .normal-sub>li,
@@ -145,14 +183,14 @@
     display: block;
 }
 
-.bigdrop-sub>li:hover {
+/* .bigdrop-sub>li:hover {
     background: #2196F3 !important;
-}
+} */
 
-.bigdrop-sub a.waves-effect:hover {
+/* .bigdrop-sub a.waves-effect:hover {
     color: #000000;
     text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.49);
-}
+} */
 
 .multimenu-bigdrop ul li:hover ul.bigdrop-sub li {
     display: inline-flex;
@@ -163,7 +201,7 @@
 
 .visible {
     opacity: 1 !important;
-    transition: all 0.5s linear;
+    /* transition: all 0.5s linear; */
 }
 
 
@@ -172,10 +210,40 @@ ul.edge-right {
     right: 100% !important;
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 1201px) {
+    .multimenu-bigdrop>ul>li.has-children>a:first-child::after {
+        content: "\f104";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-left: 10px;
+        color: #fff;
+    }
+
+    .multimenu-bigdrop>ul>li>ul>li.has-children>a:first-child::after {
+        content: "\f104";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-left: 10px;
+        color: #fff;
+    }
+
+    .bigdrop-sub li ul li.has-children>a:first-child::before {
+        content: "\f10a";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-right: 10px;
+        color: #fff;
+    }
 
     .multimenu-bigdrop ul li:hover>ul {
         display: block;
+        z-index: 99;
     }
 
     .multimenu-bigdrop ul li:hover ul[class="normal-sub"] {
@@ -188,7 +256,6 @@ ul.edge-right {
         left: 100%;
         padding: 0 !important;
         position: absolute;
-        background: #2196f3;
     }
 
     .infinite-sub li a {
@@ -196,19 +263,22 @@ ul.edge-right {
         text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.79) !important;
     }
 
+    .navbar-collapse.collapse {
+        display: block !important;
+    }
 }
 
 /* ––––––––––––––––––––––––––––––––––––––––––––––––––
   Mobile style's
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.multimenu-mobile {
+.bigdrop-mobile {
     display: none;
     padding: 20px;
     color: #fff;
 }
 
-.multimenu-mobile:after {
+.bigdrop-mobile::after {
     content: "\f394";
     font-family: "Ionicons";
     font-size: 2.5rem;
@@ -221,20 +291,91 @@ ul.edge-right {
     color: #fff;
 }
 
+@media only screen and (max-width: 1200px) {
+    .multimenu-bigdrop.navbar-header {
+        float: none;
+    }
 
+    .multimenu-bigdrop.navbar-left,
+    .multimenu-bigdrop.navbar-right {
+        float: none !important;
+    }
 
-@media only screen and (max-width: 959px) {
+    .multimenu-bigdrop.navbar-toggle {
+        display: block;
+    }
+
+    .multimenu-bigdrop.navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .multimenu-bigdrop.navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+
+    .multimenu-bigdrop.navbar-collapse.collapse {
+        display: none !important;
+    }
+
+    .multimenu-bigdrop.navbar-nav {
+        float: none !important;
+        margin-top: 7.5px;
+    }
+
+    .multimenu-bigdrop.navbar-nav>li {
+        float: none;
+    }
+
+    .multimenu-bigdrop.navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .multimenu-bigdrop.collapse.in {
+        display: block !important;
+    }
+
     .multimenu-bigdrop-container {
         width: 100% !important;
     }
 
-    .multimenu-mobile {
+    .bigdrop-mobile {
         display: block !important;
+        /* position: fixed; */
+        left: 0;
+        top: 0;
+        padding: 1.428em;
+        margin: 0;
+        background: #f8f8f8;
+        width: 100%;
+        cursor: pointer;
+        z-index: 999999;
+        color: #fff;
+        min-height: 3.571em;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        border-radius: 0;
+        -webkit-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
+        -ms-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
 
-    .multimenu-bigdrop>ul {
-        display: none;
+    .multimenu-bigdrop {
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        z-index: 99999;
+        border: 0;
+        top: 5.5em;
+    }
+
+    .multimenu-bigdrop ul {
+        text-align: left;
     }
 
     .multimenu-bigdrop>ul>li {
@@ -278,15 +419,15 @@ ul.edge-right {
     .multimenu-bigdrop .show-on-mobile {
         display: block;
     }
-    
-    .has-children>a:first-child:before {
+
+    .multimenu-bigdrop .has-children>a:first-child::before {
         content: "\f10a";
         font-family: "Ionicons";
         font-size: 1.5rem;
         padding: 0;
         position: relative;
         margin-right: 10px;
-        color:#fff;
+        color: #fff;
     }
 
     .infinite-sub,
@@ -297,8 +438,13 @@ ul.edge-right {
         width: 100%;
         padding: 0.625em 0.750em;
     }
-    a,a:focus,a:active,a:visited{
-        color:#fff;
+
+    .multimenu-bigdrop a,
+    .multimenu-bigdrop a:hover,
+    .multimenu-bigdrop a:focus,
+    .multimenu-bigdrop a:active,
+    .multimenu-bigdrop a:visited {
+        color: #fff;
     }
 
 }

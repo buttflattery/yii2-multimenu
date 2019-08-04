@@ -33,11 +33,6 @@ dropup.enableMobileMenu = function () {
         if ($(e.target).closest('.multimenu-dropup-container').length === 0)
             $(".multimenu-dropup-container nav").removeClass('in');
     });
-
-    // $(".dropup-mobile").on('click', function (e) {
-    //     $(".multimenu-dropup-container nav").toggleClass('show-on-mobile');
-    //     e.preventDefault();
-    // });
 };
 dropup.init = function () {
 

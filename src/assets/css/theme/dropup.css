@@ -41,12 +41,17 @@
     cursor: pointer;
 }
 
+.multimenu-dropup-container .multimenu-dropup li:hover>a::before {
+    color: #E91E63 !important;
+}
+
 .multimenu-dropup-container .multimenu-dropup a {
     display: inline-block;
     text-decoration: none;
     color: #fff;
     padding: 1.429em 2.857em;
     text-shadow: 1px 1px #000;
+    vertical-align: bottom;
 }
 
 .multimenu-dropup-container .multimenu-dropup ul.sub-menu li a {
@@ -87,7 +92,7 @@
 
 .multimenu-dropup-container .multimenu-dropup li:hover>ul.sub-menu:first-of-type {
     background: #E91E63;
-    bottom: 65px;
+    bottom: 61px;
     visibility: visible;
     opacity: 1;
     transition-delay: 0.2s;
@@ -127,6 +132,31 @@
     background: #fff;
 }
 
+/* first level */
+.multimenu-dropup>li.has-children>a:first-child::before {
+    content: "\f10d";
+    font-family: "Ionicons";
+    font-size: 1.5rem;
+    padding: 0;
+    position: relative;
+    margin-right: 10px;
+    color: #fff;
+}
+
+/* rest levels */
+.multimenu-dropup>li ul>li.has-children>a:first-child::before {
+    content: "\f10a";
+    font-family: "Ionicons";
+    font-size: 1.5rem;
+    padding: 0;
+    position: relative;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.has-children.active>a:first-child::before {
+    color: #E91E63 !important;
+}
 
 /* ––––––––––––––––––––––––––––––––––––––––––––––––––
   Mobile style's
@@ -138,7 +168,7 @@
     color: #fff;
 }
 
-.dropup-mobile:after {
+.dropup-mobile::after {
     content: "\f394";
     font-family: "Ionicons";
     font-size: 2.5rem;
@@ -150,6 +180,8 @@
     transform: translateY(-25%);
     color: #fff;
 }
+
+
 
 @media only screen and (max-width: 959px) {
     .multimenu-dropup-container .multimenu-dropup li {
@@ -262,7 +294,7 @@
         text-shadow: 0px 1px #ffdae7;
     }
 
-    .has-children>a:first-child:before {
+    .has-children>a:first-child::before {
         content: "\f10a";
         font-family: "Ionicons";
         font-size: 1.5rem;
@@ -272,13 +304,12 @@
         color: #fff;
     }
 
-    .active.has-children>a:first-child:before,
-    .has-children:hover>a:first-child:before {
+    .active.has-children>a:first-child::before,
+    .has-children:hover>a:first-child::before {
         color: #E91E63 !important;
     }
 
     .multimenu-dropup-container a {
-
         display: block !important;
     }
 
