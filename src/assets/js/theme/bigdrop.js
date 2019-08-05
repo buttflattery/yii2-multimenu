@@ -8,19 +8,24 @@ let bigdrop = $.bigdrop = {};
 
 bigdrop.options = {
     mobileView: true,
-    transitionEffet: 'flipInX',
-    transitionSpeed:'faster'
+    transitionEffect: 'flipInX',
+    transitionDelay: 'faster',
+    enableWavesPlugin: true,
+    wavesEffect: 'waves-cyan',
+    wavesType: 'default',
 };
 bigdrop.activate = function () {
     //checks if a normal submenu
     $('.multimenu-bigdrop > ul > li > ul:not(:has(ul))').addClass('normal-sub');
+
     //checks if needs to be a bigdrop
     $('.multimenu-bigdrop > ul > li > ul:has(ul)').addClass('bigdrop-sub');
+
     //checks if its higher than 3rd level
     $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
+    
     //adds class to li if it has child ul
     $(".multimenu-bigdrop li:has( > ul)").addClass("has-children");
-
 
     if (this.options.mobileView) {
         //adds the bars icon for the mobile
@@ -51,14 +56,15 @@ bigdrop.activateMobile = function () {
         }
     });
 };
-bigdrop.fixMenuPosition = function () {
+bigdrop.animateMenu = function () {
     let t = 0;
+
     //adjust menu left or right according to viewable area
     $(".multimenu-bigdrop li").on('mouseenter mouseleave', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        if ($('ul', this).length) {
 
+        if ($('ul', this).length) {
             var elm = $('ul:first', this);
 
             if ($(window).width() > 1200) {
@@ -69,19 +75,17 @@ bigdrop.fixMenuPosition = function () {
                 var docW = $(".multimenu-bigdrop").width();
 
                 var isEntirelyVisible = (l + w <= docW);
-                
+
                 if (e.type == 'mouseenter') {
                     if (!isEntirelyVisible) {
-                        $(elm).removeClass('animated visible '+bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                        $(elm).removeClass('animated visible ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
                         $(elm).addClass('edge-right');
 
                         //if not first time then clearTimeout
-                        if (t > 0) {
-                            clearTimeout(t);
-                        }
-                        
+                        (t > 0) && clearTimeout(t);
+
                         return setTimeout(function () {
-                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
                         }, 1);
 
                     } else {
@@ -91,40 +95,45 @@ bigdrop.fixMenuPosition = function () {
                         if ($(elm).parents('.bigdrop-sub').length) {
                             return;
                         }
+
                         //if not first time then clearTimeout
-                        if (t > 0) {
-                            clearTimeout(t);
-                        }
+                        (t > 0) && clearTimeout(t);
+
                         t = setTimeout(function () {
-                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
                         }, 10);
                     }
                 } else {
-                    elm.removeClass('animated visible edge-right ' + bigdrop.options.transitionEffet+' '+bigdrop.options.transitionSpeed);
+                    elm.removeClass('animated visible edge-right ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
                 }
 
             } else {
                 //if not first time then clearTimeout
-                if (t > 0) {
-                    clearTimeout(t);
-                }
+                (t > 0) && clearTimeout(t);
+
                 setTimeout(function () {
-                    elm.toggleClass('animated fadeIn '+bigdrop.options.transitionSpeed);
+                    elm.toggleClass('animated fadeIn ' + bigdrop.options.transitionDelay);
                 }, 10);
             }
         }
-        e.preventDefault();
     });
 };
 bigdrop.addWavesEffect = function () {
+    let effectType = this.options.wavesType == 'default' ? '' : this.options.wavesType;
+    let config = ['waves-effect', effectType, this.options.wavesEffect];
+
     //apply waves effect on the menu links
-    Waves.attach('.multimenu-bigdrop ul a', ['waves-effect', 'waves-cyan']);
+    Waves.attach('.multimenu-bigdrop ul a', config);
     Waves.init();
 };
 
 bigdrop.init = function () {
     bigdrop.activate();
     bigdrop.activateMobile();
-    bigdrop.fixMenuPosition();
-    bigdrop.addWavesEffect();
+    bigdrop.animateMenu();
+
+    //enable waves plugin
+    if (this.options.enableWavesPlugin) {
+        bigdrop.addWavesEffect();
+    }
 };
