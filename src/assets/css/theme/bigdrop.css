@@ -41,11 +41,11 @@
 }
 
 .multimenu-bigdrop>ul>li {
-    /* background: #2196F3; */
     padding: 0;
     margin: 0;
     display: inline-block;
     vertical-align: bottom;
+    
 }
 
 .multimenu-bigdrop ul li a {
@@ -58,6 +58,7 @@
 .multimenu-bigdrop ul li.active {
     background: #e60101;
 }
+
 .multimenu-bigdrop-container,
 .multimenu-bigdrop-container nav,
 .multimenu-bigdrop .bigdrop-sub,
@@ -68,9 +69,9 @@
     background: #b31313 !important;
     /* background: #b31313 */
 }
-.multimenu-bigdrop ul li a
-{
-color:#fff;
+
+.multimenu-bigdrop ul li a {
+    color: #fff;
 }
 
 .multimenu-bigdrop>ul>li:hover {
@@ -92,27 +93,11 @@ color:#fff;
 .multimenu-bigdrop>ul>li>ul {
     display: none;
     opacity: 0;
-    /* transition-timing-function: linear, step-end; */
     position: absolute;
     text-align: left;
 }
 
-.bigdrop-sub {
-    width: 96%;
-    padding: 20px;
-    z-index: 99;
-    left: 3%;
-    margin: 0 auto;
-    list-style: none;
-    box-sizing: border-box;
-    /* background: #2196F3; */
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
-}
 
-.bigdrop-sub li {
-    width: 18%;
-}
 
 .multimenu-bigdrop>ul>li>ul::after {
     clear: both;
@@ -201,7 +186,7 @@ color:#fff;
 
 .visible {
     opacity: 1 !important;
-    /* transition: all 0.5s linear; */
+    display: block !important;
 }
 
 
@@ -211,6 +196,23 @@ ul.edge-right {
 }
 
 @media only screen and (min-width: 1201px) {
+    .multimenu-bigdrop .bigdrop-sub {
+        width: calc(100vw - 5rem);
+        padding: 20px;
+        z-index: 99;
+        left: 0;
+        margin: 0;
+        list-style: none;
+        box-sizing: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        height:calc(100vh - 200px);
+    }
+
+    .multimenu-bigdrop .bigdrop-sub>li {
+        width: 18%;
+    }
+
     .multimenu-bigdrop>ul>li.has-children>a:first-child::after {
         content: "\f104";
         font-family: "Ionicons";
@@ -231,7 +233,7 @@ ul.edge-right {
         color: #fff;
     }
 
-    .bigdrop-sub li ul li.has-children>a:first-child::before {
+    .multimenu-bigdrop .bigdrop-sub li ul li.has-children>a:first-child::before {
         content: "\f10a";
         font-family: "Ionicons";
         font-size: 1.5rem;
@@ -242,7 +244,6 @@ ul.edge-right {
     }
 
     .multimenu-bigdrop ul li:hover>ul {
-        display: block;
         z-index: 99;
     }
 
