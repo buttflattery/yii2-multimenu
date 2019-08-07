@@ -8,8 +8,11 @@ let bigdrop = $.bigdrop = {};
 
 bigdrop.options = {
     mobileView: true,
-    transitionEffect: 'flipInX',
-    transitionDelay: 'faster',
+    bigdrop: {
+        enableTransitionEffects: true,
+        transitionEffect: 'flipInX',
+        transitionDelay: 'faster',
+    },
     enableWavesPlugin: true,
     wavesEffect: 'waves-cyan',
     wavesType: 'default',
@@ -23,7 +26,7 @@ bigdrop.activate = function () {
 
     //checks if its higher than 3rd level
     $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
-    
+
     //adds class to li if it has child ul
     $(".multimenu-bigdrop li:has( > ul)").addClass("has-children");
 
@@ -56,68 +59,87 @@ bigdrop.activateMobile = function () {
         }
     });
 };
-bigdrop.animateMenu = function () {
-    let t = 0;
+bigdrop.animateMenu = {
+    bind: function () {
+        let t = 0;
+        let animateMenu = this;
+        //adjust menu left or right according to viewable area
+        $(".multimenu-bigdrop li").on('mouseenter mouseleave', function (e) {
+            e.preventDefault();
 
-    //adjust menu left or right according to viewable area
-    $(".multimenu-bigdrop li").on('mouseenter mouseleave', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+            if (!$('ul', this).length && e.type == 'mouseenter') {
+                return;
+            }
 
-        if ($('ul', this).length) {
-            var elm = $('ul:first', this);
+            let elm = $('ul:first', this);
+            let effects = [];
 
             if ($(window).width() > 1200) {
-                var off = elm.offset();
-                var l = off.left;
-                var w = elm.width();
-                var docH = $(".multimenu-bigdrop").height();
-                var docW = $(".multimenu-bigdrop").width();
-
-                var isEntirelyVisible = (l + w <= docW);
-
+                //selected effects for menu
+                effects.push('animated', bigdrop.options.bigdrop.transitionEffect, bigdrop.options.bigdrop.transitionDelay);
                 if (e.type == 'mouseenter') {
+                    $(elm).addClass('visible');
+                    let off = elm.offset();
+                    let l = off.left;
+                    let w = elm.width();
+
+                    let docH = $(".multimenu-bigdrop").height();
+                    let docW = $(".multimenu-bigdrop").width();
+
+                    let isEntirelyVisible = (l + w <= docW);
+
                     if (!isEntirelyVisible) {
-                        $(elm).removeClass('animated visible ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
+                        $(elm).removeClass(effects.join(' '));
                         $(elm).addClass('edge-right');
 
-                        //if not first time then clearTimeout
-                        (t > 0) && clearTimeout(t);
-
-                        return setTimeout(function () {
-                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
-                        }, 1);
+                        //animate the menu and adjust according to viewable port from right
+                        if (bigdrop.options.bigdrop.enableTransitionEffects) {
+                            //if not first time then clearTimeout
+                            animateMenu.clearTimeout(t);
+                            t = animateMenu.animateNow(elm, effects);
+                        }
 
                     } else {
-                        $(elm).removeClass('edge-right visible');
+                        //remove right adjustment
+                        $(elm).removeClass('edge-right');
 
                         //if third level dont animate
-                        if ($(elm).parents('.bigdrop-sub').length) {
+                        if ($(elm).parents('.bigdrop-sub').length && !$(elm).hasClass('infinite-sub')) {
                             return;
                         }
 
-                        //if not first time then clearTimeout
-                        (t > 0) && clearTimeout(t);
-
-                        t = setTimeout(function () {
-                            elm.toggleClass('animated visible ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
-                        }, 10);
+                        //animate menu if transition enabled
+                        if (bigdrop.options.bigdrop.enableTransitionEffects) {
+                            animateMenu.clearTimeout(t);
+                            t = animateMenu.animateNow(elm, effects, 10);
+                        }
                     }
                 } else {
-                    elm.removeClass('animated visible edge-right ' + bigdrop.options.transitionEffect + ' ' + bigdrop.options.transitionDelay);
+                    e.stopPropagation();
+                    elm.removeClass('edge-right visible ' + effects.join(' '));
                 }
-
             } else {
+                effects.push('animated', 'fadeIn', bigdrop.options.bigdrop.transitionDelay);
                 //if not first time then clearTimeout
-                (t > 0) && clearTimeout(t);
-
-                setTimeout(function () {
-                    elm.toggleClass('animated fadeIn ' + bigdrop.options.transitionDelay);
-                }, 10);
+                animateMenu.clearTimeout(t);
+                t = animateMenu.animateNow(elm, effects, 10);
             }
-        }
-    });
+
+        });
+
+    },
+    animateNow: function (elm, effects = ['animated', 'fadeIn', bigdrop.options.bigdrop.transitionDelay], delay = 1) {
+        return setTimeout(function () {
+            elm.toggleClass(effects.join(' '));
+        }, delay);
+    },
+    clearTimeout: function (t) {
+        //if not first time then clearTimeout
+        (t > 0) && clearTimeout(t);
+    }
 };
+
+
 bigdrop.addWavesEffect = function () {
     let effectType = this.options.wavesType == 'default' ? '' : this.options.wavesType;
     let config = ['waves-effect', effectType, this.options.wavesEffect];
@@ -130,7 +152,7 @@ bigdrop.addWavesEffect = function () {
 bigdrop.init = function () {
     bigdrop.activate();
     bigdrop.activateMobile();
-    bigdrop.animateMenu();
+    bigdrop.animateMenu.bind();
 
     //enable waves plugin
     if (this.options.enableWavesPlugin) {

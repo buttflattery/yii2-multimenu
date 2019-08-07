@@ -6,7 +6,16 @@ if (typeof jQuery === "undefined") {
 
 let dropup = $.dropup = {};
 dropup.options = {
-    mobileView: true
+    mobileView: true,
+    dropup: {
+        enableTransitionEffects: true,
+        transitionEffect: 'flipInX',
+        transitionDelay: 'faster',
+    },
+    enableWavesPlugin: true,
+    wavesEffect: 'waves-cyan',
+    wavesType: 'default',
+
 };
 
 dropup.activateMobileScript = function () {
@@ -34,6 +43,81 @@ dropup.enableMobileMenu = function () {
             $(".multimenu-dropup-container nav").removeClass('in');
     });
 };
+
+dropup.animateMenu = {
+    bind: function () {
+        let t = 0;
+        let animateMenu = this;
+        //adjust menu left or right according to viewable area
+        $(".multimenu-dropup-container>nav>ul li").on('mouseenter mouseleave', function (e) {
+            e.preventDefault();
+            console.log(this,e.type);
+            if (!$('ul', this).length && e.type == 'mouseenter') {
+                return;
+            }
+            let elm = $('ul:first', this);
+            let effects = [];
+
+            if ($(window).width() > 1200) {
+                //selected effects for menu
+                effects.push('animated', dropup.options.dropup.transitionEffect, dropup.options.dropup.transitionDelay);
+                if (e.type == 'mouseenter') {
+                    e.stopPropagation();
+                    $(elm).addClass('visible');
+                    let off = elm.offset();
+                    let l = off.left;
+                    let w = elm.width();
+
+                    let docH = $(".multimenu-dropup-container").height();
+                    let docW = $(".multimenu-dropup-container").width();
+
+                    let isEntirelyVisible = (l + w <= docW);
+                    if (!isEntirelyVisible) {
+                        $(elm).removeClass(effects.join(' '));
+                        $(elm).addClass('edge-right');
+
+                        //animate the menu and adjust according to viewable port from right
+                        if (dropup.options.dropup.enableTransitionEffects) {
+                            //if not first time then clearTimeout
+                            animateMenu.clearTimeout(t);
+                            t = animateMenu.animateNow(elm, effects);
+                        }
+
+                    } else {
+                        //remove right adjustment
+                        $(elm).removeClass('edge-right');
+
+                        //animate menu if transition enabled
+                        if (dropup.options.dropup.enableTransitionEffects) {
+                            animateMenu.clearTimeout(t);
+                            t = animateMenu.animateNow(elm, effects, 10);
+                        }
+                    }
+                
+                } else {
+                    elm.removeClass('edge-right visible ' + effects.join(' '));
+                }
+            } else {
+
+                effects.push('animated', 'fadeIn', dropup.options.dropup.transitionDelay);
+                //if not first time then clearTimeout
+                animateMenu.clearTimeout(t);
+                t = animateMenu.animateNow(elm, effects, 10);
+            }
+
+        });
+
+    },
+    animateNow: function (elm, effects = ['animated', 'fadeIn', dropup.options.dropup.transitionDelay], delay = 1) {
+        return setTimeout(function () {
+            elm.toggleClass(effects.join(' '));
+        }, delay);
+    },
+    clearTimeout: function (t) {
+        //if not first time then clearTimeout
+        (t > 0) && clearTimeout(t);
+    }
+};
 dropup.init = function () {
 
     if (dropup.options.mobileView) {
@@ -47,6 +131,7 @@ dropup.init = function () {
     //for normal menu
     if ($(window).width() > 960) {
         $('.multimenu-dropup-container nav > ul > li ul').addClass('sub-menu');
+        this.animateMenu.bind();
     } else {
         //activate the mobile script
         this.activateMobileScript();
