@@ -58,23 +58,30 @@ class MultiMenu extends Menu
 
     /**
      * Default options for the multimenu plugin
+     *
+     * @var array|string
      */
     const MULTIMENU_DEFAULTS = [
         'theme' => self::THEME_BIGDROP, //selected theme default
-        'mobileView' => true, //enable mobile view
-        'transitionEffect' => self::ANIMATE_FLIP_IN_X, //transition effect to sho the menu
-        'transitionDelay' => self::ANIMATE_FASTER, // animate speed for the transition
-        'enableWavesPlugin' => true,
-        'wavesEffect' => SELF::WAVES_CYAN,
-        'wavesType' => self::WAVES_TYPE_DEFAULT,
+        'mobileView' => true, //enable mobile view true|false
+        'enableWavesPlugin' => true, //enable the waves effect plugin for links true|false
+        'wavesEffect' => SELF::WAVES_CYAN, //waves effect color
+        'wavesType' => self::WAVES_TYPE_DEFAULT, //waves type circular|default
+        'mobileBreakPoint' => 1200, //default breakpoint for mobile view
         self::THEME_BIGDROP => [
-
+            'enableTransitionEffects' => true, //enable transition effects on the menu
+            'transitionEffect' => self::ANIMATE_FLIP_IN_X, //transition effect to sho the menu
+            'transitionDelay' => self::ANIMATE_FASTER //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
         ],
         self::THEME_DROPUP => [
-
+            'enableTransitionEffects' => true, //enable transition effects on the menu
+            'transitionEffect' => self::ANIMATE_FADE_IN, //transition effect to sho the menu
+            'transitionDelay' => self::ANIMATE_SLOW //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
         ],
         self::THEME_LEFTNAV => [
-
+            'enableTransitionEffects' => true, //enable transition effects on the menu
+            'transitionEffect' => self::ANIMATE_FLIP_IN_X, //transition effect to sho the menu
+            'transitionDelay' => self::ANIMATE_FASTER //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
         ]
     ];
 
@@ -201,7 +208,19 @@ class MultiMenu extends Menu
      */
     public function getPluginOptions()
     {
-        return array_merge(self::MULTIMENU_DEFAULTS, $this->multimenuOptions);
+
+        $allOptions=array_merge(self::MULTIMENU_DEFAULTS, $this->multimenuOptions);
+        return array_filter(
+            $allOptions,
+            function ($val, $key) use ($allOptions) {
+                if (!is_array($val)) {
+                    return true;
+                } elseif (is_array($val) && $key == $allOptions['theme']) {
+                    return true;
+                }
+            },
+            ARRAY_FILTER_USE_BOTH
+        );
     }
 
     /**
@@ -213,14 +232,19 @@ class MultiMenu extends Menu
      */
     public function registerScript($theme)
     {
-        $options = Json::encode($this->getPluginOptions());
-
+        $pluginOptions = $this->getPluginOptions();
+        $options = Json::encode($pluginOptions, true);
         $js = <<<JS
+        //merge options with defaults and load
+        {$theme}.options=extend(true,{$theme}.options,{$options});
 
-        {$theme}.options={...{$theme}.options,...{$options}};
+        //init the theme scripts
         {$theme}.init();
 JS;
+        //get the view
         $view = $this->getView();
+
+        //register script
         $view->registerJs($js, $view::POS_READY);
     }
 
@@ -233,11 +257,9 @@ JS;
      */
     private function _createMenu($theme)
     {
-        $themeSpecificOptions = [
+        $themeSpecificHtml = [
             self::THEME_BIGDROP => function () {
-                $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
-                $this->activateParents = true;
-                $this->hideEmptyItems = false;
+
                 //theme big drop
                 echo Html::beginTag('div', ['class' => 'multimenu-bigdrop-container']);
                 echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse multimenu-bigdrop', 'id' => 'bigdrop-navbar-collapse']);
@@ -247,19 +269,6 @@ JS;
                 echo Html::endTag('div');
             },
             self::THEME_LEFTNAV => function () {
-                $this->options = array_merge_recursive(
-                    $this->options,
-                    [
-                        'class' => 'list',
-                        'style' => 'overflow: hidden; width: inherit; height:inherit'
-                    ]
-                );
-
-                $this->encodeLabels = false;
-                $this->labelTemplate = '<a href="#."><i class="material-icons">donut_large</i><span>{label}</span></a>';
-                $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
-                $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
-
                 echo Html::beginTag('div', ['class' => 'leftnav-container', 'id' => 'leftsidebar']);
                 echo Html::beginTag('div', ['class' => 'leftnav']);
                 //call the parent
@@ -269,12 +278,6 @@ JS;
                 echo Html::tag('div', '', ['class' => 'overlay']);
             },
             self::THEME_DROPUP => function () {
-                $this->options = array_merge_recursive(
-                    $this->options,
-                    [
-                        'class' => 'multimenu-dropup'
-                    ]
-                );
 
                 echo Html::beginTag('div', ['class' => 'multimenu-dropup-container']);
                 echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse', 'id' => 'navbar-collapse']);
@@ -285,7 +288,30 @@ JS;
             }
         ];
 
-        isset($themeSpecificOptions[$theme]) && $themeSpecificOptions[$theme]();
+        isset($themeSpecificHtml[$theme]) && $themeSpecificHtml[$theme]();
+    }
+
+    /**
+     * Compares the user supplied options with default
+     *
+     * @return array
+     */
+    private function _checkOptions()
+    {
+        $invalidOptions = [];
+        foreach ($this->multimenuOptions as $userOptionsKey => $userOptionsValue) {
+            if (!array_key_exists($userOptionsKey, self::MULTIMENU_DEFAULTS)) {
+                $invalidOptions[$userOptionsKey] = $userOptionsValue;
+            } else if (is_array($userOptionsValue)) {
+                foreach ($userOptionsValue as $option => $value) {
+                    $themeOptions = self::MULTIMENU_DEFAULTS[$userOptionsKey];
+                    if (!array_key_exists($option, $themeOptions)) {
+                        $invalidOptions[$option] = $value;
+                    }
+                }
+            }
+        }
+        return $invalidOptions;
     }
 
     /**
@@ -298,9 +324,45 @@ JS;
     private function _setDefaults()
     {
         //checks for any invalid options provided for the plugin
-        if (!empty($invalidOptions = array_diff_key($this->multimenuOptions, self::MULTIMENU_DEFAULTS))) {
-            throw new CfgException("Invalid multimenuOptions provided see below \n\n" . Json::encode($invalidOptions));
+        if (!empty($invalid = $this->_checkOptions())) {
+            throw new CfgException("Invalid multimenuOptions provided see below \n\n" . Json::encode($invalid));
         }
+
+        //get selected theme
+        $theme = $this->getPluginOptions()['theme'];
+
+        //theme default options
+        $themeSpecificOptions = [
+            self::THEME_BIGDROP => function () {
+                $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
+                $this->activateParents = true;
+                $this->hideEmptyItems = false;
+            },
+            self::THEME_DROPUP => function () {
+                $this->options = array_merge_recursive(
+                    $this->options,
+                    [
+                        'class' => 'multimenu-dropup'
+                    ]
+                );
+            },
+            self::THEME_LEFTNAV => function () {
+                $this->options = array_merge_recursive(
+                    $this->options,
+                    [
+                        'class' => 'list',
+                        'style' => 'overflow: hidden; width: inherit; height:inherit'
+                    ]
+                );
+                $this->encodeLabels = false;
+                $this->labelTemplate = '<a href="#."><i class="material-icons">donut_large</i><span>{label}</span></a>';
+                $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
+                $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
+
+            }
+        ];
+        //load theme defaults
+        isset($themeSpecificOptions[$theme]) && $themeSpecificOptions[$theme]();
 
         //is bs4 version
         $isBs4 = class_exists(BS4Asset::class);
