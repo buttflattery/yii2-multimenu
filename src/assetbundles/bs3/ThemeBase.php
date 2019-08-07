@@ -35,7 +35,8 @@ class ThemeBase extends AssetBundle
      */
     public $js = [
         'waves.js',
-        'modernizer.js'
+        'modernizer.js',
+        'merge-helper.js'
     ];
 
     /**
