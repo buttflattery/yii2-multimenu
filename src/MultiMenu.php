@@ -55,7 +55,7 @@ class MultiMenu extends Menu
      * @var array
      */
     public $multimenuOptions = [];
-
+    
     /**
      * Default options for the multimenu plugin
      *

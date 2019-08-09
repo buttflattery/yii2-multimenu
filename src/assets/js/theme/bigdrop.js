@@ -8,6 +8,7 @@ let bigdrop = $.bigdrop = {};
 
 bigdrop.options = {
     mobileView: true,
+    mobileBreakPoint: 1200,
     bigdrop: {
         enableTransitionEffects: true,
         transitionEffect: 'flipInX',
@@ -38,22 +39,23 @@ bigdrop.activate = function () {
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
         if ($(e.target).parents('.multimenu-bigdrop').length === 0)
-            $(".multimenu-bigdrop > ul").removeClass('in');
+            $(".multimenu-bigdrop-container nav").removeClass('in');
     });
 
 };
 bigdrop.activateMobile = function () {
     $(".multimenu-bigdrop>ul li").on('click', function (e) {
-        if ($(window).width() < 1200) {
+        if ($(window).width() < bigdrop.options.mobileBreakPoint) {
             e.stopPropagation();
-
             var thisMenu = $(this).children("ul");
             var prevState = thisMenu.css('display');
 
             if (prevState == 'none') {
-                thisMenu.css('display', 'block');
+                let effects = ['visible'];
+                bigdrop.animateMenu.animateNow(thisMenu, effects, 10);
+                //thisMenu.addClass('visible');
             } else {
-                thisMenu.css('display', 'none');
+                thisMenu.removeClass('visible');
             }
 
         }
@@ -74,10 +76,12 @@ bigdrop.animateMenu = {
             let elm = $('ul:first', this);
             let effects = [];
 
-            if ($(window).width() > 1200) {
+            if ($(window).width() > bigdrop.options.mobileBreakPoint) {
+
                 //selected effects for menu
                 effects.push('animated', bigdrop.options.bigdrop.transitionEffect, bigdrop.options.bigdrop.transitionDelay);
                 if (e.type == 'mouseenter') {
+                    e.stopPropagation();
                     $(elm).addClass('visible');
                     let off = elm.offset();
                     let l = off.left;
@@ -115,14 +119,8 @@ bigdrop.animateMenu = {
                         }
                     }
                 } else {
-                    e.stopPropagation();
                     elm.removeClass('edge-right visible ' + effects.join(' '));
                 }
-            } else {
-                effects.push('animated', 'fadeIn', bigdrop.options.bigdrop.transitionDelay);
-                //if not first time then clearTimeout
-                animateMenu.clearTimeout(t);
-                t = animateMenu.animateNow(elm, effects, 10);
             }
 
         });

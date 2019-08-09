@@ -7,6 +7,7 @@ if (typeof jQuery === "undefined") {
 let dropup = $.dropup = {};
 dropup.options = {
     mobileView: true,
+    mobileBreakPoint: 1200,
     dropup: {
         enableTransitionEffects: true,
         transitionEffect: 'flipInX',
@@ -22,15 +23,16 @@ dropup.activateMobileScript = function () {
     this.bindMenuNavigation();
 };
 dropup.bindMenuNavigation = function () {
+    let effects=['visible'];
     $(".multimenu-dropup-container nav >ul li").on('click', function (e) {
-        if ($(window).width() < 943) {
+        if ($(window).width() < dropup.options.mobileBreakPoint) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
             var prevState = thisMenu.css('display');
             if (prevState == 'none') {
-                thisMenu.css('display', 'block');
+                dropup.animateMenu.animateNow(thisMenu,effects,5);
             } else {
-                thisMenu.css('display', 'none');
+                thisMenu.removeClass(effects.join(' '));
             }
         }
     });
@@ -48,17 +50,18 @@ dropup.animateMenu = {
     bind: function () {
         let t = 0;
         let animateMenu = this;
+
         //adjust menu left or right according to viewable area
         $(".multimenu-dropup-container>nav>ul li").on('mouseenter mouseleave', function (e) {
             e.preventDefault();
-            console.log(this,e.type);
+
             if (!$('ul', this).length && e.type == 'mouseenter') {
                 return;
             }
             let elm = $('ul:first', this);
             let effects = [];
 
-            if ($(window).width() > 1200) {
+            if ($(window).width() > dropup.options.mobileBreakPoint) {
                 //selected effects for menu
                 effects.push('animated', dropup.options.dropup.transitionEffect, dropup.options.dropup.transitionDelay);
                 if (e.type == 'mouseenter') {
@@ -93,20 +96,18 @@ dropup.animateMenu = {
                             t = animateMenu.animateNow(elm, effects, 10);
                         }
                     }
-                
+
                 } else {
                     elm.removeClass('edge-right visible ' + effects.join(' '));
                 }
             } else {
-
+                console.log('here');
                 effects.push('animated', 'fadeIn', dropup.options.dropup.transitionDelay);
                 //if not first time then clearTimeout
                 animateMenu.clearTimeout(t);
                 t = animateMenu.animateNow(elm, effects, 10);
             }
-
         });
-
     },
     animateNow: function (elm, effects = ['animated', 'fadeIn', dropup.options.dropup.transitionDelay], delay = 1) {
         return setTimeout(function () {
@@ -118,6 +119,14 @@ dropup.animateMenu = {
         (t > 0) && clearTimeout(t);
     }
 };
+dropup.addWavesEffect = function () {
+    let effectType = this.options.wavesType == 'default' ? '' : this.options.wavesType;
+    let config = ['waves-effect', effectType, this.options.wavesEffect];
+
+    //Set Waves
+    Waves.attach('.multimenu-dropup a', config);
+    Waves.init();
+}
 dropup.init = function () {
 
     if (dropup.options.mobileView) {
@@ -129,18 +138,29 @@ dropup.init = function () {
     $(".multimenu-dropup-container  li:has( > ul)").addClass("has-children");
 
     //for normal menu
-    if ($(window).width() > 960) {
+    if ($(window).width() > dropup.options.mobileBreakPoint) {
         $('.multimenu-dropup-container nav > ul > li ul').addClass('sub-menu');
         this.animateMenu.bind();
     } else {
         //activate the mobile script
         this.activateMobileScript();
     }
-
+    window.onresize = function (event) {
+        //for normal menu
+        if ($(window).width() > dropup.options.mobileBreakPoint) {
+            $('.multimenu-dropup-container nav > ul > li ul').addClass('sub-menu');
+            dropup.animateMenu.bind();
+        } else {
+            //activate the mobile script
+            dropup.activateMobileScript();
+        }
+    };
     //enable the mobile menu anchor
     this.enableMobileMenu();
 
-    //Set Waves
-    Waves.attach('.multimenu-dropup a', ['waves-block']);
-    Waves.init();
+    //add waves effect
+    if (dropup.options.enableWavesPlugin) {
+        this.addWavesEffect();
+    }
+
 };

@@ -111,7 +111,7 @@
 }
 
 .multimenu-bigdrop>ul>li>ul>li a {
-    color: #777;
+    color: #fff;
     padding: 1em 0.3em;
     width: 95%;
     display: block;
@@ -184,7 +184,7 @@
     justify-content: left;
 }
 
-.visible {
+.multimenu-bigdrop-container .visible {
     opacity: 1 !important;
     display: block !important;
 }
