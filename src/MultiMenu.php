@@ -12,6 +12,7 @@
 
 namespace buttflattery\multimenu;
 
+use Yii;
 use yii\base\InvalidArgumentException as ArgException;
 use yii\base\InvalidConfigException as CfgException;
 use yii\bootstrap4\BootstrapAsset as BS4Asset;
@@ -50,12 +51,47 @@ class MultiMenu extends Menu
     public $mobileView = true;
 
     /**
-     * Array of options for the plugin
+     * Array of options for the plugin, see the constant array
+     * MULTIMENU_DEFAULTS for the set of options you can pass into this
      *
      * @var array
      */
     public $multimenuOptions = [];
-    
+
+    /**
+     * The text of the brand or false if it's not used. Note that this is not HTML-encoded.
+     *
+     * @var string|bool
+     * @see https://getbootstrap.com/docs/3.3/components/#navbar
+     */
+    public $brandLabel = false;
+
+    /**
+     * Src of the brand image or false if it's not used. Note that this param will override `$this->brandLabel` param.
+     *
+     * @var string|bool
+     * @see https://getbootstrap.com/docs/3.3/components/#navbar
+     */
+    public $brandImage = false;
+
+    /**
+     * The URL for the brand's hyperlink tag. This parameter will be processed by [[\yii\helpers\Url::to()]]
+     * and will be used for the "href" attribute of the brand link. Default value is false that means
+     * [[\yii\web\Application::homeUrl]] will be used.
+     * You may set it to `null` if you want to have no link at all.
+     *
+     * @var array|string|bool
+     */
+    public $brandUrl = false;
+
+    /**
+     * The HTML attributes of the brand link.
+     *
+     * @var array
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $brandOptions = [];
+
     /**
      * Default options for the multimenu plugin
      *
@@ -139,7 +175,7 @@ class MultiMenu extends Menu
     const WAVES_TYPE_DEFAULT = 'default';
 
     const WAVES_LIGHT = 'waves-light';
-    const WAVES_RED = ' waves-red';
+    const WAVES_RED = 'waves-red';
     const WAVES_PINK = 'waves-pink';
     const WAVES_PURPLE = 'waves-purple';
     const WAVES_DEEP_PURPLE = 'waves-deep-purple';
@@ -209,7 +245,7 @@ class MultiMenu extends Menu
     public function getPluginOptions()
     {
 
-        $allOptions=array_merge(self::MULTIMENU_DEFAULTS, $this->multimenuOptions);
+        $allOptions = array_merge(self::MULTIMENU_DEFAULTS, $this->multimenuOptions);
         return array_filter(
             $allOptions,
             function ($val, $key) use ($allOptions) {
@@ -262,11 +298,15 @@ JS;
 
                 //theme big drop
                 echo Html::beginTag('div', ['class' => 'multimenu-bigdrop-container']);
-                echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse multimenu-bigdrop', 'id' => 'bigdrop-navbar-collapse']);
+                echo Html::beginTag('nav', ['class' => 'multimenu-bigdrop']);
+                echo Html::beginTag('div', ['class' => 'container-fluid']);
+                $this->_addBrand();
                 //call the parent
                 parent::run();
+                echo Html::endTag('div');
                 echo Html::endTag('nav');
                 echo Html::endTag('div');
+
             },
             self::THEME_LEFTNAV => function () {
                 echo Html::beginTag('div', ['class' => 'leftnav-container', 'id' => 'leftsidebar']);
@@ -280,15 +320,32 @@ JS;
             self::THEME_DROPUP => function () {
 
                 echo Html::beginTag('div', ['class' => 'multimenu-dropup-container']);
-                echo Html::beginTag('nav', ['class' => 'collapse navbar-collapse', 'id' => 'navbar-collapse']);
+                echo Html::beginTag('nav', ['class' => 'navbar navbar-fixed-bottom']);
+                echo Html::beginTag('div', ['class' => 'container-fluid']);
+                $this->_addBrand();
                 //call the parent
                 parent::run();
+                echo Html::endtag('div');
                 echo Html::endTag('nav');
                 echo Html::endTag('div');
             }
         ];
 
         isset($themeSpecificHtml[$theme]) && $themeSpecificHtml[$theme]();
+    }
+
+    private function _addBrand()
+    {
+        //add the brand options
+        if ($this->brandImage !== false) {
+            $this->brandLabel = Html::img($this->brandImage);
+        }
+        if ($this->brandLabel !== false) {
+            Html::addCssClass($this->brandOptions, ['widget' => 'navbar-brand']);
+            echo Html::beginTag('div', ['class' => 'navbar-header']);
+            echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
+            echo Html::endTag('div');
+        }
     }
 
     /**
@@ -337,12 +394,18 @@ JS;
                 $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
                 $this->activateParents = true;
                 $this->hideEmptyItems = false;
+                $this->options = array_merge_recursive(
+                    $this->options, [
+                        'class' => 'collapse navbar navbar-collapse',
+                        'id' => 'bigdrop-navbar-collapse'
+                    ]
+                );
             },
             self::THEME_DROPUP => function () {
                 $this->options = array_merge_recursive(
                     $this->options,
                     [
-                        'class' => 'multimenu-dropup'
+                        'class' => 'collapse navbar-collapse multimenu-dropup', 'id' => 'navbar-collapse'
                     ]
                 );
             },

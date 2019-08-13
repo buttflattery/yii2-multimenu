@@ -24,7 +24,7 @@ dropup.activateMobileScript = function () {
 };
 dropup.bindMenuNavigation = function () {
     let effects=['visible'];
-    $(".multimenu-dropup-container nav >ul li").on('click', function (e) {
+    $(".multimenu-dropup-container nav > div > ul li").on('click', function (e) {
         if ($(window).width() < dropup.options.mobileBreakPoint) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
@@ -41,8 +41,9 @@ dropup.bindMenuNavigation = function () {
 dropup.enableMobileMenu = function () {
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
+        
         if ($(e.target).closest('.multimenu-dropup-container').length === 0)
-            $(".multimenu-dropup-container nav").removeClass('in');
+            $(".multimenu-dropup-container .navbar-collapse").removeClass('in');
     });
 };
 
@@ -52,7 +53,7 @@ dropup.animateMenu = {
         let animateMenu = this;
 
         //adjust menu left or right according to viewable area
-        $(".multimenu-dropup-container>nav>ul li").on('mouseenter mouseleave', function (e) {
+        $(".multimenu-dropup-container>nav>div>ul li").on('mouseenter mouseleave', function (e) {
             e.preventDefault();
 
             if (!$('ul', this).length && e.type == 'mouseenter') {
@@ -131,7 +132,7 @@ dropup.init = function () {
 
     if (dropup.options.mobileView) {
         //adds the bars icon for the mobile
-        $(".multimenu-dropup-container nav").before("<a href=\"#\" class=\"dropup-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\" aria-expanded=\"false\">Navigation</a>");
+        $(".multimenu-dropup-container nav .container-fluid").before("<a href=\"#\" class=\"dropup-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\" aria-expanded=\"false\"></a>");
     }
 
     //adds class to li if it has child ul
@@ -139,7 +140,7 @@ dropup.init = function () {
 
     //for normal menu
     if ($(window).width() > dropup.options.mobileBreakPoint) {
-        $('.multimenu-dropup-container nav > ul > li ul').addClass('sub-menu');
+        $('.multimenu-dropup-container nav > div > ul > li ul').addClass('sub-menu');
         this.animateMenu.bind();
     } else {
         //activate the mobile script
@@ -148,7 +149,7 @@ dropup.init = function () {
     window.onresize = function (event) {
         //for normal menu
         if ($(window).width() > dropup.options.mobileBreakPoint) {
-            $('.multimenu-dropup-container nav > ul > li ul').addClass('sub-menu');
+            $('.multimenu-dropup-container nav > div > ul > li ul').addClass('sub-menu');
             dropup.animateMenu.bind();
         } else {
             //activate the mobile script

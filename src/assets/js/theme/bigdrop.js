@@ -20,10 +20,10 @@ bigdrop.options = {
 };
 bigdrop.activate = function () {
     //checks if a normal submenu
-    $('.multimenu-bigdrop > ul > li > ul:not(:has(ul))').addClass('normal-sub');
+    $('.multimenu-bigdrop > div > .navbar > li > ul:not(:has(ul))').addClass('normal-sub');
 
     //checks if needs to be a bigdrop
-    $('.multimenu-bigdrop > ul > li > ul:has(ul)').addClass('bigdrop-sub');
+    $('.multimenu-bigdrop > div > .navbar > li > ul:has(ul)').addClass('bigdrop-sub');
 
     //checks if its higher than 3rd level
     $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
@@ -33,18 +33,18 @@ bigdrop.activate = function () {
 
     if (this.options.mobileView) {
         //adds the bars icon for the mobile
-        $(".multimenu-bigdrop").before("<a href=\"#\" class=\"bigdrop-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bigdrop-navbar-collapse\" aria-expanded=\"false\"></a>");
+        $(".multimenu-bigdrop div.container-fluid").before("<a href=\"#\" class=\"bigdrop-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bigdrop-navbar-collapse\" aria-expanded=\"false\"></a>");
     }
 
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
         if ($(e.target).parents('.multimenu-bigdrop').length === 0)
-            $(".multimenu-bigdrop-container nav").removeClass('in');
+            $(".multimenu-bigdrop-container .navbar").removeClass('in');
     });
 
 };
 bigdrop.activateMobile = function () {
-    $(".multimenu-bigdrop>ul li").on('click', function (e) {
+    $(".multimenu-bigdrop>div>.navbar li").on('click', function (e) {
         if ($(window).width() < bigdrop.options.mobileBreakPoint) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
