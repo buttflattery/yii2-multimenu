@@ -27,7 +27,8 @@ class ThemeDropUpAsset extends ThemeBase
         //add css theme files
         array_push(
             $this->css,
-            'css/theme/dropup.css'
+            'css/theme/dropup.css',
+            'css/theme/dropup.bs4.css'
         );
     }
 }
