@@ -1,0 +1,29 @@
+
+.navbar{
+    min-height: 50px;
+}
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+body{
+    line-height: 1.42857143 !important;
+}
+
+@media (min-width: 768px){
+    .multimenu-bigdrop .navbar-header {
+        float: left;
+    }
+}
+
+@media only screen and (min-width: 1201px) {
+    .multimenu-bigdrop .navbar-collapse.collapse {
+        display: inline-block !important;
+    }
+    .multimenu-bigdrop div.container-fluid .navbar>li.has-children>a:first-child::after {
+        font-size: inherit !important;
+    }
+}

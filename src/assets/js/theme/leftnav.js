@@ -73,16 +73,26 @@ leftnav.browser = {
  */
 leftnav.options = {
     mobileView: false,
-    leftSideBar: {
-        scrollColor: 'rgba(0,0,0,0.5)',
-        scrollWidth: '4px',
-        scrollAlwaysVisible: false,
-        scrollBorderRadius: '0',
-        scrollRailBorderRadius: '0',
-        scrollActiveItemWhenPageLoad: true,
-        breakpointWidth: 1170
+    mobileBreakPoint: 1200,
+    enableWavesPlugin: true,
+    wavesEffect: 'waves-cyan',
+    wavesType: 'default',
+    leftnav: {
+        position:'default',
+        enableTransitionEffects: true,
+        transitionEffect: 'flipInX',
+        transitionDelay: 'faster',
+        slimScroll: {
+            scrollColor: 'rgba(0,0,0,0.5)',
+            scrollWidth: '4px',
+            scrollAlwaysVisible: false,
+            scrollBorderRadius: '0',
+            scrollRailBorderRadius: '0',
+            scrollActiveItemWhenPageLoad: true,
+        }
     },
 };
+
 leftnav.leftSideBar = {
     activate: function () {
 
@@ -106,9 +116,9 @@ leftnav.leftSideBar = {
 
         if (leftnav.options.mobileView) {
             //adds the bars icon for the mobile
-            $(".leftnav-container").before("<a href=\"javascript:void(0)\" class=\"bars\"></a>");
+            $(".leftnav-container").before("<a href=\"javascript:void(0)\" class=\"leftnav-mobileview bars\"></a>");
         }
-        
+
         //add menu-toggled class to all the parent li
         $(".leftnav .list li:has(ul.ml-menu)").each(function (index, item) {
 
@@ -156,15 +166,24 @@ leftnav.leftSideBar = {
             _this.checkStatuForResize(false);
         });
 
+        if (leftnav.options.enableWavesPlugin) {
+            this.addWaveseffect();
+        }
+
+    },
+    addWaveseffect: function () {
+        let effectType = leftnav.options.wavesType == 'default' ? '' : leftnav.options.wavesType;
+        let config = ['waves-effect', effectType, leftnav.options.wavesEffect];
         //Set Waves
-        Waves.attach('.leftnav .list a', ['waves-block']);
+        Waves.attach('.leftnav .list a', config);
         Waves.init();
     },
     setMenuHeight: function (isFirstTime) {
+
         if (typeof $.fn.slimScroll != 'undefined') {
 
-            var configs = leftnav.options.leftSideBar;
-            var height = $(window).height()/2;
+            var configs = leftnav.options.leftnav.slimScroll;
+            var height = $(window).height() *(0.85);
             var $el = $('.list');
 
             if (!isFirstTime) {
@@ -172,7 +191,6 @@ leftnav.leftSideBar = {
                     destroy: true
                 });
             }
-
 
             $el.slimscroll({
                 height: height + "px",
@@ -183,7 +201,7 @@ leftnav.leftSideBar = {
                 railBorderRadius: configs.scrollRailBorderRadius
             });
             //Scroll active menu item when page load, if option set = true
-            if (leftnav.options.leftSideBar.scrollActiveItemWhenPageLoad) {
+            if (leftnav.options.leftnav.slimScroll.scrollActiveItemWhenPageLoad) {
                 if ($('.leftnav .list li.active')[0]) {
                     var activeItemOffsetTop = $('.leftnav .list li.active')[0].offsetTop;
                     if (activeItemOffsetTop > 150) {
@@ -206,7 +224,7 @@ leftnav.leftSideBar = {
             });
         }
 
-        if (width < leftnav.options.leftSideBar.breakpointWidth) {
+        if (width < leftnav.options.mobileBreakPoint) {
             $body.addClass('ls-closed');
             $openCloseBar.fadeIn();
         } else {
@@ -250,6 +268,6 @@ leftnav.navbar = {
 
 leftnav.init = function () {
     this.leftSideBar.activate();
-    leftnav.navbar.activate();
-    leftnav.browser.activate();
+    this.navbar.activate();
+    this.browser.activate();
 }

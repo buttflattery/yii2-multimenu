@@ -13,13 +13,16 @@
 namespace buttflattery\multimenu;
 
 use Yii;
-use yii\base\InvalidArgumentException as ArgException;
-use yii\base\InvalidConfigException as CfgException;
-use yii\bootstrap4\BootstrapAsset as BS4Asset;
-use yii\helpers\ArrayHelper;
+use Exception;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\widgets\Menu;
+use RecursiveArrayIterator;
+use yii\helpers\ArrayHelper;
+use RecursiveIteratorIterator;
+use yii\bootstrap4\BootstrapAsset as BS4Asset;
+use yii\base\InvalidConfigException as CfgException;
+use yii\base\InvalidArgumentException as ArgException;
 
 /**
  * A yii2 widget to create multiple style menus either top navigation menu or side navigation
@@ -93,33 +96,74 @@ class MultiMenu extends Menu
     public $brandOptions = [];
 
     /**
+     * The Container HTML options
+     *
+     * @var array
+     */
+    public $containerCssClasses = [];
+
+    /**
+     * Adds a search form in the navigation
+     *
+     * @var mixed
+     */
+    public $enableSearch = false;
+
+    /**
+     * @var string
+     */
+    public $searchFormContent = '';
+
+    /**
+     * @var string
+     */
+    public $layoutTemplate = "{brand}{multimenu}{search}";
+
+    /**
      * Default options for the multimenu plugin
      *
      * @var array|string
      */
     const MULTIMENU_DEFAULTS = [
-        'theme' => self::THEME_BIGDROP, //selected theme default
-        'mobileView' => true, //enable mobile view true|false
-        'enableWavesPlugin' => true, //enable the waves effect plugin for links true|false
-        'wavesEffect' => SELF::WAVES_CYAN, //waves effect color
+        'theme' => self::THEME_BIGDROP,          //selected theme default
+        'themeColorFile' => '',                  //color option to use for the navigation
+        'mobileView' => true,                    //enable mobile view true|false
+        'enableWavesPlugin' => true,             //enable the waves effect plugin for links true|false
+        'wavesEffect' => SELF::WAVES_CYAN,       //waves effect color
         'wavesType' => self::WAVES_TYPE_DEFAULT, //waves type circular|default
-        'mobileBreakPoint' => 1200, //default breakpoint for mobile view
+        'mobileBreakPoint' => 1200,              //default breakpoint for mobile view,
         self::THEME_BIGDROP => [
-            'enableTransitionEffects' => true, //enable transition effects on the menu
+            'enableTransitionEffects' => true,             //enable transition effects on the menu
             'transitionEffect' => self::ANIMATE_FLIP_IN_X, //transition effect to sho the menu
-            'transitionDelay' => self::ANIMATE_FASTER //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
+            'transitionDelay' => self::ANIMATE_FASTER,     //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
         ],
         self::THEME_DROPUP => [
-            'enableTransitionEffects' => true, //enable transition effects on the menu
+            'enableTransitionEffects' => true,           //enable transition effects on the menu
             'transitionEffect' => self::ANIMATE_FADE_IN, //transition effect to sho the menu
-            'transitionDelay' => self::ANIMATE_SLOW //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
+            'transitionDelay' => self::ANIMATE_SLOW,     //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
         ],
         self::THEME_LEFTNAV => [
-            'enableTransitionEffects' => true, //enable transition effects on the menu
+            'position' => self::LEFT_NAV_DEFAULT,
+            'enableTransitionEffects' => true,             //enable transition effects on the menu
             'transitionEffect' => self::ANIMATE_FLIP_IN_X, //transition effect to sho the menu
-            'transitionDelay' => self::ANIMATE_FASTER //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
-        ]
+            'transitionDelay' => self::ANIMATE_FASTER,     //animate speed for the transition "fast"|"faster"|"slow"|"slower"|""
+            'slimScroll' => [
+                'scrollColor' => 'rgba(0,0,0,0.8)',
+                'scrollWidth' => '4px',
+                'scrollAlwaysVisible' => false,
+                'scrollBorderRadius' => '0',
+                'scrollRailBorderRadius' => '0',
+                'scrollActiveItemWhenPageLoad' => true,
+            ],
+        ],
     ];
+
+    /**
+     * Constants for left nav position
+     */
+    const LEFT_NAV_FIXED = 'fixed';
+    const LEFT_NAV_ABSOLUTE = 'absolute';
+    const LEFT_NAV_DEFAULT = 'default';
 
     /**
      * Supported Transition effects by animate.css https://daneden.github.io/animate.css/
@@ -211,7 +255,7 @@ class MultiMenu extends Menu
     protected $themesSupported = [
         self::THEME_BIGDROP => 'BigDrop',
         self::THEME_LEFTNAV => 'LeftNav',
-        self::THEME_DROPUP => 'DropUp'
+        self::THEME_DROPUP => 'DropUp',
     ];
 
     /**
@@ -238,25 +282,64 @@ class MultiMenu extends Menu
     }
 
     /**
+     * @return mixed
+     */
+    private function _arrayMergeRecursive()
+    {
+
+        if (func_num_args() < 2) {
+            trigger_error(__FUNCTION__ . ' needs two or more array arguments', E_USER_WARNING);
+            return;
+        }
+        $arrays = func_get_args();
+        $merged = array();
+        while ($arrays) {
+            $array = array_shift($arrays);
+            if (!is_array($array)) {
+                trigger_error(__FUNCTION__ . ' encountered a non array argument', E_USER_WARNING);
+                return;
+            }
+            if (!$array) {
+                continue;
+            }
+
+            foreach ($array as $key => $value) {
+                if (is_string($key)) {
+                    if (is_array($value) && array_key_exists($key, $merged) && is_array($merged[$key])) {
+                        $merged[$key] = $this->_arrayMergeRecursive($merged[$key], $value);
+                    } else {
+                        $merged[$key] = $value;
+                    }
+                } else {
+                    $merged[] = $value;
+                }
+            }
+
+        }
+        return $merged;
+    }
+
+    /**
      * Returns the plugin options
      *
      * @return array options
      */
-    public function getPluginOptions()
+    public function getPluginOptions($optionName = null)
     {
 
-        $allOptions = array_merge(self::MULTIMENU_DEFAULTS, $this->multimenuOptions);
-        return array_filter(
-            $allOptions,
-            function ($val, $key) use ($allOptions) {
-                if (!is_array($val)) {
-                    return true;
-                } elseif (is_array($val) && $key == $allOptions['theme']) {
-                    return true;
+        $allOptions = $this->_arrayMergeRecursive(self::MULTIMENU_DEFAULTS, $this->multimenuOptions);
+
+        if (null !== $optionName) {
+            $arrIt = new RecursiveIteratorIterator(new RecursiveArrayIterator($allOptions));
+            foreach ($arrIt as $key => $sub) {
+                if ($key == $optionName) {
+                    return $sub;
                 }
-            },
-            ARRAY_FILTER_USE_BOTH
-        );
+            }
+            throw new Exception("Unknown option name $optionName");
+        } else {
+            return $allOptions;
+        }
     }
 
     /**
@@ -295,21 +378,47 @@ JS;
     {
         $themeSpecificHtml = [
             self::THEME_BIGDROP => function () {
+                $containerOptions = [
+                    'class' => 'multimenu-bigdrop-container',
+                ];
+
+                //add the custom classes to the container
+                Html::addCssClass($containerOptions, $this->containerCssClasses);
 
                 //theme big drop
-                echo Html::beginTag('div', ['class' => 'multimenu-bigdrop-container']);
+                echo Html::beginTag('div', $containerOptions);
                 echo Html::beginTag('nav', ['class' => 'multimenu-bigdrop']);
                 echo Html::beginTag('div', ['class' => 'container-fluid']);
-                $this->_addBrand();
+
+                //add the brand section
+                $this->addBrand();
+
+                
                 //call the parent
                 parent::run();
+                
                 echo Html::endTag('div');
                 echo Html::endTag('nav');
                 echo Html::endTag('div');
 
             },
             self::THEME_LEFTNAV => function () {
-                echo Html::beginTag('div', ['class' => 'leftnav-container', 'id' => 'leftsidebar']);
+
+                $containerOptions = [
+                    'class' => 'leftnav-container',
+                    'id' => 'leftsidebar',
+                ];
+
+                //add the custom classes to the container
+                Html::addCssClass($containerOptions, $this->containerCssClasses);
+                $position = $this->getPluginOptions('position');
+
+                if ($position !== 'default') {
+                    Html::addCssClass($containerOptions, 'container-' . $position);
+                }
+
+                echo Html::beginTag('div', $containerOptions);
+                $this->addBrand();
                 echo Html::beginTag('div', ['class' => 'leftnav']);
                 //call the parent
                 parent::run();
@@ -318,23 +427,34 @@ JS;
                 echo Html::tag('div', '', ['class' => 'overlay']);
             },
             self::THEME_DROPUP => function () {
+                $containerOptions = [
+                    'class' => 'multimenu-dropup-container',
+                ];
 
-                echo Html::beginTag('div', ['class' => 'multimenu-dropup-container']);
+                //add the custom classes to the container
+                Html::addCssClass($containerOptions, $this->containerCssClasses);
+
+                echo Html::beginTag('div', $containerOptions);
                 echo Html::beginTag('nav', ['class' => 'navbar navbar-fixed-bottom']);
                 echo Html::beginTag('div', ['class' => 'container-fluid']);
-                $this->_addBrand();
+                $this->addBrand();
                 //call the parent
                 parent::run();
                 echo Html::endtag('div');
                 echo Html::endTag('nav');
                 echo Html::endTag('div');
-            }
+            },
         ];
 
         isset($themeSpecificHtml[$theme]) && $themeSpecificHtml[$theme]();
     }
 
-    private function _addBrand()
+    /**
+     * Adds the brand section for the nav
+     *
+     * @return null
+     */
+    public function addBrand()
     {
         //add the brand options
         if ($this->brandImage !== false) {
@@ -342,10 +462,23 @@ JS;
         }
         if ($this->brandLabel !== false) {
             Html::addCssClass($this->brandOptions, ['widget' => 'navbar-brand']);
-            echo Html::beginTag('div', ['class' => 'navbar-header']);
-            echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
-            echo Html::endTag('div');
+
+            
+                return $this->_bs3Brand();
+            
         }
+    }
+
+    private function _bs4Brand()
+    {
+        echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
+    }
+
+    private function _bs3Brand()
+    {
+        echo Html::beginTag('div', ['class' => 'navbar-header']);
+        echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
+        echo Html::endTag('div');
     }
 
     /**
@@ -355,20 +488,38 @@ JS;
      */
     private function _checkOptions()
     {
+        $userOptions = $this->getAllOptions($this->multimenuOptions);
+        $defaultOptions = $this->getAllOptions(self::MULTIMENU_DEFAULTS);
         $invalidOptions = [];
-        foreach ($this->multimenuOptions as $userOptionsKey => $userOptionsValue) {
-            if (!array_key_exists($userOptionsKey, self::MULTIMENU_DEFAULTS)) {
-                $invalidOptions[$userOptionsKey] = $userOptionsValue;
-            } else if (is_array($userOptionsValue)) {
-                foreach ($userOptionsValue as $option => $value) {
-                    $themeOptions = self::MULTIMENU_DEFAULTS[$userOptionsKey];
-                    if (!array_key_exists($option, $themeOptions)) {
-                        $invalidOptions[$option] = $value;
-                    }
-                }
+
+        foreach ($userOptions as $option) {
+            if (!in_array($option, $defaultOptions)) {
+                $invalidOptions[] = $option;
             }
         }
         return $invalidOptions;
+    }
+
+    /**
+     * Extracts all the keys from the associative array as option names
+     *
+     * @param array $options the options array
+     *
+     * @return array $options
+     */
+    public function getAllOptions($options)
+    {
+        $optionsName = [];
+        foreach ($options as $key => $val) {
+
+            if (!is_array($val)) {
+                $optionsName[] = $key;
+            } else {
+                $subOptions = $this->getAllOptions($val);
+                $optionsName = array_merge($optionsName, $subOptions);
+            }
+        }
+        return $optionsName;
     }
 
     /**
@@ -386,7 +537,7 @@ JS;
         }
 
         //get selected theme
-        $theme = $this->getPluginOptions()['theme'];
+        $theme = $this->getPluginOptions('theme');
 
         //theme default options
         $themeSpecificOptions = [
@@ -397,7 +548,7 @@ JS;
                 $this->options = array_merge_recursive(
                     $this->options, [
                         'class' => 'collapse navbar navbar-collapse',
-                        'id' => 'bigdrop-navbar-collapse'
+                        'id' => 'bigdrop-navbar-collapse',
                     ]
                 );
             },
@@ -405,7 +556,7 @@ JS;
                 $this->options = array_merge_recursive(
                     $this->options,
                     [
-                        'class' => 'collapse navbar-collapse multimenu-dropup', 'id' => 'navbar-collapse'
+                        'class' => 'collapse navbar-collapse multimenu-dropup', 'id' => 'navbar-collapse',
                     ]
                 );
             },
@@ -414,7 +565,7 @@ JS;
                     $this->options,
                     [
                         'class' => 'list',
-                        'style' => 'overflow: hidden; width: inherit; height:inherit'
+                        'style' => 'overflow: hidden; width: inherit; height:inherit',
                     ]
                 );
                 $this->encodeLabels = false;
@@ -422,7 +573,7 @@ JS;
                 $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
                 $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
 
-            }
+            },
         ];
         //load theme defaults
         isset($themeSpecificOptions[$theme]) && $themeSpecificOptions[$theme]();
@@ -445,11 +596,18 @@ JS;
 
         //is supported theme
         if (in_array($themeSelected, array_keys($this->themesSupported))) {
-            $themeAsset = __NAMESPACE__ . '\assetbundles\bs' .
-            $this->_bsVersion . '\Theme' .
+            $themeAsset = __NAMESPACE__ . '\\assetbundles\\bs' .
+            $this->_bsVersion . '\\Theme' .
             $this->themesSupported[$themeSelected] . 'Asset';
 
+            //register default theme assets
             $themeAsset::register($view);
+
+            //load custom color theme if provided by user
+            $themeColorFile = $this->getPluginOptions('themeColorFile');
+            if ($themeColorFile !== '' && class_exists($themeColorFile)) {
+                $themeColorFile::register($view);
+            }
             return;
         }
         throw new ArgException('You must select the correct theme');

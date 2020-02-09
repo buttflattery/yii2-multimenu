@@ -23,14 +23,14 @@ dropup.activateMobileScript = function () {
     this.bindMenuNavigation();
 };
 dropup.bindMenuNavigation = function () {
-    let effects=['visible'];
+    let effects = ['visible'];
     $(".multimenu-dropup-container nav > div > ul li").on('click', function (e) {
         if ($(window).width() < dropup.options.mobileBreakPoint) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
             var prevState = thisMenu.css('display');
             if (prevState == 'none') {
-                dropup.animateMenu.animateNow(thisMenu,effects,5);
+                dropup.animateMenu.animateNow(thisMenu, effects, 5);
             } else {
                 thisMenu.removeClass(effects.join(' '));
             }
@@ -41,7 +41,7 @@ dropup.bindMenuNavigation = function () {
 dropup.enableMobileMenu = function () {
     //the following hides the menu when a click is registered outside
     $(document).on('click', function (e) {
-        
+
         if ($(e.target).closest('.multimenu-dropup-container').length === 0)
             $(".multimenu-dropup-container .navbar-collapse").removeClass('in');
     });
@@ -51,11 +51,11 @@ dropup.animateMenu = {
     bind: function () {
         let t = 0;
         let animateMenu = this;
-
+        dropup.animateMenu.unbind();
         //adjust menu left or right according to viewable area
         $(".multimenu-dropup-container>nav>div>ul li").on('mouseenter mouseleave', function (e) {
             e.preventDefault();
-
+           
             if (!$('ul', this).length && e.type == 'mouseenter') {
                 return;
             }
@@ -102,13 +102,15 @@ dropup.animateMenu = {
                     elm.removeClass('edge-right visible ' + effects.join(' '));
                 }
             } else {
-                console.log('here');
                 effects.push('animated', 'fadeIn', dropup.options.dropup.transitionDelay);
                 //if not first time then clearTimeout
                 animateMenu.clearTimeout(t);
                 t = animateMenu.animateNow(elm, effects, 10);
             }
         });
+    },
+    unbind: function () {
+        $(".multimenu-dropup-container>nav>div>ul li").off('mouseenter mouseleave');
     },
     animateNow: function (elm, effects = ['animated', 'fadeIn', dropup.options.dropup.transitionDelay], delay = 1) {
         return setTimeout(function () {
@@ -127,12 +129,23 @@ dropup.addWavesEffect = function () {
     //Set Waves
     Waves.attach('.multimenu-dropup a', config);
     Waves.init();
-}
+};
+dropup.hideNav = function () {
+    $("div.multimenu-dropup-container").hide();
+};
+
+dropup.showNav = function () {
+    if ($("div.multimenu-dropup-container:hidden")) {
+        $("div.multimenu-dropup-container").show();
+    }
+};
 dropup.init = function () {
 
     if (dropup.options.mobileView) {
         //adds the bars icon for the mobile
         $(".multimenu-dropup-container nav .container-fluid").before("<a href=\"#\" class=\"dropup-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\" aria-expanded=\"false\"></a>");
+    } else if ($(window).width() <= dropup.options.mobileBreakPoint) {
+        $(".multimenu-dropup-container").hide();
     }
 
     //adds class to li if it has child ul
@@ -146,16 +159,24 @@ dropup.init = function () {
         //activate the mobile script
         this.activateMobileScript();
     }
-    window.onresize = function (event) {
+    console.log("here");
+    $(window).resize(function (event) {
+
         //for normal menu
         if ($(window).width() > dropup.options.mobileBreakPoint) {
             $('.multimenu-dropup-container nav > div > ul > li ul').addClass('sub-menu');
             dropup.animateMenu.bind();
+            dropup.showNav();
         } else {
             //activate the mobile script
-            dropup.activateMobileScript();
+            if (!dropup.options.mobileView) {
+                dropup.hideNav();
+            } else {
+                dropup.activateMobileScript();
+                dropup.showNav();
+            }
         }
-    };
+    });
     //enable the mobile menu anchor
     this.enableMobileMenu();
 

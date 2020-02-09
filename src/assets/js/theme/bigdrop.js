@@ -34,6 +34,8 @@ bigdrop.activate = function () {
     if (this.options.mobileView) {
         //adds the bars icon for the mobile
         $(".multimenu-bigdrop div.container-fluid").before("<a href=\"#\" class=\"bigdrop-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bigdrop-navbar-collapse\" aria-expanded=\"false\"></a>");
+    } else if (bigdrop.options.mobileBreakPoint >= $(window).width()) {
+        bigdrop.hideNav();
     }
 
     //the following hides the menu when a click is registered outside
@@ -51,7 +53,7 @@ bigdrop.activateMobile = function () {
             var prevState = thisMenu.css('display');
 
             if (prevState == 'none') {
-                let effects = ['visible'];
+                let effects = ['animated','visible','fadeIn'];
                 bigdrop.animateMenu.animateNow(thisMenu, effects, 10);
                 //thisMenu.addClass('visible');
             } else {
@@ -63,6 +65,10 @@ bigdrop.activateMobile = function () {
 };
 bigdrop.animateMenu = {
     bind: function () {
+
+        //unbind previous bindings
+        bigdrop.animateMenu.unbind();
+
         let t = 0;
         let animateMenu = this;
         //adjust menu left or right according to viewable area
@@ -77,7 +83,6 @@ bigdrop.animateMenu = {
             let effects = [];
 
             if ($(window).width() > bigdrop.options.mobileBreakPoint) {
-
                 //selected effects for menu
                 effects.push('animated', bigdrop.options.bigdrop.transitionEffect, bigdrop.options.bigdrop.transitionDelay);
                 if (e.type == 'mouseenter') {
@@ -124,7 +129,9 @@ bigdrop.animateMenu = {
             }
 
         });
-
+    },
+    unbind: function () {
+        $(".multimenu-bigdrop li").off('mouseenter mouseleave');
     },
     animateNow: function (elm, effects = ['animated', 'fadeIn', bigdrop.options.bigdrop.transitionDelay], delay = 1) {
         return setTimeout(function () {
@@ -147,9 +154,34 @@ bigdrop.addWavesEffect = function () {
     Waves.init();
 };
 
+bigdrop.hideNav = function () {
+    $("div.multimenu-bigdrop-container").hide();
+};
+
+bigdrop.showNav = function () {
+    if ($("div.multimenu-bigdrop-container:hidden")) {
+        $("div.multimenu-bigdrop-container").show();
+    }
+};
+
 bigdrop.init = function () {
     bigdrop.activate();
     bigdrop.activateMobile();
+
+    $(window).resize(function (event) {
+        bigdrop.animateMenu.bind();
+        
+        if ($(window).width() <= bigdrop.options.mobileBreakPoint) {
+            if (!bigdrop.options.mobileView) {
+                bigdrop.hideNav();
+            } else {
+                bigdrop.showNav();
+            }
+        } else {
+            bigdrop.showNav();
+        }
+    });
+
     bigdrop.animateMenu.bind();
 
     //enable waves plugin
