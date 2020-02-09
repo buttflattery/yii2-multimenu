@@ -143,7 +143,7 @@ dropup.init = function () {
 
     if (dropup.options.mobileView) {
         //adds the bars icon for the mobile
-        $(".multimenu-dropup-container nav .container-fluid").before("<a href=\"#\" class=\"dropup-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\" aria-expanded=\"false\"></a>");
+        $(".multimenu-dropup-container nav .container-fluid").prepend("<a href=\"#\" class=\"dropup-mobile navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse\" aria-expanded=\"false\"></a>");
     } else if ($(window).width() <= dropup.options.mobileBreakPoint) {
         $(".multimenu-dropup-container").hide();
     }

@@ -393,7 +393,6 @@ JS;
                 //add the brand section
                 $this->addBrand();
 
-                
                 //call the parent
                 parent::run();
                 
@@ -435,7 +434,8 @@ JS;
                 Html::addCssClass($containerOptions, $this->containerCssClasses);
 
                 echo Html::beginTag('div', $containerOptions);
-                echo Html::beginTag('nav', ['class' => 'navbar navbar-fixed-bottom']);
+                $fixedBottomClass = $this->_bsVersion===3?'navbar-fixed-bottom':'fixed-bottom';
+                echo Html::beginTag('nav', ['class' => "navbar $fixedBottomClass"]);
                 echo Html::beginTag('div', ['class' => 'container-fluid']);
                 $this->addBrand();
                 //call the parent
@@ -462,8 +462,6 @@ JS;
         }
         if ($this->brandLabel !== false) {
             Html::addCssClass($this->brandOptions, ['widget' => 'navbar-brand']);
-
-            
                 return $this->_bs3Brand();
             
         }

@@ -23,6 +23,7 @@ class ThemeLeftNavAsset extends ThemeBase
         array_push(
             $this->css,
             'css/theme/leftnav.css',
+            'css/theme/leftnav.bs4.css',
             '//fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext',
             '//fonts.googleapis.com/icon?family=Material+Icons'
         );
