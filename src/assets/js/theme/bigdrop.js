@@ -20,10 +20,10 @@ bigdrop.options = {
 };
 bigdrop.activate = function () {
     //checks if a normal submenu
-    $('.multimenu-bigdrop > div > .navbar > li > ul:not(:has(ul))').addClass('normal-sub');
+    $('.multimenu-bigdrop  div.container-fluid .navbar > li > ul:not(:has(ul))').addClass('normal-sub');
 
     //checks if needs to be a bigdrop
-    $('.multimenu-bigdrop > div > .navbar > li > ul:has(ul)').addClass('bigdrop-sub');
+    $('.multimenu-bigdrop div.container-fluid .navbar > li > ul:has(ul)').addClass('bigdrop-sub');
 
     //checks if its higher than 3rd level
     $(".bigdrop-sub > li > ul > li ul").addClass("infinite-sub");
@@ -46,7 +46,7 @@ bigdrop.activate = function () {
 
 };
 bigdrop.activateMobile = function () {
-    $(".multimenu-bigdrop>div>.navbar li").on('click', function (e) {
+    $(".multimenu-bigdrop div.container-fluid .navbar li").on('click', function (e) {
         if ($(window).width() < bigdrop.options.mobileBreakPoint) {
             e.stopPropagation();
             var thisMenu = $(this).children("ul");
