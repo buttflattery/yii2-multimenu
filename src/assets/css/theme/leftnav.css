@@ -1,6 +1,5 @@
 /* Left Sidebar & Overlay ====================== */
 
-
 .leftnav-container {
     -moz-transition: all 0.5s;
     -o-transition: all 0.5s;
@@ -11,22 +10,28 @@
     width: 300px;
     overflow: hidden;
     display: inline-block;
-    height: calc(100vh);
-    position: fixed;
-    left: 0;
+    position: relative;
     -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     -ms-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 11 !important;
 }
-
-
+.leftnav-container.container-fixed,
+.leftnav-container.container-absolute{
+    left:0;
+    top:0;
+    height:calc(100% + 60px);
+}
+.leftnav-container.container-fixed{
+    position: fixed;
+}
+.leftnav-container.container-absolute{
+    position: absolute;
+}
 
 .leftnav-container .leftnav {
     position: relative;
-    /* overflow-y: auto;
-    height: 90vh; */
 }
 
 .leftnav-container .leftnav .list {
@@ -101,7 +106,7 @@
 }
 
 .leftnav-container .leftnav .list a {
-    color: #747474;
+    color: #008080;
     position: relative;
     display: inline-flex;
     vertical-align: middle;
@@ -123,7 +128,7 @@
 
 .leftnav-container .leftnav .list a span {
     margin: 7px 0 7px 12px;
-    color: #333;
+    color: #008080;
     font-weight: bold;
     font-size: 14px;
     overflow: hidden;
@@ -162,21 +167,8 @@
     right: 0px;
 }
 
-.leftnav .list li:hover >a{
-    background: #8BC34A !important;
-}
 
-.leftnav .list li:hover >a i,
-.leftnav .list li:hover >a span
-{   
-    color:#fff !important;
-}
-.leftnav-container .leftnav .active > a,
-.leftnav-container .leftnav .active > a i,
-.leftnav-container .leftnav .active > a span{
-    background: #8BC34A !important;
-    color:#fff !important;
-}
+
 .leftnav-container .leftnav .list .ml-menu li .ml-menu li a {
     padding-left: 80px;
 }
@@ -199,10 +191,10 @@ html.ie11 .leftnav-container .user-info .info-container {
 
 
 .ls-closed .leftnav-container {
-    margin-left: -300px;
+    margin-left: -400px;
 }
 
-.ls-closed section.content {
+.ls-closed .leftnav-container section.content {
     margin-left: 15px;
 }
 
@@ -243,7 +235,7 @@ html.ie11 .leftnav-container .user-info .info-container {
     transform: scale(0);
 }
 
-.ls-closed .navbar-brand {
+.ls-closed .leftnav-container .navbar-brand {
     margin-left: 30px;
 }
 
@@ -262,6 +254,7 @@ html.ie11 .leftnav-container .user-info .info-container {
     -webkit-transform: scale(1);
     transform: scale(1);
 }
+
 .overlay {
     position: fixed;
     cursor: pointer;
@@ -277,6 +270,44 @@ html.ie11 .leftnav-container .user-info .info-container {
 .overlay-open .leftnav-container {
     margin-left: 0;
     z-index: 99999999;
-    top:70px;
-    height: calc(100vh - 70px);
+    /* top: 70px; */
+}
+
+.leftnav-mobileview {
+    position: relative;
+    display: block;
+}
+
+.leftnav-container .navbar-header {
+    float: none;
+    border-bottom: 1px solid rgba(154, 154, 154, 0.26);
+}
+
+.leftnav-container .navbar-brand {
+    height: auto;
+}
+
+.leftnav-container .leftnav .list a span,
+.leftnav-container .leftnav .list a {
+    color: #008080;
+    text-shadow: 0px 1px 1px #efefef;
+}
+
+.leftnav .list li:hover>a,
+.leftnav-container .leftnav .active>a,
+.leftnav-container .leftnav .active>a i,
+.leftnav-container .leftnav .active>a span ,
+.leftnav .list li:hover>a i,
+.leftnav .list li:hover>a span{
+    background: teal;
+    color: #ffffff !important;
+    text-shadow: 0px 1px 1px #000000;
+}
+
+
+.leftnav-container .leftnav .active>a,
+.leftnav-container .leftnav .active>a i,
+.leftnav-container .leftnav .active>a span {
+
+    color: #fff !important;
 }

@@ -1,8 +1,8 @@
 <?php
 // @codingStandardsIgnoreStart
-namespace buttflattery\multimenu\assetbundles\bs3;
+namespace buttflattery\multimenu\assetbundles\bs4;
 
-use buttflattery\multimenu\assetbundles\bs3\ThemeBase;
+use buttflattery\multimenu\assetbundles\bs4\ThemeBase;
 
 class ThemeBigDropAsset extends ThemeBase
 {
@@ -24,7 +24,8 @@ class ThemeBigDropAsset extends ThemeBase
         //add css theme files
         array_push(
             $this->css,
-            'css/theme/bigdrop.css'
+            'css/theme/bigdrop.css',
+            'css/theme/bigdrop.bs4.css'
         );
     }
 }
