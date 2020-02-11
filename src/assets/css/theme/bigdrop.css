@@ -7,6 +7,7 @@
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
+
 .multimenu-bigdrop-container nav {
     position: relative;
     min-height: 3.571em;
@@ -17,6 +18,7 @@
     -ms-border-radius: 0;
     border-radius: 0;
     padding: 0;
+
 }
 
 .multimenu-bigdrop div.container-fluid .navbar {
@@ -24,11 +26,12 @@
     width: 90%;
     list-style: none;
     padding: 0;
+    float: left;
     position: relative;
     /* IF .multimenu-bigdrop position=relative -> ul = container width, ELSE ul = 100% width */
     box-sizing: border-box;
     text-align: center;
-    display: inline-block;
+    
 }
 
 .multimenu-bigdrop div.container-fluid .navbar::before,
@@ -39,6 +42,11 @@
 
 .multimenu-bigdrop .navbar-brand {
     color: #fff;
+    float: left;
+    min-height: 60px;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 49px;
 }
 
 .multimenu-bigdrop div.container-fluid .navbar::after {
@@ -83,8 +91,9 @@
 .multimenu-bigdrop .infinite-sub li a {
     color: #fff;
 }
-.multimenu-bigdrop li.active>a{
-    color:#fff !important;
+
+.multimenu-bigdrop li.active>a {
+    color: #fff !important;
 }
 
 .multimenu-bigdrop div.container-fluid .navbar>li:hover {
@@ -466,4 +475,10 @@ ul.edge-right {
         color: #fff;
     }
 
+}
+
+@media (min-width: 768px){
+    .multimenu-bigdrop-container .navbar-header {
+        float: left;
+    }
 }

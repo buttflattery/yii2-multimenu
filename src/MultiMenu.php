@@ -115,9 +115,11 @@ class MultiMenu extends Menu
     public $searchFormContent = '';
 
     /**
+     * The layout for the menu
+     *
      * @var string
      */
-    public $layoutTemplate = "{brand}{multimenu}{search}";
+    public $layoutTemplate = "{brand}{multimenu}";
 
     /**
      * Default options for the multimenu plugin
@@ -265,6 +267,13 @@ class MultiMenu extends Menu
      */
     public function run()
     {
+        if ($this->route === null && Yii::$app->controller !== null) {
+            $this->route = Yii::$app->controller->getRoute();
+        }
+        if ($this->params === null) {
+            $this->params = Yii::$app->request->getQueryParams();
+        }
+
         //sets the defaults for the extension
         $this->_setDefaults();
 
@@ -388,14 +397,16 @@ JS;
                 //theme big drop
                 echo Html::beginTag('div', $containerOptions);
                 echo Html::beginTag('nav', ['class' => 'multimenu-bigdrop']);
-                echo Html::beginTag('div', ['class' => 'container-fluid']);
+                echo Html::beginTag('div', ['class' => 'container-fluid clearfix']);
 
                 //add the brand section
-                $this->addBrand();
+                $brandHtml = $this->addBrand();
 
                 //call the parent
-                parent::run();
-                
+                $menuHtml = $this->buildMenu();
+
+                echo $this->renderMenuItems($brandHtml, $menuHtml);
+
                 echo Html::endTag('div');
                 echo Html::endTag('nav');
                 echo Html::endTag('div');
@@ -434,10 +445,10 @@ JS;
                 Html::addCssClass($containerOptions, $this->containerCssClasses);
 
                 echo Html::beginTag('div', $containerOptions);
-                $fixedBottomClass = $this->_bsVersion===3?'navbar-fixed-bottom':'fixed-bottom';
+                $fixedBottomClass = $this->_bsVersion === 3 ? 'navbar-fixed-bottom' : 'fixed-bottom';
                 echo Html::beginTag('nav', ['class' => "navbar $fixedBottomClass"]);
                 echo Html::beginTag('div', ['class' => 'container-fluid']);
-                $this->addBrand();
+                $htmlBrand = $this->addBrand();
                 //call the parent
                 parent::run();
                 echo Html::endtag('div');
@@ -450,9 +461,34 @@ JS;
     }
 
     /**
+     * @param $brandHtml
+     * @param $menuHtml
+     */
+    public function renderMenuItems($brandHtml, $menuHtml)
+    {
+        $template = $this->layoutTemplate;
+
+        return strtr($template, [
+            '{brand}' => $brandHtml,
+            '{multimenu}' => $menuHtml,
+        ]);
+    }
+
+    public function buildMenu()
+    {
+        $items = $this->normalizeItems($this->items, $hasActiveChild);
+        if (!empty($items)) {
+            $options = $this->options;
+            $tag = ArrayHelper::remove($options, 'tag', 'ul');
+
+            return Html::tag($tag, $this->renderItems($items), $options);
+        }
+    }
+
+    /**
      * Adds the brand section for the nav
      *
-     * @return null
+     * @return $htmlBrand
      */
     public function addBrand()
     {
@@ -462,8 +498,8 @@ JS;
         }
         if ($this->brandLabel !== false) {
             Html::addCssClass($this->brandOptions, ['widget' => 'navbar-brand']);
-                return $this->_bs3Brand();
-            
+            return $this->_bs3Brand();
+
         }
     }
 
@@ -472,11 +508,16 @@ JS;
         echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
     }
 
+    /**
+     * @return mixed
+     */
     private function _bs3Brand()
     {
-        echo Html::beginTag('div', ['class' => 'navbar-header']);
-        echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
-        echo Html::endTag('div');
+        $html = '';
+        $html .= Html::beginTag('div', ['class' => 'navbar-header']);
+        $html .= Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
+        $html .= Html::endTag('div');
+        return $html;
     }
 
     /**
