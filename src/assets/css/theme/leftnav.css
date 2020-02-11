@@ -108,7 +108,7 @@
 .leftnav-container .leftnav .list a {
     color: #008080;
     position: relative;
-    display: inline-flex;
+    /* display: inline-flex; */
     vertical-align: middle;
     width: 100%;
     padding: 10px 13px;
@@ -132,6 +132,10 @@
     font-weight: bold;
     font-size: 14px;
     overflow: hidden;
+    display: inline-flex;
+    vertical-align: middle;
+    line-height: 31px;
+    
 }
 
 .leftnav-container .leftnav .list .ml-menu {

@@ -122,6 +122,13 @@ class MultiMenu extends Menu
     public $layoutTemplate = "{brand}{multimenu}";
 
     /**
+     * Enable default icon with the menu labels
+     *
+     * @var mixed
+     */
+    public $enableIcons = false;
+
+    /**
      * Default options for the multimenu plugin
      *
      * @var array|string
@@ -617,8 +624,17 @@ JS;
                     ]
                 );
                 $this->encodeLabels = false;
-                $this->labelTemplate = '<a href="#."><i class="material-icons">donut_large</i><span>{label}</span></a>';
-                $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
+
+                if ($this->labelTemplate == '{label}') {
+                    $defaultIcon = $this->enableIcons ? '<i class="material-icons">donut_large</i>' : '';
+                    $this->labelTemplate = '<a href="#."><span>' . $defaultIcon . '{label}</span></a>';
+                }
+
+                if ($this->linkTemplate == '<a href="{url}">{label}</a>') {
+                    $defaultIcon = $this->enableIcons ? '<i class="material-icons">donut_large</i>&nbsp' : '';
+                    $this->linkTemplate = '<a href="{url}"><span>' . $defaultIcon . '{label}</span></a>';
+                }
+
                 $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
 
             },
