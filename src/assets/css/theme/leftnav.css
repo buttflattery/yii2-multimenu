@@ -281,6 +281,9 @@ html.ie11 .leftnav-container .user-info .info-container {
 .leftnav-container .navbar-header {
     float: none;
     border-bottom: 1px solid rgba(154, 154, 154, 0.26);
+    border-top:1px solid rgba(154, 154, 154, 0.26);
+    vertical-align: bottom;
+    line-height: 73px;    
 }
 
 .leftnav-container .navbar-brand {

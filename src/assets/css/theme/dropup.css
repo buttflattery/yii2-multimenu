@@ -60,8 +60,9 @@
     display: block;
     margin: 0 auto;
     padding: 0;
-    width: 100%;
+    width: 90%;
     text-align: center;
+    float: left;
 }
 
 .multimenu-dropup-container .multimenu-dropup li {
@@ -87,7 +88,10 @@
     padding: 10px;
     display: block;
 }
-
+.multimenu-dropup-container .navbar-brand{
+    color: #000;
+    line-height: 34px;
+}
 /* .multimenu-dropup-container .multimenu-dropup li:hover a:hover{
     color: #E91E63 !important;
 } */
