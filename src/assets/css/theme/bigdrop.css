@@ -1,102 +1,145 @@
-.multimenu-container {
+.multimenu-bigdrop-container {
     width: 100%;
     margin: 0 auto;
-    background: #2196F3;
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    -ms-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-.multimenu>ul {
+
+.multimenu-bigdrop-container nav {
+    position: relative;
+    min-height: 3.571em;
+    margin-bottom: 0;
+    border: 1px solid transparent;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    padding: 0;
+
+}
+
+.multimenu-bigdrop div.container-fluid .navbar {
     margin: 0 auto;
-    width: 100%;
+    width: 90%;
     list-style: none;
     padding: 0;
+    float: left;
     position: relative;
-    /* IF .multimenu position=relative -> ul = container width, ELSE ul = 100% width */
+    /* IF .multimenu-bigdrop position=relative -> ul = container width, ELSE ul = 100% width */
     box-sizing: border-box;
+    text-align: center;
+    
 }
 
-.multimenu>ul:before,
-.multimenu>ul:after {
+.multimenu-bigdrop div.container-fluid .navbar::before,
+.multimenu-bigdrop div.container-fluid .navbar::after {
     content: "";
     display: table;
 }
 
-.multimenu>ul:after {
+.multimenu-bigdrop .navbar-brand {
+    color: #fff;
+    float: left;
+    min-height: 60px;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 49px;
+}
+
+.multimenu-bigdrop div.container-fluid .navbar::after {
     clear: both;
 }
 
-.multimenu>ul>li {
-    float: left;
-    background: #2196F3;
+.multimenu-bigdrop div.container-fluid .navbar>li {
     padding: 0;
     margin: 0;
+    display: inline-block;
+    vertical-align: bottom;
+
 }
 
-.multimenu ul li a {
+.multimenu-bigdrop ul li a {
     text-decoration: none;
     padding: 1.5em 3em;
     display: block;
+}
+
+.multimenu-bigdrop ul li:hover,
+.multimenu-bigdrop ul li.active {
+    background: #e60101;
+}
+
+.multimenu-bigdrop-container,
+.multimenu-bigdrop-container nav,
+.multimenu-bigdrop .bigdrop-sub,
+.multimenu-bigdrop .normal-sub,
+.multimenu-bigdrop .infinite-sub,
+.bigdrop-sub>li:hover,
+.bigdrop-mobile {
+    background: #b31313 !important;
+    /* background: #b31313 */
+}
+
+.multimenu-bigdrop ul li a,
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li a,
+.multimenu-bigdrop div.container-fluid .navbar>li.has-children>a:first-child::after,
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li.has-children>a:first-child::after,
+.multimenu-bigdrop .bigdrop-sub li ul li.has-children>a:first-child::before,
+.multimenu-bigdrop .infinite-sub li a {
     color: #fff;
 }
 
-.multimenu ul li:hover {
-    background: #03A9F4;
+.multimenu-bigdrop li.active>a {
+    color: #fff !important;
 }
 
-.multimenu ul li.active {
-    background: #03A9F4;
+.multimenu-bigdrop div.container-fluid .navbar>li:hover {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.multimenu-bigdrop ul li.active {
+
     text-shadow: 0px 1px 0px rgb(86, 86, 86);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-.multimenu ul li:hover a {
+.multimenu-bigdrop ul li:hover a {
     color: #ffffff;
     text-shadow: 0px 1px 0px rgb(86, 86, 86);
     display: block;
 }
 
-.multimenu>ul>li>ul {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul {
     display: none;
     opacity: 0;
-    transition-timing-function: linear, step-end;
     position: absolute;
-
+    text-align: left;
 }
 
-.bigdrop-sub {
-    width: 100%;
-    padding: 20px;
-    z-index: 99;
-    left: 0;
-    margin: 0;
-    list-style: none;
-    box-sizing: border-box;
-    background: #2196F3;
 
-}
 
-.bigdrop-sub li {
-    width: 18%;
-}
-
-.multimenu>ul>li>ul:after {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul::after {
     clear: both;
 }
 
-.multimenu>ul>li>ul>li {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li {
     margin: 0;
     padding-bottom: 0;
     list-style: none;
-    background: none;
+    /* background: none; */
 }
 
-.multimenu>ul>li>ul>li a {
-    color: #777;
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li a {
     padding: 1em 0.3em;
-    width: 95%;
+    width: 100%;
     display: block;
     border-bottom: 1px solid #ccc;
 }
 
-.multimenu>ul>li>ul>li>ul {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul {
     display: block;
     padding: 0;
     margin: 10px 0 0;
@@ -106,18 +149,18 @@
 }
 
 
-.multimenu>ul>li>ul>li>ul:after {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul::after {
     clear: both;
 }
 
-.multimenu>ul>li>ul>li>ul>li {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul>li {
     width: 100%;
     margin: 0;
     font-size: 0.8em;
     position: relative;
 }
 
-.multimenu>ul>li>ul>li>ul>li a {
+.multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul>li a {
     border: 0;
 }
 
@@ -128,14 +171,14 @@
     padding: 0.625em 0px;
     border-bottom-left-radius: 0.25em;
     border-bottom-right-radius: 0.25em;
-    background: #2196F3;
+    /* background: #2196F3; */
     border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .normal-sub>li,
 .infinite-sub li {
     width: 100%;
-
 }
 
 .normal-sub>li a,
@@ -145,25 +188,25 @@
     display: block;
 }
 
-.bigdrop-sub>li:hover {
+/* .bigdrop-sub>li:hover {
     background: #2196F3 !important;
-}
+} */
 
-.bigdrop-sub a.waves-effect:hover {
+/* .bigdrop-sub a.waves-effect:hover {
     color: #000000;
     text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.49);
-}
+} */
 
-.multimenu ul li:hover ul.bigdrop-sub li {
+.multimenu-bigdrop ul li:hover ul.bigdrop-sub li {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: left;
 }
 
-.visible {
+.multimenu-bigdrop-container .visible {
     opacity: 1 !important;
-    transition: all 0.5s linear;
+    display: block !important;
 }
 
 
@@ -172,13 +215,59 @@ ul.edge-right {
     right: 100% !important;
 }
 
-@media only screen and (min-width: 960px) {
-
-    .multimenu ul li:hover>ul {
-        display: block;
+@media only screen and (min-width: 1201px) {
+    .multimenu-bigdrop .bigdrop-sub {
+        width: 100%;
+        padding: 20px;
+        z-index: 99;
+        left: 0;
+        margin: 0;
+        list-style: none;
+        box-sizing: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        height: calc(100vh - 200px);
     }
 
-    .multimenu ul li:hover ul[class="normal-sub"] {
+    .multimenu-bigdrop .bigdrop-sub>li {
+        width: 18%;
+    }
+
+    .multimenu-bigdrop div.container-fluid .navbar>li.has-children>a:first-child::after {
+        content: "\f104";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-left: 10px;
+        /* color: #fff; */
+    }
+
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul>li.has-children>a:first-child::after {
+        content: "\f104";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-left: 10px;
+        /* color: #fff; */
+    }
+
+    .multimenu-bigdrop .bigdrop-sub li ul li.has-children>a:first-child::before {
+        content: "\f10a";
+        font-family: "Ionicons";
+        font-size: 1.5rem;
+        padding: 0;
+        position: relative;
+        margin-right: 10px;
+        /* color: #fff; */
+    }
+
+    .multimenu-bigdrop ul li:hover>ul {
+        z-index: 99;
+    }
+
+    .multimenu-bigdrop ul li:hover ul[class="normal-sub"] {
         left: auto !important;
     }
 
@@ -188,27 +277,29 @@ ul.edge-right {
         left: 100%;
         padding: 0 !important;
         position: absolute;
-        background: #2196f3;
     }
 
     .infinite-sub li a {
-        color: #fff !important;
+        /* color: #fff !important; */
         text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.79) !important;
     }
 
+    .multimenu-bigdrop .navbar-collapse.collapse {
+        display: block !important;
+    }
 }
 
 /* ––––––––––––––––––––––––––––––––––––––––––––––––––
   Mobile style's
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.multimenu-mobile {
+.bigdrop-mobile {
     display: none;
     padding: 20px;
     color: #fff;
 }
 
-.multimenu-mobile:after {
+.bigdrop-mobile::after {
     content: "\f394";
     font-family: "Ionicons";
     font-size: 2.5rem;
@@ -221,72 +312,150 @@ ul.edge-right {
     color: #fff;
 }
 
+@media only screen and (max-width: 1200px) {
 
-
-@media only screen and (max-width: 959px) {
-    .multimenu-container {
-        width: 100% !important;
+    .multimenu-bigdrop .navbar-header {
+        float: none;
     }
 
-    .multimenu-mobile {
+    .multimenu-bigdrop .navbar-left,
+    .multimenu-bigdrop .navbar-right {
+        float: none !important;
+    }
+
+    .multimenu-bigdrop .navbar-toggle {
+        display: block;
+    }
+
+    .multimenu-bigdrop .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .multimenu-bigdrop .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+
+    .multimenu-bigdrop .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+    .multimenu-bigdrop .navbar-nav {
+        float: none !important;
+        margin-top: 7.5px;
+    }
+
+    .multimenu-bigdrop .navbar-nav>li {
+        float: none;
+    }
+
+    .multimenu-bigdrop .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .multimenu-bigdrop .collapse.in {
         display: block !important;
     }
 
-
-    .multimenu>ul {
-        display: none;
+    .multimenu-bigdrop-container {
+        width: 100% !important;
     }
 
-    .multimenu>ul>li {
+    .multimenu-bigdrop div.container-fluid .navbar {
+        display: none;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .bigdrop-mobile {
+        display: block !important;
+        /* position: fixed; */
+        left: 0;
+        top: 0;
+        padding: 1.428em;
+        margin: 0;
+        background: #f8f8f8;
+        width: auto;
+        cursor: pointer;
+        z-index: 999999;
+        color: #fff;
+        min-height: 3.571em;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        border-radius: 0;
+        /* -webkit-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
+        -ms-box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.3); */
+    }
+
+
+    .multimenu-bigdrop {
+        position: relative;
+        width: 100%;
+        padding: 0;
+        z-index: 99999;
+        border: 0;
+        /* top: 5.5em; */
+    }
+
+    .multimenu-bigdrop ul {
+        text-align: left !important;
+    }
+
+    .multimenu-bigdrop div.container-fluid .navbar>li {
         width: 100%;
         float: none;
         display: block;
     }
 
-    .multimenu>ul>li a {
+    .multimenu-bigdrop div.container-fluid .navbar>li a {
         padding: 1.5em;
         width: 100%;
         display: block;
     }
 
-    .multimenu>ul>li>ul {
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul {
         position: relative;
     }
 
-    .multimenu>ul>li>ul.normal-sub {
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul.normal-sub {
         width: 100%;
     }
 
-    .multimenu>ul>li>ul>li {
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul>li {
         float: none;
         width: 100%;
         margin-top: 20px;
     }
 
-    .multimenu>ul>li>ul>li:first-child {
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul>li:first-child {
         margin: 0;
     }
 
-    .multimenu>ul>li>ul>li>ul {
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul {
         position: relative !important;
     }
 
-    .multimenu>ul>li>ul>li>ul>li {
+    .multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul>li {
         float: none;
     }
 
-    .multimenu .show-on-mobile {
+    .multimenu-bigdrop .show-on-mobile {
         display: block;
     }
-    
-    .has-children>a:first-child:before {
+
+    .multimenu-bigdrop .has-children>a:first-child::before {
         content: "\f10a";
         font-family: "Ionicons";
         font-size: 1.5rem;
         padding: 0;
         position: relative;
         margin-right: 10px;
-        color:#fff;
+        color: #fff;
     }
 
     .infinite-sub,
@@ -297,8 +466,19 @@ ul.edge-right {
         width: 100%;
         padding: 0.625em 0.750em;
     }
-    a,a:focus,a:active,a:visited{
-        color:#fff;
+
+    .multimenu-bigdrop a,
+    .multimenu-bigdrop a:hover,
+    .multimenu-bigdrop a:focus,
+    .multimenu-bigdrop a:active,
+    .multimenu-bigdrop a:visited {
+        color: #fff;
     }
 
+}
+
+@media (min-width: 768px){
+    .multimenu-bigdrop-container .navbar-header {
+        float: left;
+    }
 }

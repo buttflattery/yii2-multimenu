@@ -18,6 +18,10 @@ class MenuHelper extends Component
     public $model;
 
     /**
+     * @var string
+     */
+    public $orderByField = 'id';
+    /**
      * Initis the component
      *
      * @throws InvalidArgumentException
@@ -35,8 +39,13 @@ class MenuHelper extends Component
      *
      * @return mixed
      */
-    public function getMenuItems()
+    public function getMenuItems($orderBy = null)
     {
+       
+        if (null !== $orderBy) {
+            $this->orderByField = $orderBy;
+        }
+       
         $items = [];
         $parentItems = self::getTopLevelItems();
         $items = self::_buildItemsArray($parentItems);
@@ -130,7 +139,7 @@ class MenuHelper extends Component
     public function hasChild($parent_id)
     {
         $model = $this->model;
-        return $model::find()->where(['=', 'parent_id', $parent_id])->all();
+        return $model::find()->where(['=', 'parent_id', $parent_id])->orderBy($this->orderByField)->all();
     }
 
     /**
@@ -141,7 +150,7 @@ class MenuHelper extends Component
     public function getTopLevelItems()
     {
         $model = $this->model;
-        return $model::find()->where(['is', 'parent_id', null])->all();
+        return $model::find()->where(['is', 'parent_id', null])->orderBy($this->orderByField)->all();
     }
 
 }

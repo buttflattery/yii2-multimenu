@@ -1,0 +1,17 @@
+.leftnav-container .navbar-brand {
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.ls-closed .leftnav-container .navbar-brand{
+    margin-left: 0em;
+}
+.bigdrop-mobile::after {
+    content: "\f394";
+    font-family: "Ionicons";
+    font-size: 2rem;
+    padding: 0;
+    float: none;
+    top: 0;
+}

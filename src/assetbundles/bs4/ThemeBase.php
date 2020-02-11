@@ -1,6 +1,6 @@
 <?php
 // @codingStandardsIgnoreStart
-namespace buttflattery\multimenu\assetbundles\bs3;
+namespace buttflattery\multimenu\assetbundles\bs4;
 
 use yii\web\AssetBundle;
 
@@ -47,7 +47,7 @@ class ThemeBase extends AssetBundle
      */
     public $depends = [
         'yii\web\JqueryAsset',
-        'yii\bootstrap\BootstrapAsset',
-        'yii\bootstrap\BootstrapPluginAsset'
+        'yii\bootstrap4\BootstrapAsset',
+        'yii\bootstrap4\BootstrapPluginAsset'
     ];
 }
