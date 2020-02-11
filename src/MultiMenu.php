@@ -402,7 +402,7 @@ JS;
                 //add the brand section
                 $brandHtml = $this->addBrand();
 
-                //call the parent
+                //build menu
                 $menuHtml = $this->buildMenu();
 
                 echo $this->renderMenuItems($brandHtml, $menuHtml);
@@ -428,11 +428,14 @@ JS;
                 }
 
                 echo Html::beginTag('div', $containerOptions);
-                $this->addBrand();
-                echo Html::beginTag('div', ['class' => 'leftnav']);
+                $brandHtml = $this->addBrand();
+                $menuHtml = Html::beginTag('div', ['class' => 'leftnav']);
                 //call the parent
-                parent::run();
-                echo Html::endTag('div');
+                $menuHtml .= $this->buildMenu();
+                $menuHtml .= Html::endTag('div');
+
+                echo $this->renderMenuItems($brandHtml, $menuHtml);
+
                 echo Html::endTag('div');
                 echo Html::tag('div', '', ['class' => 'overlay']);
             },
@@ -441,16 +444,22 @@ JS;
                     'class' => 'multimenu-dropup-container',
                 ];
 
+                $fixedBottomClass = $this->_bsVersion === 3 ? 'navbar-fixed-bottom' : 'fixed-bottom';
+
                 //add the custom classes to the container
                 Html::addCssClass($containerOptions, $this->containerCssClasses);
-
                 echo Html::beginTag('div', $containerOptions);
-                $fixedBottomClass = $this->_bsVersion === 3 ? 'navbar-fixed-bottom' : 'fixed-bottom';
                 echo Html::beginTag('nav', ['class' => "navbar $fixedBottomClass"]);
                 echo Html::beginTag('div', ['class' => 'container-fluid']);
-                $htmlBrand = $this->addBrand();
-                //call the parent
-                parent::run();
+
+                //html brand
+                $brandHtml = $this->addBrand();
+
+                //build menu
+                $menuHtml = $this->buildMenu();
+
+                echo $this->renderMenuItems($brandHtml, $menuHtml);
+
                 echo Html::endtag('div');
                 echo Html::endTag('nav');
                 echo Html::endTag('div');

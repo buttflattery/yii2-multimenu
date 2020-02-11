@@ -183,7 +183,7 @@ leftnav.leftSideBar = {
         if (typeof $.fn.slimScroll != 'undefined') {
 
             var configs = leftnav.options.leftnav.slimScroll;
-            var height = $(window).height() *(0.85);
+            var height = $(window).height() *(0.92);
             var $el = $('.list');
 
             if (!isFirstTime) {
@@ -192,6 +192,7 @@ leftnav.leftSideBar = {
                 });
             }
 
+            //enable slimscroll
             $el.slimscroll({
                 height: height + "px",
                 color: configs.scrollColor,
@@ -200,6 +201,7 @@ leftnav.leftSideBar = {
                 borderRadius: configs.scrollBorderRadius,
                 railBorderRadius: configs.scrollRailBorderRadius
             });
+
             //Scroll active menu item when page load, if option set = true
             if (leftnav.options.leftnav.slimScroll.scrollActiveItemWhenPageLoad) {
                 if ($('.leftnav .list li.active')[0]) {
@@ -270,4 +272,4 @@ leftnav.init = function () {
     this.leftSideBar.activate();
     this.navbar.activate();
     this.browser.activate();
-}
+};
