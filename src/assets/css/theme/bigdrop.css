@@ -64,7 +64,8 @@
 .multimenu-bigdrop ul li a {
     text-decoration: none;
     padding: 1.5em 3em;
-    display: block;
+    display: inline-flex;
+    vertical-align: middle;
 }
 
 .multimenu-bigdrop ul li:hover,
@@ -109,7 +110,6 @@
 .multimenu-bigdrop ul li:hover a {
     color: #ffffff;
     text-shadow: 0px 1px 0px rgb(86, 86, 86);
-    display: block;
 }
 
 .multimenu-bigdrop div.container-fluid .navbar>li>ul {
@@ -117,6 +117,7 @@
     opacity: 0;
     position: absolute;
     text-align: left;
+
 }
 
 
@@ -135,7 +136,7 @@
 .multimenu-bigdrop div.container-fluid .navbar>li>ul>li a {
     padding: 1em 0.3em;
     width: 100%;
-    display: block;
+    display: inline-flex;
     border-bottom: 1px solid #ccc;
 }
 
@@ -146,6 +147,10 @@
     list-style: none;
     box-sizing: border-box;
     width: 100%;
+    /* min-height: 500px;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: hidden; */
 }
 
 
@@ -156,7 +161,7 @@
 .multimenu-bigdrop div.container-fluid .navbar>li>ul>li>ul>li {
     width: 100%;
     margin: 0;
-    font-size: 0.8em;
+    font-size: 1em;
     position: relative;
 }
 
@@ -198,15 +203,16 @@
 } */
 
 .multimenu-bigdrop ul li:hover ul.bigdrop-sub li {
-    display: inline-flex;
+    /* display: inline-flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap; */
     justify-content: left;
 }
 
 .multimenu-bigdrop-container .visible {
     opacity: 1 !important;
-    display: block !important;
+    display: flex !important;
+    flex-wrap: wrap;
 }
 
 
@@ -226,7 +232,7 @@ ul.edge-right {
         box-sizing: border-box;
         border: 1px solid rgba(0, 0, 0, 0.15);
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
-        height: calc(100vh - 200px);
+        /* height: calc(100vh - 200px); */
     }
 
     .multimenu-bigdrop .bigdrop-sub>li {
@@ -265,6 +271,7 @@ ul.edge-right {
 
     .multimenu-bigdrop ul li:hover>ul {
         z-index: 99;
+        list-style-type: none;
     }
 
     .multimenu-bigdrop ul li:hover ul[class="normal-sub"] {
@@ -273,10 +280,11 @@ ul.edge-right {
 
     .infinite-sub {
         display: none;
-        margin: 0;
+        margin: -22px 0;
         left: 100%;
         padding: 0 !important;
         position: absolute;
+
     }
 
     .infinite-sub li a {

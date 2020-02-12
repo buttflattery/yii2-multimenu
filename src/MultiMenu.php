@@ -122,6 +122,15 @@ class MultiMenu extends Menu
     public $layoutTemplate = "{brand}{multimenu}";
 
     /**
+     * Enable default icon with the menu labels
+     *
+     * @var mixed
+     */
+    public $enableIcons = false;
+
+    const DEFAULT_ICON='<i class="ion-android-menu"></i>';
+
+    /**
      * Default options for the multimenu plugin
      *
      * @var array|string
@@ -593,6 +602,11 @@ JS;
                 $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
                 $this->activateParents = true;
                 $this->hideEmptyItems = false;
+                if($this->enableIcons){
+                    $this->linkTemplate;
+                    $defaultIcon = $this->enableIcons ? self::DEFAULT_ICON.'&nbsp;' : '';
+                    $this->linkTemplate = '<a href="{url}">' . $defaultIcon . '{label}</a>';
+                }
                 $this->options = array_merge_recursive(
                     $this->options, [
                         'class' => 'collapse navbar navbar-collapse',
@@ -617,8 +631,12 @@ JS;
                     ]
                 );
                 $this->encodeLabels = false;
-                $this->labelTemplate = '<a href="#."><i class="material-icons">donut_large</i><span>{label}</span></a>';
-                $this->linkTemplate = '<a href="{url}"><i class="material-icons">donut_large</i><span>{label}</span></a>';
+
+                if ($this->linkTemplate == '<a href="{url}">{label}</a>') {
+                    $defaultIcon = $this->enableIcons ? self::DEFAULT_ICON.'&nbsp' : '';
+                    $this->linkTemplate = '<a href="{url}"><span>' . $defaultIcon . '{label}</span></a>';
+                }
+
                 $this->submenuTemplate = "\n<ul class='ml-menu'>\n{items}\n</ul>\n";
 
             },
