@@ -103,18 +103,6 @@ class MultiMenu extends Menu
     public $containerCssClasses = [];
 
     /**
-     * Adds a search form in the navigation
-     *
-     * @var mixed
-     */
-    public $enableSearch = false;
-
-    /**
-     * @var string
-     */
-    public $searchFormContent = '';
-
-    /**
      * The layout for the menu
      *
      * @var string
