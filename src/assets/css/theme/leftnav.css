@@ -162,13 +162,22 @@
 }
 
 .leftnav-container .leftnav .list .ml-menu li.active a.toggled:not(.menu-toggle):before {
-    content: '\E315';
-    font-family: 'Material Icons';
+    content: "\f400";
+    font-family: 'Ionicons';
     position: relative;
-    font-size: 21px;
-    height: 20px;
+    /* height: 20px; */
+    speak: none;
+    display: inline-block;
     top: 0px;
-    right: 0px;
+    right: 10px;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
 }
 
 
