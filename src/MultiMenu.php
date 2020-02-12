@@ -128,7 +128,7 @@ class MultiMenu extends Menu
      */
     public $enableIcons = false;
 
-    const DEFAULT_ICON='<i class="material-icons">donut_large</i>';
+    const DEFAULT_ICON='<i class="ion-android-menu"></i>';
 
     /**
      * Default options for the multimenu plugin

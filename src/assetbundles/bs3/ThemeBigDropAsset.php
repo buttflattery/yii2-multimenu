@@ -24,8 +24,7 @@ class ThemeBigDropAsset extends ThemeBase
         //add css theme files
         array_push(
             $this->css,
-            'css/theme/bigdrop.css',
-            '//fonts.googleapis.com/icon?family=Material+Icons'
+            'css/theme/bigdrop.css'
         );
     }
 }
