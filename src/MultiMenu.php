@@ -128,6 +128,8 @@ class MultiMenu extends Menu
      */
     public $enableIcons = false;
 
+    const DEFAULT_ICON='<i class="material-icons">donut_large</i>';
+
     /**
      * Default options for the multimenu plugin
      *
@@ -600,6 +602,11 @@ JS;
                 $this->submenuTemplate = "\n<ul>\n{items}</ul>\n";
                 $this->activateParents = true;
                 $this->hideEmptyItems = false;
+                if($this->enableIcons){
+                    $this->linkTemplate;
+                    $defaultIcon = $this->enableIcons ? self::DEFAULT_ICON.'&nbsp;' : '';
+                    $this->linkTemplate = '<a href="{url}">' . $defaultIcon . '{label}</a>';
+                }
                 $this->options = array_merge_recursive(
                     $this->options, [
                         'class' => 'collapse navbar navbar-collapse',
@@ -625,13 +632,8 @@ JS;
                 );
                 $this->encodeLabels = false;
 
-                if ($this->labelTemplate == '{label}') {
-                    $defaultIcon = $this->enableIcons ? '<i class="material-icons">donut_large</i>' : '';
-                    $this->labelTemplate = '<a href="#."><span>' . $defaultIcon . '{label}</span></a>';
-                }
-
                 if ($this->linkTemplate == '<a href="{url}">{label}</a>') {
-                    $defaultIcon = $this->enableIcons ? '<i class="material-icons">donut_large</i>&nbsp' : '';
+                    $defaultIcon = $this->enableIcons ? self::DEFAULT_ICON.'&nbsp' : '';
                     $this->linkTemplate = '<a href="{url}"><span>' . $defaultIcon . '{label}</span></a>';
                 }
 

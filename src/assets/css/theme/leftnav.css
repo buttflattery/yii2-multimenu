@@ -127,7 +127,7 @@
 }
 
 .leftnav-container .leftnav .list a span {
-    margin: 7px 0 7px 12px;
+    /* margin: 7px 0 7px 12px; */
     color: #008080;
     font-weight: bold;
     font-size: 14px;
@@ -147,7 +147,7 @@
 .leftnav-container .leftnav .list .ml-menu span {
     font-weight: normal;
     font-size: 14px;
-    margin: 6px 0 1px 6px;
+    /* margin: 6px 0 1px 6px; */
 }
 
 .leftnav-container .leftnav .list .ml-menu li a {
@@ -167,7 +167,7 @@
     position: relative;
     font-size: 21px;
     height: 20px;
-    top: -5px;
+    top: 0px;
     right: 0px;
 }
 
