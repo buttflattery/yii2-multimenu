@@ -33,7 +33,7 @@
 }
 
 .multimenu-dropup-container {
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     width: 100%;
     left: 0;
@@ -60,7 +60,6 @@
     display: block;
     margin: 0 auto;
     padding: 0;
-    width: 90%;
     text-align: center;
     float: left;
 }
