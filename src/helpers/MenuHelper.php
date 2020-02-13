@@ -2,9 +2,9 @@
 // @codingStandardsIgnoreStart
 namespace buttflattery\multimenu\helpers;
 
+use yii\helpers\Url;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
-use yii\helpers\Url;
 
 class MenuHelper extends Component
 {
@@ -15,12 +15,111 @@ class MenuHelper extends Component
      *
      * @var mixed
      */
-    public $model;
+    private $_model;
+    /**
+     * @var string
+     */
+    private $_labelField = 'label';
+    /**
+     * @var string
+     */
+    private $_linkField = 'link';
 
     /**
      * @var string
      */
-    public $orderByField = 'id';
+    private $_parentIdField = 'parent_id';
+
+    /**
+     * @var string
+     */
+    private $_idField = 'id';
+
+    /**
+     * @var string
+     */
+    private $_orderByField = 'id';
+
+    /**
+     * @return mixed
+     */
+    public function getModel()
+    {
+        return $this->_model;
+    }
+
+    /**
+     * @param $model
+     */
+    public function setModel($model)
+    {
+        $this->_model = $model;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabelField()
+    {
+        return $this->_labelField;
+    }
+
+    /**
+     * @param $fieldName
+     */
+    public function setLabelField($fieldName)
+    {
+        $this->_labelField = $fieldName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLinkField()
+    {
+        return $this->_linkField;
+    }
+
+    /**
+     * @param $fieldName
+     */
+    public function setLinkField($fieldName)
+    {
+        $this->_linkField = $fieldName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParentIdField()
+    {
+        return $this->_parentIdField;
+    }
+
+    /**
+     * @param $fieldName
+     */
+    public function setParentIdField($fieldName)
+    {
+        $this->_parentIdField = $fieldName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdField()
+    {
+        return $this->_idField;
+    }
+
+    /**
+     * @param $fieldName
+     */
+    public function setIdField($fieldName)
+    {
+        $this->_idField = $fieldName;
+    }
+
     /**
      * Initis the component
      *
@@ -41,14 +140,18 @@ class MenuHelper extends Component
      */
     public function getMenuItems($orderBy = null)
     {
-       
+
         if (null !== $orderBy) {
-            $this->orderByField = $orderBy;
+            $this->_orderByField = $orderBy;
         }
-       
+
         $items = [];
         $parentItems = self::getTopLevelItems();
-        $items = self::_buildItemsArray($parentItems);
+
+        if (!empty($parentItems)) {
+            $items = self::_buildItemsArray($parentItems);
+        }
+
         return $items;
     }
 
@@ -63,19 +166,23 @@ class MenuHelper extends Component
     {
 
         foreach ($items as $index => $parentLink) {
-            $isLink = ($parentLink->menu_link !== '' && $parentLink->menu_link !== '#.' && null !== $parentLink->menu_link);
-            $isActive = $isLink && (\Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id == $parentLink->menu_link);
-            $route = $this->_createRoute($parentLink->menu_link);
+            $link = $this->getLinkField();
+            $label = $this->getLabelField();
+            $id = $this->getIdField();
+
+            $isLink = ($parentLink->$link !== '' && $parentLink->$link !== '#.' && null !== $parentLink->$link);
+            $isActive = $isLink && (\Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id == $parentLink->$link);
+            $route = $this->_createRoute($parentLink->$link);
 
             $item[] = [
-                'label' => $parentLink->menu_name,
-                'url' => $isLink ? $route : 'javascript:void(0)'
+                'label' => $parentLink->$label,
+                'url' => $isLink ? $route : 'javascript:void(0)',
             ];
 
             //mark active item
             $isActive && $item[$index]['active'] = $isActive;
 
-            $children = self::hasChild($parentLink->id);
+            $children = self::hasChild($parentLink->$id);
             $hasChild = !empty($children);
 
             if ($hasChild) {
@@ -91,7 +198,8 @@ class MenuHelper extends Component
      * from the url and providing it as an array to parse the urlMager routes
      * and create SEO friendly urls accordingly
      *
-     * @param string $url the url for the menu link can be controller/action or controller/action?var1=1&var2=something
+     * @param string $url the url for the menu link can be controller/action
+     * or controller/action?var1=1&var2=something
      *
      * @return string
      */
@@ -109,7 +217,7 @@ class MenuHelper extends Component
         } elseif ($matches[0] == '?') { // is a query string url
             $params = [];
 
-            //extract the part of query string fro the url like ?var=1&var=2
+            //extract the part of query string from the url like ?var=1&var=2
             $queryStringPart = strstr($url, $matches[0]);
             $params[] = strstr($url, $matches[0], true);
 
@@ -138,8 +246,13 @@ class MenuHelper extends Component
      */
     public function hasChild($parent_id)
     {
-        $model = $this->model;
-        return $model::find()->where(['=', 'parent_id', $parent_id])->orderBy($this->orderByField)->all();
+        $model = $this->getModel();
+        return $model::find()
+            ->where(
+                ['=', $this->getParentIdField(), $parent_id]
+            )
+            ->orderBy($this->_orderByField)
+            ->all();
     }
 
     /**
@@ -149,8 +262,13 @@ class MenuHelper extends Component
      */
     public function getTopLevelItems()
     {
-        $model = $this->model;
-        return $model::find()->where(['is', 'parent_id', null])->orderBy($this->orderByField)->all();
+        $model = $this->getModel();
+        return $model::find()
+            ->where(
+                ['is', $this->getParentIdField(), null]
+            )
+            ->orderBy($this->_orderByField)
+            ->all();
     }
 
 }
