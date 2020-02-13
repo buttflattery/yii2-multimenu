@@ -36,7 +36,7 @@ The extension detects if you are using the `yiisoft/yii2-bootstrap` or `yiisoft/
                 'items' => Yii::$app->menuhelper->getMenuItems(),
                 'brandLabel' => 'Left Navigation',
                 'brandImage' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC',
-                'brandUrl' => 'http://omaraslam.com',
+                'brandUrl' => 'https://yii2plugins.omaraslam.com',
                 'activateParents' => true,
                 'layoutTemplate'=>'{multimenu}{brand}',
                 'enableIcons'=>true,
@@ -89,18 +89,19 @@ If default icon should be enabled along with the labels of the menu. It uses the
 
 ### `$multimenuOptions (array)`
 
-You can pass the plugin specific settings here. You can pass generic settings for the multimenu plugin and settings depending on the type of the menu you are using
+You can pass the plugin specific settings here for the multimenu and settings depending on the type of the menu you are using.
 
 - #### `theme (string)`
 
-  The theme of the menu you want to use, it can be any of the `bigdrop`,`leftnav` and `dropup`, you can use the available constants `THEME_BIGDROP`, `THEME_LEFTNAV` and `THEME_DROPUP`.
+  The theme of the menu you want to use, it can be any of the `bigdrop`,`leftnav` and `dropup`, you can use the available constants `THEME_BIGDROP`, `THEME_LEFTNAV` and `THEME_DROPUP`. See available constants section.
 
 - ### `themeColorFile (string)`
 
-  The name space of the theme color file you want to load with the menu you can customize classes for the menu and load via this option. Default value is `''`.
+  The name space of the theme color file you want to load with the menu you can customize classes for the menu and load via this option. Default value is empty `''`. See wiki for creating the theme file.
+
 - ### `mobileView (bool)`
-  
-  If enable the menu in mobile view too. This option comes handy when you want to use 2 menus on the same page and want one of them to be show for the mobile view, you can turn the other one off. Default value is `true`.
+
+  If enabled, the menu will be responsive in the mobile view. This option comes handy when you want to use 2 menus on the same page and want one of them to be show for the mobile view, you can turn the other one off. Default value is `true`.
 
 - ### `enableWavesPlugin (bool)`
 
@@ -112,13 +113,13 @@ You can pass the plugin specific settings here. You can pass generic settings fo
 
 - ### `wavesType (string) circular|default`
 
-  The waves type effect, `circular` or `default`. Default value is `default`.
+  The waves type effect, `circular` or `default`. Default value is `default`. See the constants section to see all available effects you can use.
 
 - ### `mobileBreakPoint (int)`
 
-  The mobile view break point where the javascript plugin should recalculate sizes. Default value is `1200`.
+  The mobile view break point where the javascript plugin should recalculate sizes. Default value is `1200`. (_Note: dont change this option unless you know what you are doing as changing it will require you to update the media queries for the themes too._)
 
-  There are menu/theme specific options that are applicable to specific menu types only. See details below.
+There are menu/theme specific options that are applicable to specific menu types only. See details below.
 
 - ### `bigdrop (array)`
 
@@ -128,7 +129,7 @@ You can pass the plugin specific settings here. You can pass generic settings fo
 
   - `transitionEffect (string)` : Transition effect to show the menu. default value `flipInX` . See `animate.css` for trasition effect types.
 
-  - `transitionDelay (string)` : animate speed for the transition `"fast"|"faster"|"slow"|"slower"|""`. Default value `faster`.
+  - `transitionDelay (string)` : Animate speed for the transition `"fast"|"faster"|"slow"|"slower"|""`. Default value `faster`. See available constants.
 
 - ### `dropup (array)`
 
@@ -138,14 +139,386 @@ You can pass the plugin specific settings here. You can pass generic settings fo
   - `transitionEffect` => 'fadeIn`
   - `transitionDelay` => 'slow'
 
-Set theme for the menu. Available options `bigdrop`,`leftnav` and `dropup`, Default value `bigdrop`. You can use the available constants `Multimenu::THEME_BIGDROP`, `Multimenu::THEME_LEFTNAV`,`Multimenu::THEME_DROPUP`,
+- ### `leftnav (array)`
 
-## Running migrations
+  It accepts the the same set of settings as above for the bigdrop with different default values, and some extra options for the leftnav.
 
-- Windows (Command Prompt)
+  - `enableTransitionEffects` => true
 
-  `php yii migrate/up --migrationPath=@vendor/buttflattery/yii2-multimenu/src/migrations`
+  - `transitionEffect` => 'fadeIn`
 
-- ubuntu (Bash)
+  - `transitionDelay` => 'slow'
 
-  `php ./yii migrate/up --migrationPath=@vendor/buttflattery/yii2-multimenu/src/migrations`
+  - `position (string) default|fixed|absolute` : the position of the left menu, the default value is `default` and the leftnav will be rendered relative to it's parent container.
+
+  - `slimScroll (array)` : The options for the [slimscroll](http://rocha.la/jQuery-slimScroll) plugin used for the left nav.
+
+    - `scrollColor (string)` : The scroll bar color, default value is `rgba(0,0,0,0.8)`.
+
+    - `scrollWidth (string)` : Width of the scroll bar, default value is `4px`.
+
+    - `scrollAlwaysVisible (bool)` : If `true` scroll will always be visible, default value is `false`.
+
+    - `scrollBorderRadius` : The scroll bar border radius, default value is `0`.
+
+    - `scrollRailBorderRadius` : Sets border radius of the rail, default value is `0`.
+
+    - `scrollActiveItemWhenPageLoad` : If `true`, will always scroll to the active menu item link after the page loads, default value is `true`.
+
+## BigDrop minimal options with brand text
+
+```php
+<?php
+    use buttflattery\multimenu\MultiMenu;
+    $items = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
+            [
+                'label' => 'Dropdown',
+                'url' => 'javascript:void(0)',
+                'items' => [
+                    ['label' => 'Level 1  Dropdown A', 'url' => '#'],
+                    ['label' => 'Level 1  Dropdown B', 'url' => '#'],
+                ],
+            ],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/site/login']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+        ),
+    ];
+    echo MultiMenu::widget(
+        [
+            'activeCssClass' => 'active',
+            'items' => $items,
+            'layoutTemplate' => '{multimenu}{brand}',
+            'enableIcons'=>true,
+            'brandUrl' => 'https://plugins.omaraslam.com',
+            'brandLabel'=>'Yii2 Multimenu',
+            'activateParents' => true,
+            'multimenuOptions' => [
+                'theme' => MultiMenu::THEME_BIGDROP,
+            ],
+        ]
+    );
+
+?>
+```
+
+## Leftnav Minimal options with brand image
+
+```php
+<?php
+    use buttflattery\multimenu\MultiMenu;
+    $items = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
+            [
+                'label' => 'Dropdown',
+                'url' => 'javascript:void(0)',
+                'items' => [
+                    ['label' => 'Level 1  Dropdown A', 'url' => '#'],
+                    ['label' => 'Level 1  Dropdown B', 'url' => '#'],
+                ],
+            ],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/site/login']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+        ),
+    ];
+
+    echo MultiMenu::widget(
+        [
+            'activeCssClass' => 'active',
+            'items' => $items,
+            'brandLabel' => 'Left Navigation',
+            'brandImage' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC',
+            'brandUrl' => 'http://omaraslam.com',
+            'activateParents' => true,
+            'layoutTemplate'=>'{multimenu}{brand}',
+            'enableIcons'=>true,
+            'multimenuOptions' => [
+                'theme' => MultiMenu::THEME_LEFTNAV,
+                'mobileView' => true,
+                MultiMenu::THEME_LEFTNAV => [
+                    'position'=>MultiMenu::LEFT_NAV_FIXED,
+                    'slimScroll' => [
+                        'scrollColor' => 'rgba(0,0,0,0.75)'
+                    ]
+                ]
+            ]
+        ]
+    );
+?>
+```
+
+## Dropup menu with custom color theme Asset Class
+
+```php
+<?php
+    use buttflattery\multimenu\MultiMenu;
+
+    $items = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
+            [
+                'label' => 'Dropdown',
+                'url' => 'javascript:void(0)',
+                'items' => [
+                    ['label' => 'Level 1  Dropdown A', 'url' => '#'],
+                    ['label' => 'Level 1  Dropdown B', 'url' => '#'],
+                ],
+            ],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/site/login']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+        ),
+    ];
+
+    echo MultiMenu::widget(
+        [
+            'activeCssClass' => 'active',
+            'items' => Yii::$app->menuhelper->getMenuItems('menu_name'),
+            'activateParents' => true,
+            'brandLabel' => 'Yii2 Multimenu',
+            'enableIcons'=>true,
+            'brandUrl' => 'https://plugins.omaraslam.com',
+            'layoutTemplate'=>'{multimenu}{brand}',
+            'multimenuOptions' => [
+                'theme' => MultiMenu::THEME_DROPUP,
+                'themeColorFile' => \app\assets\DropUpBisqueRed::class,
+                'mobileView' => true,
+                MultiMenu::THEME_DROPUP => [
+                    'transitionEffect' => MultiMenu::ANIMATE_DEFAULT,
+                ],
+            ],
+        ]
+    );
+?>
+```
+
+Your theme asset class code
+
+```php
+<?php
+// @codingStandardsIgnoreStart
+namespace app\assets;
+
+use buttflattery\multimenu\assetbundles\bs3\ThemeDropUpAsset;
+
+class DropUpBisqueRed extends ThemeDropUpAsset
+{
+    //@codingStandardsIgnoreEnd
+
+    public function init()
+    {
+        parent::init();
+        array_push($this->css, '/css/theme/dropup/bisque-red.css');
+    }
+}
+
+```
+
+## Menu items from Database
+
+A helper component `buttflattery\multimenu\helpers\MenuHelper` is added that come in handy if you want to just add all the menu items in the database table and leave the rest on this component to generate the `items` array for the menu.
+
+If you dont have a menu table added yet you can run the migration and use the model provided `buttflattery\multimenu\models\Menu`.
+
+### **Running migrations**
+
+Run the following command on terminal to run the migrations
+
+`php ./yii migrate/up --migrationPath=@vendor/buttflattery/yii2-multimenu/src/migrations`
+
+```mysql
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| label     | varchar(50) | NO   |     | NULL    |                |
+| link      | text        | YES  |     | NULL    |                |
+| parent_id | int(11)     | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+```
+
+### **Configure the Component**
+
+Open `config/web.php` if you are using `yii2-basic` or the `common/config/main.php` if you are using `advance-app` and add the following under the `components` array.
+
+```php
+'components' => [
+    'menuhelper' => [
+        'class' => 'buttflattery\multimenu\helpers\MenuHelper',
+        'model' => 'buttflattery\multimenu\models\Menu',
+    ],
+```
+
+If you wish to use your custom model and have a menu table already you can provide your own model namespace and set the field names appropriately for the component to work correctly. See below for a full set of options you can configure for the component.
+
+```php
+'components' => [
+    'menuhelper' => [
+        'class' => 'buttflattery\multimenu\helpers\MenuHelper',
+        'model' => 'app\models\Menus',
+        'linkField'=>'menu_link',
+        'labelField'=>'menu_name',
+        'idField'=>'menu_id',
+        'parentIdField'=>'menu_parent_id',
+    ],
+```
+
+Now you can call the `function getMenuItems(orderByField)` to get the `$items` array like below.
+
+```php
+<?php
+    use buttflattery\multimenu\MultiMenu;
+
+    echo MultiMenu::widget(
+        [
+            'activeCssClass' => 'active',
+            'items' => Yii::$app->menuhelper->getMenuItems(),
+            'layoutTemplate' => '{multimenu}{brand}',
+            'enableIcons'=>true,
+            'brandUrl' => 'https://plugins.omaraslam.com',
+            'brandLabel'=>'Yii2 Multimenu',
+            'activateParents' => true,
+            'multimenuOptions' => [
+                'theme' => MultiMenu::THEME_BIGDROP,
+            ],
+        ]
+    );
+
+?>
+```
+
+## Available Constants
+
+```php
+
+  /**
+  * For use with leftnav `position` option
+  */
+  const LEFT_NAV_FIXED = 'fixed';
+  const LEFT_NAV_ABSOLUTE = 'absolute';
+  const LEFT_NAV_DEFAULT = 'default';
+
+  /**
+   * Supported Transition effects by animate.css
+   * https://daneden.github.io/animate.css/
+  */
+  const ANIMATE_BOUNCE_IN = 'bounceIn';
+  const ANIMATE_BOUNCE_IN_DOWN = 'bounceInDown';
+  const ANIMATE_BOUNCE_IN_UP = 'bounceInUp';
+  const ANIMATE_BOUNCE_IN_LEFT = 'bounceInLeft';
+  const ANIMATE_BOUNCE_IN_RIGHT = 'bounceInRight';
+
+  const ANIMATE_FADE_IN = 'fadeIn';
+  const ANIMATE_FADE_IN_DOWN = 'fadeInDown';
+  const ANIMATE_FADE_IN_DOWN_BIG = 'fadeInDownBig';
+  const ANIMATE_FADE_IN_LEFT = 'fadeInLeft';
+  const ANIMATE_FADE_IN_LEFT_BIG = 'fadeInLeftBig';
+  const ANIMATE_FADE_IN_RIGHT = 'fadeInRight';
+  const ANIMATE_FADE_IN_RIGHT_BIG = 'fadeInRightBig';
+
+  const ANIMATE_FLIP = 'flip';
+  const ANIMATE_FLIP_IN_X = 'flipInX';
+  const ANIMATE_FLIP_IN_Y = 'flipInY';
+
+  const ANIMATE_LITE_SPEED_IN = 'lightSpeedIn';
+
+  const ANIMATE_ROTATE_IN = 'rotateIn';
+  const ANIMATE_ROTATE_IN_DOWN_LEFT = 'rotateInDownLeft';
+  const ANIMATE_ROTATE_IN_DOWN_RIGHT = 'rotateInDownRight';
+  const ANIMATE_ROTATE_IN_UP_LEFT = 'rotateInUpLeft';
+  const ANIMATE_ROTATE_IN_UP_RIGHT = 'rotateInUpRight';
+
+  const ANIMATE_SLIDE_IN_UP = 'slideInUp';
+  const ANIMATE_SLIDE_IN_DOWN = 'slideInDown';
+  const ANIMATE_SLIDE_IN_LEFT = 'slideInLeft';
+  const ANIMATE_SLIDE_IN_RIGHT = 'slideInRight';
+
+  const ANIMATE_ZOOM_IN = 'zoomIn';
+  const ANIMATE_ZOOM_IN_UP = 'zoomInUp';
+  const ANIMATE_ZOOM_IN_DOWN = 'zoomInDow';
+  const ANIMATE_ZOOM_IN_LEFT = 'zoomInLeft';
+  const ANIMATE_ZOOM_IN_RIGHT = 'zoomInRight';
+
+  /**
+   * delay types for `transitionDelay` option
+   * under the menu specific options
+   */
+  const ANIMATE_DEFAULT = '';
+  const ANIMATE_FAST = 'fast';
+  const ANIMATE_FASTER = 'faster';
+  const ANIMATE_SLOW = 'slow';
+  const ANIMATE_SLOWER = 'slower';
+
+  /**
+   * Waves plugin effects http://fian.my.id/Waves/#examples
+   * used for the option `wavesEffect`
+   */
+  const WAVES_TYPE_CIRCLE = 'waves-circle';
+  const WAVES_TYPE_DEFAULT = 'default';
+
+  const WAVES_LIGHT = 'waves-light';
+  const WAVES_RED = 'waves-red';
+  const WAVES_PINK = 'waves-pink';
+  const WAVES_PURPLE = 'waves-purple';
+  const WAVES_DEEP_PURPLE = 'waves-deep-purple';
+  const WAVES_INDIGO = 'waves-indigo';
+  const WAVES_BLUE = 'waves-blue';
+  const WAVES_LIGHT_BLUE = 'waves-light-blue';
+  const WAVES_CYAN = 'waves-cyan';
+  const WAVES_TEAL = 'waves-teal';
+  const WAVES_GREEN = 'waves-green';
+  const WAVES_LIGHT_GREEN = 'waves-light-green';
+  const WAVES_LIME = 'waves-lime';
+  const WAVES_YELLOW = 'waves-yellow';
+  const WAVES_AMBER = 'waves-amber';
+  const WAVES_ORANGE = 'waves-orange';
+  const WAVES_DEEP_ORANGE = 'waves-deep-orange';
+  const WAVES_BROWN = 'waves-brown';
+  const WAVES_GREY = 'waves-grey';
+  const WAVES_BLUE_GREY = 'waves-blue-grey';
+  const WAVES_BLACK = 'waves-black';
+
+  /**
+   * Themes available used for the `theme` option
+   * under `multimenuOptions` option
+   */
+  const THEME_BIGDROP = 'bigdrop';
+  const THEME_LEFTNAV = 'leftnav';
+  const THEME_DROPUP = 'dropup';
+```
+
+### Who do I talk to?
+
+- buttflattery@gmail.com
+- yii2plugins@omaraslam.com
