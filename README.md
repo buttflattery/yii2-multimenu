@@ -20,7 +20,7 @@ A Yii2 widget that creates a navigation menu based on the `yii\widgets\Menu`, an
 
 The extension detects if you are using the `yiisoft/yii2-bootstrap` or `yiisoft/yii2-bootstrap4` and loads the appropriate assets for the extension. It will check first the `"yiisoft/yii2-bootstrap4"` if it exists then it will load bootstrap4 resources otherwise it will fall back to use bootstrap3. So make sure you are following the correct guide to use the [`yiisoft/yii2-bootstrap4"`](https://github.com/yiisoft/yii2-bootstrap4) and remove the `"yiisoft/yii2-bootstrap": "~2.0.0",` from you `composer.json` and change the `minimum-stability:"dev"` here is the complete [guide](https://github.com/yiisoft/yii2-bootstrap4/blob/master/docs/guide/README.md).
 
-## Demos
+## Demos (NOT WORKING YET WILL BE UP IN A FEW DAYS)
 
 - [Big Drop](https://yii2plugins.omaraslam.com/multimenu/bigdrop)
 - [Left Navigation](https://yii2plugins.omaraslam.com/multimenu/leftnav)
@@ -30,29 +30,29 @@ The extension detects if you are using the `yiisoft/yii2-bootstrap` or `yiisoft/
 
 ```php
 <?php
-        echo MultiMenu::widget(
-            [
-                'activeCssClass' => 'active',
-                'items' => Yii::$app->menuhelper->getMenuItems(),
-                'brandLabel' => 'Left Navigation',
-                'brandImage' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC',
-                'brandUrl' => 'https://yii2plugins.omaraslam.com',
-                'activateParents' => true,
-                'layoutTemplate'=>'{multimenu}{brand}',
-                'enableIcons'=>true,
-                'multimenuOptions' => [
-                    'theme' => MultiMenu::THEME_LEFTNAV,
-                    'mobileView' => true,
-                    MultiMenu::THEME_LEFTNAV => [
-                        'position'=>MultiMenu::LEFT_NAV_FIXED,
-                        'slimScroll' => [
-                            'scrollColor' => 'rgba(0,0,0,0.75)'
-                        ]
+    echo MultiMenu::widget(
+        [
+            'activeCssClass' => 'active',
+            'items' => Yii::$app->menuhelper->getMenuItems(),
+            'brandLabel' => 'Left Navigation',
+            'brandImage' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC',
+            'brandUrl' => 'https://yii2plugins.omaraslam.com',
+            'activateParents' => true,
+            'layoutTemplate'=>'{multimenu}{brand}',
+            'enableIcons'=>true,
+            'multimenuOptions' => [
+                'theme' => MultiMenu::THEME_LEFTNAV,
+                'mobileView' => true,
+                MultiMenu::THEME_LEFTNAV => [
+                    'position'=>MultiMenu::LEFT_NAV_FIXED,
+                    'slimScroll' => [
+                        'scrollColor' => 'rgba(0,0,0,0.75)'
                     ]
                 ]
             ]
-        );
-    ?>
+        ]
+    );
+?>
 ```
 
 ## Available Options for the Widget
