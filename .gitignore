@@ -6,3 +6,6 @@ protected/data/*.db
 themes/classic/views/
 .vscode/
 node_modules/
+src/assets/js/theme/bigdrop.js
+src/assets/js/theme/leftnav.js
+src/assets/js/theme/dropup.js
