@@ -20,6 +20,20 @@ A Yii2 widget that creates a navigation menu based on the `yii\widgets\Menu`, an
 
 The extension detects if you are using the `yiisoft/yii2-bootstrap` or `yiisoft/yii2-bootstrap4` and loads the appropriate assets for the extension. It will check first the `"yiisoft/yii2-bootstrap4"` if it exists then it will load bootstrap4 resources otherwise it will fall back to use bootstrap3. So make sure you are following the correct guide to use the [`yiisoft/yii2-bootstrap4"`](https://github.com/yiisoft/yii2-bootstrap4) and remove the `"yiisoft/yii2-bootstrap": "~2.0.0",` from you `composer.json` and change the `minimum-stability:"dev"` here is the complete [guide](https://github.com/yiisoft/yii2-bootstrap4/blob/master/docs/guide/README.md).
 
+### How do I get set up
+
+use composer to install the extension
+
+```bash
+php composer.phar require  buttflattery/yii2-multimenu "@dev"
+```
+
+or add into the `composer.json` file under `require` section
+
+```json
+"buttflattery/yii2-multimenu":"@dev"
+```
+
 ## Demos
 
 - [Big Drop](https://yii2plugins.omaraslam.com/multimenu/bigdrop)
