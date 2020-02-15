@@ -28,7 +28,12 @@ body {
     top: 0;
 }
 
-
+.multimenu-bigdrop li>span {
+    display: block;
+    color: #fff;
+    padding: 10px 5px;
+    text-align: center;
+}
 @media (min-width: 768px) {
     .multimenu-bigdrop .navbar-header {
         float: left;
