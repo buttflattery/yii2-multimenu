@@ -20,7 +20,7 @@ A Yii2 widget that creates a navigation menu based on the `yii\widgets\Menu`, an
 
 The extension detects if you are using the `yiisoft/yii2-bootstrap` or `yiisoft/yii2-bootstrap4` and loads the appropriate assets for the extension. It will check first the `"yiisoft/yii2-bootstrap4"` if it exists then it will load bootstrap4 resources otherwise it will fall back to use bootstrap3. So make sure you are following the correct guide to use the [`yiisoft/yii2-bootstrap4"`](https://github.com/yiisoft/yii2-bootstrap4) and remove the `"yiisoft/yii2-bootstrap": "~2.0.0",` from you `composer.json` and change the `minimum-stability:"dev"` here is the complete [guide](https://github.com/yiisoft/yii2-bootstrap4/blob/master/docs/guide/README.md).
 
-## Demos (NOT WORKING YET WILL BE UP IN A FEW DAYS)
+## Demos
 
 - [Big Drop](https://yii2plugins.omaraslam.com/multimenu/bigdrop)
 - [Left Navigation](https://yii2plugins.omaraslam.com/multimenu/leftnav)
@@ -164,6 +164,8 @@ There are menu/theme specific options that are applicable to specific menu types
     - `scrollRailBorderRadius` : Sets border radius of the rail, default value is `0`.
 
     - `scrollActiveItemWhenPageLoad` : If `true`, will always scroll to the active menu item link after the page loads, default value is `true`.
+
+Remember when using any on the following menus if you are providing the `items` array manually, when specifying `label` for the submenus that further opens a menu you should not leave the `url` blank but `javascript::void(0)` as in the examples below.
 
 ## BigDrop minimal options with brand text
 
