@@ -21,7 +21,7 @@ class ThemeDropUpAsset extends ThemeBase
         //add js theme file
         array_push(
             $this->js,
-            'js/theme/dropup.js'
+            'js/theme/dropup.min.js'
         );
 
         //add css theme files
