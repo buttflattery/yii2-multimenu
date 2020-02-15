@@ -165,6 +165,8 @@ There are menu/theme specific options that are applicable to specific menu types
 
     - `scrollActiveItemWhenPageLoad` : If `true`, will always scroll to the active menu item link after the page loads, default value is `true`.
 
+Remember when using any on the following menus if you are providing the `items` array manually, when specifying `label` for the submenus that further opens a menu you should not leave the `url` blank but `javascript::void(0)` as in the examples below.
+
 ## BigDrop minimal options with brand text
 
 ```php
