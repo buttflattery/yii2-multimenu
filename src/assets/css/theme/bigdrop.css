@@ -21,6 +21,14 @@
 
 }
 
+.multimenu-bigdrop li>span {
+    display: block;
+    color: #fff;
+    padding: 10px 5px;
+    text-align: center;
+    background-color: #e60101;
+}
+
 .multimenu-bigdrop div.container-fluid .navbar {
     margin: 0 auto;
     width: 90%;
@@ -28,10 +36,12 @@
     padding: 0;
     float: left;
     position: relative;
-    /* IF .multimenu-bigdrop position=relative -> ul = container width, ELSE ul = 100% width */
     box-sizing: border-box;
     text-align: center;
-    
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    /* IF .multimenu-bigdrop position=relative -> ul = container width, ELSE ul = 100% width */
 }
 
 .multimenu-bigdrop div.container-fluid .navbar::before,
@@ -81,7 +91,6 @@
 .bigdrop-sub>li:hover,
 .bigdrop-mobile {
     background: #b31313 !important;
-    /* background: #b31313 */
 }
 
 .multimenu-bigdrop ul li a,
@@ -236,7 +245,7 @@ ul.edge-right {
     }
 
     .multimenu-bigdrop .bigdrop-sub>li {
-        width: 18%;
+        width: 20%;
     }
 
     .multimenu-bigdrop div.container-fluid .navbar>li.has-children>a:first-child::after {
@@ -280,7 +289,7 @@ ul.edge-right {
 
     .infinite-sub {
         display: none;
-        margin: -22px 0;
+        margin: -49px 0;
         left: 100%;
         padding: 0 !important;
         position: absolute;
@@ -485,7 +494,7 @@ ul.edge-right {
 
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px) {
     .multimenu-bigdrop-container .navbar-header {
         float: left;
     }

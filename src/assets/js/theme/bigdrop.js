@@ -53,7 +53,7 @@ bigdrop.activateMobile = function () {
             var prevState = thisMenu.css('display');
 
             if (prevState == 'none') {
-                let effects = ['animated','visible','fadeIn'];
+                let effects = ['animated', 'visible', 'fadeIn'];
                 bigdrop.animateMenu.animateNow(thisMenu, effects, 10);
                 //thisMenu.addClass('visible');
             } else {
@@ -97,7 +97,8 @@ bigdrop.animateMenu = {
 
                     let isEntirelyVisible = (l + w <= docW);
 
-                    if (!isEntirelyVisible) {
+                    //if not visible entirely and is an infinite-sub menu 
+                    if (!isEntirelyVisible && elm.hasClass('infinite-sub')) {
                         $(elm).removeClass(effects.join(' '));
                         $(elm).addClass('edge-right');
 
@@ -170,7 +171,7 @@ bigdrop.init = function () {
 
     $(window).resize(function (event) {
         bigdrop.animateMenu.bind();
-        
+
         if ($(window).width() <= bigdrop.options.mobileBreakPoint) {
             if (!bigdrop.options.mobileView) {
                 bigdrop.hideNav();
