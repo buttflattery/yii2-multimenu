@@ -4,7 +4,7 @@
 
 A Yii2 widget that creates a navigation menu based on the `yii\widgets\Menu`, and provides you with multiple layout options that include a **Big Drop** style top navigation, a **Left Menu** navigation and a **Sticky drop-up** footer menu just by using this single widget. it uses multilple 3rd party plugins for animating the menu. It provide an extra helper component to build menu from the model.
 
-![preview](https://tinyii2.local/theme/assets/img/multimenu.jpg)
+![preview](https://yii2plugins.omaraslam.com/theme/assets/img/multimenu.jpg)
 
 ## External Libraries Used
 
