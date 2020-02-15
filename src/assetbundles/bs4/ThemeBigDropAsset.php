@@ -19,7 +19,7 @@ class ThemeBigDropAsset extends ThemeBase
         parent::init();
 
         //add js theme file
-        array_push($this->js, 'js/theme/bigdrop.js');
+        array_push($this->js, 'js/theme/bigdrop.min.js');
 
         //add css theme files
         array_push(

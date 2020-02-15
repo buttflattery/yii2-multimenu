@@ -16,7 +16,7 @@ class ThemeLeftNavAsset extends ThemeBase
         array_push(
             $this->js, 
             'js/plugins/jquery.slimscroll.js',
-            'js/theme/leftnav.js'
+            'js/theme/leftnav.min.js'
         );
 
         //add css theme files
