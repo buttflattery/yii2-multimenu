@@ -55,8 +55,9 @@ class m190714_235744_menu_table extends Migration
             [
                 'id' => $this->primaryKey(),
                 'label' => $this->string(50)->notNull(),
-                'link' => $this->text()->null(),
-                'parent_id' => $this->integer(11)->null()
+                'link' => $this->text()->notNull(),
+                'order'=>$this->integer()->notNull()->defaultValue(0),
+                'parent_id' => $this->integer(11)->null(),
             ],
             $this->tableOptions
         );

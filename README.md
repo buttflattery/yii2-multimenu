@@ -363,7 +363,7 @@ class DropUpBisqueRed extends ThemeDropUpAsset
 
 ## Menu items from Database
 
-A helper component `buttflattery\multimenu\helpers\MenuHelper` is added that come in handy if you want to just add all the menu items in the database table and leave the rest on this component to generate the `items` array for the menu.
+A helper component `buttflattery\multimenu\helpers\MenuHelper` is added that comes in handy if you want to just add all the menu items in the database table and leave the rest on this component to generate the `items` array for the menu.
 
 If you dont have a menu table added yet you can run the migration and use the model provided `buttflattery\multimenu\models\Menu`.
 
@@ -384,7 +384,7 @@ Run the following command on terminal to run the migrations
 +-----------+-------------+------+-----+---------+----------------+
 ```
 
-### **Configure the Component**
+### **Configure the MenuHelper Component**
 
 Open `config/web.php` if you are using `yii2-basic` or the `common/config/main.php` if you are using `advance-app` and add the following under the `components` array.
 
@@ -408,6 +408,40 @@ If you wish to use your custom model and have a menu table already you can provi
         'idField'=>'menu_id',
         'parentIdField'=>'menu_parent_id',
     ],
+```
+
+### Adding the items for the menu in table
+
+When adding the menu items in the database keep in mind the following things
+
+- If it is a link that points to any `controller/action` on site then provide the `link` like `site/index`
+- If it is an external link provide the `link` like `https://example.com`
+- If it is a parent link that opens a sub menu further, it should have the `url` as `#.` which will
+  be replaced with `javascript:void(0)` by the `MenuHelper`.
+- If you have any html in the `label` for example bootstrap 3 has `<hr />` tag that can be used as a divider **but you need to keep the `url` field as `NULL`**.
+- If you wish to provide headings inside the menu then you should provide text only in the `label` field and keep the `url` field as `NULL`.
+
+See the sample values below
+
+```mysql
++----+------------------+------------------------------------------------+-----------+
+| id | label            |      link                                      | parent_id |
++----+------------------+------------------------------------------------+-----------+
+|  1 | Home             | site/index                                     |      NULL |
+|  3 | Yii Filemanager  | https://plugins.idowstech.com/                 |      NULL |
+|  4 | Yii2 Video Wall  | #.                                             |      NULL |
+|  5 | Yii2 Form Wizard | #.                                             |      NULL |
+|  6 | Carousel Mode    | #.                                             |         4 |
+|  7 | Thumbnail Mode   | #.                                             |         4 |
+|  8 | Playlist Mode    | #.                                             |         4 |
+|  9 | Documentation    | #.                                             |         4 |
+| 10 | Demos            | formwizard/index                               |         5 |
+| 11 | Documentation    | formwizard/docs                                |         5 |
+| 16 | Demo 3           | city/test?year=2015                            |         6 |
+| 17 | Demo 4           | city/test?year=2015                            |         6 |
+| 18 | Demo 5           | city/test?year=2015                            |         6 |
+| 19 | Code Samples     | NULL                                           |         5 |
++----+------------------+------------------------------------------------+-----------+
 ```
 
 Now you can call the `function getMenuItems(orderByField)` to get the `$items` array like below.
