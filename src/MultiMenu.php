@@ -509,11 +509,6 @@ JS;
         }
     }
 
-    private function _bs4Brand()
-    {
-        echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
-    }
-
     /**
      * @return mixed
      */

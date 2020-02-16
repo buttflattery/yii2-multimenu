@@ -36,9 +36,14 @@ class MenuHelper extends Component
     private $_idField = 'id';
 
     /**
+     * @var string|array
+     */
+    private $_orderField = 'order';
+
+    /**
      * @var string
      */
-    private $_orderByField = 'id';
+    private $_orderByField;
 
     /**
      * @return mixed
@@ -121,6 +126,22 @@ class MenuHelper extends Component
     }
 
     /**
+     * @return mixed
+     */
+    public function getOrderField()
+    {
+        return $this->_orderField;
+    }
+
+    /**
+     * @param $fieldName
+     */
+    public function setOrderField($fieldName)
+    {
+        $this->_orderField = $fieldName;
+    }
+
+    /**
      * Initis the component
      *
      * @throws InvalidArgumentException
@@ -143,6 +164,11 @@ class MenuHelper extends Component
 
         if (null !== $orderBy) {
             $this->_orderByField = $orderBy;
+
+            //if array then implode string with column names
+            if (is_array($orderBy)) {
+                $this->_orderByField = implode(",", $orderBy);
+            }
         }
 
         $items = [];
@@ -162,6 +188,10 @@ class MenuHelper extends Component
      *
      * @return array
      */
+    /**
+     * @param $string
+     * @return mixed
+     */
     private function _buildItemsArray($items)
     {
 
@@ -170,14 +200,25 @@ class MenuHelper extends Component
             $label = $this->getLabelField();
             $id = $this->getIdField();
 
-            $isLink = ($parentLink->$link !== '' && $parentLink->$link !== '#.' && null !== $parentLink->$link);
+            $isLink = ($parentLink->$link !== null && $parentLink->$link !== '' && $parentLink->$link !== '#.');
             $isActive = $isLink && (\Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id == $parentLink->$link);
+
             $route = $this->_createRoute($parentLink->$link);
 
             $item[] = [
-                'label' => $parentLink->$label,
-                'url' => $isLink ? $route : 'javascript:void(0)',
+                "label" => $parentLink->$label,
             ];
+
+            if ($parentLink->$link === null) {
+                $item[sizeof($item) - 1]["label"] = "<span>" . $item[$index]["label"] . "</span>";
+            } else {
+                $item[sizeof($item) - 1] = array_merge(
+                    $item[sizeof($item) - 1],
+                    [
+                        'url' => $isLink ? $route : 'javascript:void(0)',
+                    ]
+                );
+            }
 
             //mark active item
             $isActive && $item[$index]['active'] = $isActive;
@@ -192,7 +233,7 @@ class MenuHelper extends Component
 
         return $item;
     }
-
+    
     /**
      * Creates the url using the \yii\helpers\Url separating the query string
      * from the url and providing it as an array to parse the urlMager routes
@@ -247,11 +288,14 @@ class MenuHelper extends Component
     public function hasChild($parent_id)
     {
         $model = $this->getModel();
+        $order = $this->getOrderField();
+        $orderBy = $this->_orderByField === null ? $order : $this->_orderByField;
+
         return $model::find()
             ->where(
                 ['=', $this->getParentIdField(), $parent_id]
             )
-            ->orderBy($this->_orderByField)
+            ->orderBy($orderBy)
             ->all();
     }
 
@@ -263,11 +307,13 @@ class MenuHelper extends Component
     public function getTopLevelItems()
     {
         $model = $this->getModel();
+        $order = $this->getOrderField();
+        $orderBy = $this->_orderByField === null ? $order : $this->_orderByField;
         return $model::find()
             ->where(
                 ['is', $this->getParentIdField(), null]
             )
-            ->orderBy($this->_orderByField)
+            ->orderBy($orderBy)
             ->all();
     }
 
