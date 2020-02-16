@@ -1,6 +1,6 @@
 {
     "name": "buttflattery/yii2-multimenu",
-    "description": "A yii2 menu extension used for creating left menu or top nav.",
+    "description": "A Yii2 widget that creates a navigation menu based on the yii\\widgets\\Menu, and provides you with multiple layout options Big Drop, Left Menu and a Sticky drop-up footer menu .",
     "type": "yii2-extension",
     "require": {
         "php": ">=5.4.0"
