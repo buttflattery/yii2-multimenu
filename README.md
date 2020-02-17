@@ -1,4 +1,4 @@
-# Yii2-multimenu
+# Yii2-multimenu V 1.0.0
 
 ## What is this repository for?
 
