@@ -281,7 +281,7 @@ class MultiMenu extends Menu
         $this->registerAssets($themeSelected);
 
         //set the theme option
-        $this->_createMenu($themeSelected);
+        $this->createMenu($themeSelected);
 
         //register runtime scripts
         $this->registerScript($themeSelected);
@@ -380,7 +380,7 @@ JS;
      *
      * @return null
      */
-    private function _createMenu($theme)
+    protected function createMenu($theme)
     {
         $themeSpecificHtml = [
             self::THEME_BIGDROP => function () {
