@@ -434,7 +434,7 @@ JS;
                 echo $this->renderMenuItems($brandHtml, $menuHtml);
 
                 echo Html::endTag('div');
-                echo Html::tag('div', '', ['class' => 'overlay']);
+                // echo Html::tag('div', '', ['class' => 'overlay']);
             },
             self::THEME_DROPUP => function () {
                 $containerOptions = [
